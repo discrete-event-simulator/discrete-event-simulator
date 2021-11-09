@@ -8,6 +8,17 @@ Install ns.py submodule
 git submodule update --init --recursive
 ```
 
+Now you will have ns.py directory with requirements.txt
+
+Install virtualenv with the python dependencies in ns.py
+
+```bash
+pip install virtualenv
+virtualenv virtualenv
+source virtualenv/bin/activate
+pip install -r ns.py/requirements.txt
+```
+
 Install node packages
 
 ```bash
