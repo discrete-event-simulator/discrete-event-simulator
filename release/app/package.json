@@ -1,0 +1,17 @@
+{
+  "name": "discrete-event-simulator",
+  "productName": "discrete-event-simulator",
+  "version": "4.3.1",
+  "description": "Discrete Event Simulator",
+  "main": "./dist/main/main.js",
+  "author": {
+    "name": "ECE496 Team 2021352",
+    "url": "https://github.com/discrete-event-simulator/discrete-event-simulator"
+  },
+  "scripts": {
+    "electron-rebuild": "node -r ts-node/register ../../.erb/scripts/electron-rebuild.js",
+    "link-modules": "node -r ts-node/register ../../.erb/scripts/link-modules.ts",
+    "postinstall": "npm run electron-rebuild && npm run link-modules"
+  },
+  "license": "MIT"
+}
