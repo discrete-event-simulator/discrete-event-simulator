@@ -7,7 +7,7 @@ import webpackPaths from './webpack.paths';
 import { dependencies as externals } from '../../release/app/package.json';
 
 export default {
-  externals: [...Object.keys(externals || {})],
+  externals: [...Object.keys(externals || {}), 'electron'],
 
   stats: 'errors-only',
 
