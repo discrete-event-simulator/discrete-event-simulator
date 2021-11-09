@@ -2,6 +2,14 @@
 
 ## Install
 
+Install ns.py submodule
+
+```bash
+git submodule update --init --recursive
+```
+
+Install node packages
+
 ```bash
 npm install
 ```

@@ -1,0 +1,3 @@
+[submodule "ns.py"]
+	path = ns.py
+	url = https://github.com/TL-System/ns.py
