@@ -1,39 +1,28 @@
-import { useEffect } from 'react';
 import { MemoryRouter as Router, Switch, Route } from 'react-router-dom';
+import HomePage from './pages/HomePage';
 import './App.css';
+import { createTheme, ThemeProvider, styled } from '@mui/material/styles';
 
-const Hello = () => {
-  useEffect(() => {
-    (window as any).electron.ipcRenderer.on(
-      'reply:create-packet',
-      (data: any) => {
-        console.log('received', data);
-      }
-    );
-  }, []);
+const theme = createTheme({
+  'palette': {
 
-  const handleClickCreatePacket = () => {
-    (window as any).electron.ipcRenderer.send('create-packet', [
-      'hello',
-      'test',
-      'any number here',
-    ]);
-  };
-  return (
-    <div>
-      <button type="button" onClick={handleClickCreatePacket}>
-        create a packet
-      </button>
-    </div>
-  );
-};
+    secondary: {
+      main: '#FF0000',
+    },
+    error: {
+      main: '#FF0000',
+    },
+  },
+});
 
 export default function App() {
   return (
-    <Router>
-      <Switch>
-        <Route path="/" component={Hello} />
-      </Switch>
-    </Router>
+    <ThemeProvider theme={theme}>
+      <Router>
+        <Switch>
+          <Route path="/" component={HomePage} />
+        </Switch>
+      </Router>
+    </ThemeProvider>
   );
 }
