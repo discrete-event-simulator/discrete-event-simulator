@@ -43,7 +43,7 @@ const NetworkCompPanel = () => {
           );
         })}
       </List>
-      <Button variant="contained" onClick={() => handleClickCreatePacket}>
+      <Button variant="contained" onClick={handleClickCreatePacket}>
         create a packet
       </Button>
     </div>
