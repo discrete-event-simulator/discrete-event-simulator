@@ -1,21 +1,19 @@
 import { ipcMain } from 'electron';
-import path from 'path';
-import { Options, PythonShell } from 'python-shell';
+import { writeFile } from 'fs/promises';
+import { PythonShell } from 'python-shell';
+import scriptBuilder from './scriptBuilder';
 
-ipcMain.on('create-packet', (event, args) => {
+ipcMain.on('run', async (event, args) => {
   console.log('received from renderer: ', args);
 
-  const options: Options = {
-    mode: 'text',
-    cwd: path.join(__dirname, '../../ns.py/ns'),
-    pythonPath: path.join(__dirname, '../../virtualenv/bin/python'),
-    pythonOptions: ['-u'],
-    scriptPath: path.join(__dirname, './pythonScripts'),
-    args,
-  };
+  const pyScript = scriptBuilder(args);
 
-  PythonShell.run('packet.py', options, (err, results) => {
+  console.log(pyScript);
+
+  await writeFile('custom.py', pyScript);
+
+  PythonShell.run('custom.py', {}, (err, results) => {
     if (err) throw err;
-    event.reply('reply:create-packet', results);
+    event.reply('reply', results);
   });
 });
