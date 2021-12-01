@@ -1,17 +1,22 @@
 import React from 'react';
 
+//@ts-ignore
+import { Droppable, Draggable } from 'react-beautiful-dnd';
 const GraphPanel = () => {
   return (
-    <div
-      style={{
-        border: '1px solid black',
-        width: '100%',
-        display: 'flex',
-        flexGrow: 1,
-      }}
-    >
-      {' '}
-    </div>
+    <Droppable droppableId={'graph'}>
+      {(provided) => (
+        <div
+          style={{
+            border: '1px solid black',
+            width: '100%',
+            display: 'flex',
+            flexGrow: 1,
+          }}
+          ref={provided.innerRef}
+        ></div>
+      )}
+    </Droppable>
   );
 };
 
