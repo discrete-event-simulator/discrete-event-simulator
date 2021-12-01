@@ -17,7 +17,7 @@ const useStyles = makeStyles((theme) => ({
     width: 50,
   },
 }));
-
+const networkComps = ['Wire', 'DistPacketGenerator', 'Splitter'];
 const HomePage = () => {
   useEffect(() => {
     (window as any).electron.ipcRenderer.on(
@@ -29,10 +29,13 @@ const HomePage = () => {
   }, []);
   const classes = useStyles();
   const [panel, setPanel] = useState(0);
-
+  const [newNode, setNewNode] = useState(null);
   const onDragEnd = (props: any) => {
     const { source, destination } = props;
     console.log('End', source, destination);
+    if (destination.droppableId === 'graph') {
+      setNewNode(networkComps[source.index]);
+    }
   };
   return (
     <Container
@@ -66,7 +69,7 @@ const HomePage = () => {
                   height: '100vh',
                 }}
               >
-                <NetworkCompPanel />
+                <NetworkCompPanel networkComps={networkComps} />
               </Grid>
               <Grid
                 item
@@ -79,7 +82,7 @@ const HomePage = () => {
                 }}
               >
                 <ActionPanel />
-                <GraphPanel />
+                <GraphPanel newNode={newNode} />
               </Grid>
             </Grid>
           </DragDropContext>

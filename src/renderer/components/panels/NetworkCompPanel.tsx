@@ -25,7 +25,7 @@ const CompList = styled(List)({
   },
 });
 
-const NetworkCompPanel = () => {
+const NetworkCompPanel = ({ networkComps }) => {
   const handleClickCreatePacket = () => {
     (window as any).electron.ipcRenderer.send('create-packet', [
       'hello',
@@ -33,11 +33,7 @@ const NetworkCompPanel = () => {
       'any number here',
     ]);
   };
-  const networkComps = ['Wire', 'DistPacketGenerator', 'Splitter'];
-  const onDragEnd = (props: any) => {
-    const { source, destination } = props;
-    console.log('End', source, destination);
-  };
+
   return (
     <div style={{ display: 'flex', flexDirection: 'column', flexGrow: 1 }}>
       <Typography color="primary" variant="h6">
@@ -46,7 +42,7 @@ const NetworkCompPanel = () => {
       <Droppable droppableId={'0'} isDropDisabled={true}>
         {(provided) => (
           <List style={{ flexGrow: 1 }} ref={provided.innerRef}>
-            {networkComps.map((comp, index) => {
+            {networkComps?.map((comp, index) => {
               return (
                 <Draggable draggableId={comp} key={comp} index={index}>
                   {(provided1) => (
