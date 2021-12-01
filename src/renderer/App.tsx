@@ -20,7 +20,7 @@ export default function App() {
     <ThemeProvider theme={theme}>
       <Router>
         <Switch>
-          <Route path="/" component={DemoPage} />
+          <Route path="/" component={HomePage} />
         </Switch>
       </Router>
     </ThemeProvider>
