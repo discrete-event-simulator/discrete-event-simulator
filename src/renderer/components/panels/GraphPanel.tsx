@@ -3,11 +3,14 @@ import Graph from 'react-graph-vis';
 
 const options = {
   layout: {
-    hierarchical: false,
+    hierarchical: true,
   },
   edges: {
     color: '#000000',
   },
+  nodes:{
+    shape:'box'
+  }
 };
 function randomColor() {
   const red = Math.floor(Math.random() * 256)
@@ -31,11 +34,11 @@ const GraphPanel = ({ newNode }) => {
     }
   }, [newNode]);
   const createNode = (x, y, name) => {
-    const color = randomColor();
+    const color = '#FFF';
 
     setState(({ graph: { nodes, edges }, counter, ...rest }) => {
       const id = counter + 1;
-      const from = Math.floor(Math.random() * (counter - 1)) + 1;
+      const from = counter;
       return {
         graph: {
           nodes: [...nodes, { id, label: `${name} ${id}`, color, x, y }],
@@ -48,14 +51,10 @@ const GraphPanel = ({ newNode }) => {
   };
 
   const [state, setState] = useState({
-    counter: 5,
+    counter: 1,
     graph: {
       nodes: [{ id: 1, label: 'Start', color: '#e04141' }],
       edges: [
-        { from: 1, to: 2 },
-        { from: 1, to: 3 },
-        { from: 2, to: 4 },
-        { from: 2, to: 5 },
       ],
     },
     events: {
