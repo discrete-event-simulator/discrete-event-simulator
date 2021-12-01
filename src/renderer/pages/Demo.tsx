@@ -238,6 +238,9 @@ const DemoPage = () => {
   }, []);
 
   const handleRun = () => {
+    console.log(dpgOut);
+    console.log(wireOut);
+    console.log(parameters);
     (window as any).electron.ipcRenderer.send('run', {
       dpgOut,
       wireOut,

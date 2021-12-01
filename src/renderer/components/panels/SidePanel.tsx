@@ -1,26 +1,16 @@
 import React from 'react';
-import {
-  List,
-  ListItem,
-  ListItemButton,
-  ListItemIcon,
-} from '@mui/material';
+import { List, ListItem, ListItemButton, ListItemIcon } from '@mui/material';
 import SettingsInputComponentIcon from '@mui/icons-material/SettingsInputComponent';
 import GridViewIcon from '@mui/icons-material/GridView';
 import HistoryIcon from '@mui/icons-material/History';
 
-const SidePanel = () => {
-  const inputClick = () => {
-    
-  };
+const SidePanel = (props: any) => {
+  const { panel, setPanel } = props;
+  const inputClick = () => {};
 
-  const historyClick = () => {
+  const historyClick = () => {};
 
-  };
-
-  const gridClick = () => {
-
-  };
+  const gridClick = () => {};
 
   const sideComps = [
     {
@@ -31,20 +21,34 @@ const SidePanel = () => {
       icon: HistoryIcon,
       clickEvent: historyClick,
     },
-    {
-      icon: GridViewIcon,
-      clickEvent: gridClick,
-    },
   ];
-
+  const handleClick = (index: number) => {
+    setPanel(index);
+  };
   return (
-    <div style={{display: 'inline-flex', flexDirection: 'column'}}>
+    <div style={{ display: 'inline-flex', flexDirection: 'column' }}>
       <List>
-        {sideComps.map((comp) => {
+        {sideComps.map((comp, index) => {
           return (
-            <ListItem style = {{ padding: "1px", paddingTop: "8px", paddingBottom: "8px" }}>
-              <ListItemButton style= {{ height: "40px", width: "100%", padding: "0px", justifyContent: "center" }} onClick={comp.clickEvent}>
-                <ListItemIcon style = {{ minWidth: "24px" }}>
+            <ListItem
+              style={{
+                padding: '1px',
+                paddingTop: '8px',
+                paddingBottom: '8px',
+              }}
+              selected={index == panel}
+              button
+            >
+              <ListItemButton
+                style={{
+                  height: '40px',
+                  width: '100%',
+                  padding: '0px',
+                  justifyContent: 'center',
+                }}
+                onClick={() => handleClick(index)}
+              >
+                <ListItemIcon style={{ minWidth: '24px' }}>
                   <comp.icon />
                 </ListItemIcon>
               </ListItemButton>
