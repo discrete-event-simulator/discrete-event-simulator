@@ -6,6 +6,7 @@ import ActionPanel from 'renderer/components/panels/ActionPanel';
 import GraphPanel from 'renderer/components/panels/GraphPanel';
 import SidePanel from 'renderer/components/panels/SidePanel';
 import { makeStyles } from '@mui/styles';
+import DemoPage from './Demo';
 
 const useStyles = makeStyles((theme) => ({
   drawer: {
@@ -67,7 +68,7 @@ const HomePage = () => {
             }}
           >
             <ActionPanel />
-            <GraphPanel />
+            <DemoPage />
           </Grid>
         </Grid>
       </Container>

@@ -9,6 +9,20 @@ import {
   Typography,
 } from '@mui/material';
 import AltRouteIcon from '@mui/icons-material/AltRoute';
+import { styled } from '@mui/styles';
+
+const CompList = styled(List)({
+  '& .MuiListItemButton-root': {
+    paddingLeft: 24,
+    paddingRight: 24,
+  },
+  '& .MuiListItemIcon-root': {
+    minWidth: 0,
+  },
+  '& .MuiSvgIcon-root': {
+    fontSize: 20,
+  },
+});
 
 const NetworkCompPanel = () => {
   const handleClickCreatePacket = () => {
@@ -18,21 +32,15 @@ const NetworkCompPanel = () => {
       'any number here',
     ]);
   };
-  const networkComps = [
-    'Wire',
-    'DistPacketGenerator',
-    'PacketSink',
-    'Splitter',
-    'Demux',
-  ];
+  const networkComps = ['Wire', 'DistPacketGenerator', 'Splitter'];
+
   return (
     <div style={{ display: 'flex', flexDirection: 'column', flexGrow: 1 }}>
       <Typography color="primary" variant="h6">
         List of Components
       </Typography>
-      <List style={{ flexGrow: 1 }}>
+      <CompList style={{ flexGrow: 1 }}>
         {networkComps.map((comp) => {
-          console.log(comp);
           return (
             <ListItem key={comp} button disableGutters>
               <ListItemIcon>
@@ -42,7 +50,7 @@ const NetworkCompPanel = () => {
             </ListItem>
           );
         })}
-      </List>
+      </CompList>
       <Button variant="contained" onClick={handleClickCreatePacket}>
         create a packet
       </Button>
