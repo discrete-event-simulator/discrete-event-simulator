@@ -10,8 +10,6 @@ const SidePanel = (props: any) => {
 
   const historyClick = () => {};
 
-  const gridClick = () => {};
-
   const sideComps = [
     {
       icon: SettingsInputComponentIcon,
@@ -32,16 +30,15 @@ const SidePanel = (props: any) => {
           return (
             <ListItem
               style={{
-                padding: '1px',
-                paddingTop: '8px',
-                paddingBottom: '8px',
+                padding: '0px',
+                marginBottom: '8px',
               }}
               selected={index == panel}
               button
             >
               <ListItemButton
                 style={{
-                  height: '40px',
+                  height: '50px',
                   width: '100%',
                   padding: '0px',
                   justifyContent: 'center',

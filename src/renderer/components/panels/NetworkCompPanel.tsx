@@ -7,11 +7,15 @@ import {
   ListItemIcon,
   ListItemText,
   Typography,
+  Box,
+  Modal,
 } from '@mui/material';
 import AltRouteIcon from '@mui/icons-material/AltRoute';
 import { styled } from '@mui/styles';
 //@ts-ignore
 import { DragDropContext, Draggable, Droppable } from 'react-beautiful-dnd';
+
+
 const CompList = styled(List)({
   '& .MuiListItemButton-root': {
     paddingLeft: 24,
@@ -34,9 +38,25 @@ const NetworkCompPanel = ({ networkComps }) => {
     ]);
   };
 
+  const [open, setOpen] = React.useState(false);
+  const handleOpen = (index: number) => setOpen(true);
+  const handleClose = (index: number) => setOpen(false);
+
+  const style = {
+    position: 'absolute' as 'absolute',
+    top: '50%',
+    left: '50%',
+    transform: 'translate(-50%, -50%)',
+    width: 400,
+    bgcolor: 'background.paper',
+    border: '2px solid #000',
+    boxShadow: 24,
+    p: 4,
+  };
+
   return (
     <div style={{ display: 'flex', flexDirection: 'column', flexGrow: 1 }}>
-      <Typography color="primary" variant="h6">
+      <Typography color="primary" variant="h6" style={{ marginTop: '16px' }}>
         List of Components
       </Typography>
       <Droppable droppableId={'0'} isDropDisabled={true}>
@@ -55,11 +75,38 @@ const NetworkCompPanel = ({ networkComps }) => {
                       ref={provided1.innerRef}
                       {...provided1.draggableProps}
                       {...provided1.dragHandleProps}
+                      style={{
+                        paddingTop: '0px',
+                        paddingBottom: '0px',
+                      }}
                     >
-                      <ListItemIcon>
-                        <AltRouteIcon />
-                      </ListItemIcon>
-                      <ListItemText style={{ color: 'black' }} primary={comp} />
+                      <ListItemButton
+                        style={{
+                          height: '50px',
+                          width: '100%',
+                          padding: '0px',
+                          justifyContent: 'center',
+                        }}
+                        onClick={() => handleOpen(index)}
+                      >
+                        <ListItemIcon>
+                          <AltRouteIcon />
+                        </ListItemIcon>
+                        <ListItemText style={{ color: 'black' }} primary={comp} />
+                      </ListItemButton>
+                      <Modal
+                        open={open}
+                        onClose={() => handleClose(index)}
+                      >
+                        <Box sx={style}>
+                          <Typography color="primary" variant="h6" component="h2">
+                            Component:
+                          </Typography>
+                          <Typography color="black" sx={{ mt: 2 }}>
+                            {comp}
+                          </Typography>
+                        </Box>
+                      </Modal>
                     </ListItem>
                   )}
                 </Draggable>
