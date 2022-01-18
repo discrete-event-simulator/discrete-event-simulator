@@ -68,9 +68,9 @@ const NetworkCompPanel = ({ networkComps }) => {
   //   )
   // }
 
-  const [open, setOpen] = React.useState('');
-  const handleOpen = (data) => setOpen(data);
-  const handleClose = data => setOpen('');
+  const [componentSettings, SetComponentSettings] = React.useState('');
+  const handleOpen = (data) => SetComponentSettings(data);
+  const handleClose = (data) => SetComponentSettings('');
 
   const style = {
     position: 'absolute' as 'absolute',
@@ -125,7 +125,7 @@ const NetworkCompPanel = ({ networkComps }) => {
                         <ListItemText style={{ color: 'black' }} primary={comp} />
                       </ListItemButton>
                       <Modal
-                        open={open === comp}
+                        open={componentSettings === comp}
                         onClose={() => handleClose(comp)}
                       >
                         <Box sx={style}>
