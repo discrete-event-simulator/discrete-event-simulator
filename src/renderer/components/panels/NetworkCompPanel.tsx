@@ -38,9 +38,39 @@ const NetworkCompPanel = ({ networkComps }) => {
     ]);
   };
 
-  const [open, setOpen] = React.useState(false);
-  const handleOpen = (index: number) => setOpen(true);
-  const handleClose = (index: number) => setOpen(false);
+  // const [componentSettings, SetComponentSettings] = React.useState(networkComps?.map((comp) => {
+  //   return { [comp] : {} }
+  // }));
+
+  // const handleClose = (data) => {
+  //   SetComponentSettings({
+  //     [data.name] : data
+  //   })
+  // }
+
+  // const data = {open, handleClose, name};
+
+  // const ModalComponent = () => {
+  //   return(
+  //     <Modal
+  //       open={open}
+  //       onClose={() => handleClose()}
+  //     >
+  //       <Box sx={style}>
+  //         <Typography color="primary" variant="h6" component="h2">
+  //           Component:
+  //         </Typography>
+  //         <Typography color="black" sx={{ mt: 2 }}>
+  //           {comp}
+  //         </Typography>
+  //       </Box>
+  //     </Modal>
+  //   )
+  // }
+
+  const [open, setOpen] = React.useState('');
+  const handleOpen = (data) => setOpen(data);
+  const handleClose = data => setOpen('');
 
   const style = {
     position: 'absolute' as 'absolute',
@@ -87,7 +117,7 @@ const NetworkCompPanel = ({ networkComps }) => {
                           padding: '0px',
                           justifyContent: 'center',
                         }}
-                        onClick={() => handleOpen(index)}
+                        onClick={() => handleOpen(comp)}
                       >
                         <ListItemIcon>
                           <AltRouteIcon />
@@ -95,8 +125,8 @@ const NetworkCompPanel = ({ networkComps }) => {
                         <ListItemText style={{ color: 'black' }} primary={comp} />
                       </ListItemButton>
                       <Modal
-                        open={open}
-                        onClose={() => handleClose(index)}
+                        open={open === comp}
+                        onClose={() => handleClose(comp)}
                       >
                         <Box sx={style}>
                           <Typography color="primary" variant="h6" component="h2">
