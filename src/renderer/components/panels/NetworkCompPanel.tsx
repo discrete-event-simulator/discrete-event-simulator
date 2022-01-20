@@ -72,7 +72,7 @@ const NetworkCompPanel = ({ networkComps }) => {
   const handleOpen = (data) => SetComponentSettings(data);
   const handleClose = (data) => SetComponentSettings('');
 
-  const style = {
+  const modalStyle = {
     position: 'absolute' as 'absolute',
     top: '50%',
     left: '50%',
@@ -82,6 +82,8 @@ const NetworkCompPanel = ({ networkComps }) => {
     border: '2px solid #000',
     boxShadow: 24,
     p: 4,
+    outline: 'none',
+    borderRadius: '10px', 
   };
 
   return (
@@ -128,7 +130,7 @@ const NetworkCompPanel = ({ networkComps }) => {
                         open={componentSettings === comp}
                         onClose={() => handleClose(comp)}
                       >
-                        <Box sx={style}>
+                        <Box sx={modalStyle}>
                           <Typography color="primary" variant="h6" component="h2">
                             Component:
                           </Typography>
