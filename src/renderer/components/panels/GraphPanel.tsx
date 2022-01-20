@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import Graph from 'react-graph-vis';
+import CompConfigModal from '../configs/CompConfigModal';
 
 const options = {
   layout: {
@@ -57,21 +58,33 @@ const GraphPanel = ({ newNode }) => {
       edges: [
       ],
     },
-    events: {
-      select: ({ nodes, edges }) => {
+
+  });
+  const { graph, } = state;
+  const [currentComp, setCurrentComp] = React.useState('');
+  const handleOpen = (data) => setCurrentComp(data);
+  const handleClose = (data) => {
+   setCurrentComp("");
+  };
+
+  const events = {
+
+     select: function({ nodes, edges }){
         console.log('Selected nodes:');
         console.log(nodes);
+        console.log(state.graph.nodes);
         console.log('Selected edges:');
         console.log(edges);
-        alert('Selected node: ' + nodes);
-      },
-      doubleClick: ({ pointer: { canvas } }) => {
-        createNode(canvas.x, canvas.y, 'temp');
-      },
-    },
-  });
-  const { graph, events } = state;
+        console.log()
+        //alert('Selected node: ' + nodes);
+        const selectedNode = state.graph.nodes.filter((node)=>node.id === nodes[0])
+        if(selectedNode){
+          setCurrentComp(selectedNode[0].label);
+        }
+      }
+  };
   return (
+    <>
     <Droppable droppableId={'graph'}>
       {(provided) => (
         <div
@@ -86,12 +99,16 @@ const GraphPanel = ({ newNode }) => {
           <Graph
             graph={graph}
             options={options}
-            events={events}
+            events={
+             events
+            }
             style={{ display: 'flex', width: '100%', flexGrow: 1 }}
           />
         </div>
       )}
     </Droppable>
+    <CompConfigModal component={currentComp} handleClose={handleClose}/>
+    </>
   );
 };
 
