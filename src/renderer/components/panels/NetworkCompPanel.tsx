@@ -13,7 +13,6 @@ import { styled } from '@mui/styles';
 //@ts-ignore
 import { DragDropContext, Draggable, Droppable } from 'react-beautiful-dnd';
 
-
 const CompList = styled(List)({
   '& .MuiListItemButton-root': {
     paddingLeft: 24,
@@ -57,24 +56,11 @@ const NetworkCompPanel = ({ networkComps }) => {
                       ref={provided1.innerRef}
                       {...provided1.draggableProps}
                       {...provided1.dragHandleProps}
-                      style={{
-                        paddingTop: '0px',
-                        paddingBottom: '0px',
-                      }}
                     >
-                      <ListItemButton
-                        style={{
-                          height: '50px',
-                          width: '100%',
-                          padding: '0px',
-                          justifyContent: 'center',
-                        }}
-                      >
-                        <ListItemIcon>
-                          <AltRouteIcon />
-                        </ListItemIcon>
-                        <ListItemText style={{ color: 'black' }} primary={comp} />
-                      </ListItemButton>
+                      <ListItemIcon>
+                        <AltRouteIcon />
+                      </ListItemIcon>
+                      <ListItemText style={{ color: 'black' }} primary={comp} />
                     </ListItem>
                   )}
                 </Draggable>
