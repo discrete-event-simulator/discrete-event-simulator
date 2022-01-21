@@ -1,7 +1,6 @@
 import React from 'react';
 import { List, ListItem, ListItemButton, ListItemIcon } from '@mui/material';
 import SettingsInputComponentIcon from '@mui/icons-material/SettingsInputComponent';
-import GridViewIcon from '@mui/icons-material/GridView';
 import HistoryIcon from '@mui/icons-material/History';
 
 const SidePanel = (props: any) => {
@@ -35,6 +34,7 @@ const SidePanel = (props: any) => {
               }}
               selected={index == panel}
               button
+              key={index}
             >
               <ListItemButton
                 style={{

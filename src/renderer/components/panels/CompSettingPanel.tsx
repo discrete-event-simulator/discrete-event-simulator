@@ -1,9 +1,17 @@
-import React from 'react';
-import { Grid, TextField, Typography, Tooltip } from '@mui/material';
+import React, { Component } from 'react';
+import { Grid, Button, TextField, Typography, Tooltip } from '@mui/material';
 import { settings } from '../settings/componentSettings';
+import {
+  FormProvider,
+  useForm,
+  Controller,
+  useFormContext,
+} from 'react-hook-form';
+import CustomTextField from './CustomTextField';
 
-const CompSettingPanel = ({ currentComponent }) => {
+const CompSettingPanel = ({ currentComponent, setElements }) => {
   console.log(currentComponent);
+  const methods = useForm();
   return currentComponent === null ? (
     <div></div>
   ) : (
@@ -18,41 +26,58 @@ const CompSettingPanel = ({ currentComponent }) => {
       <Typography color="primary" variant="h6" style={{ marginTop: '16px' }}>
         Settings
       </Typography>
-      <Grid container spacing={2}>
-        <Grid item xs={12}>
-          <Typography color="default" variant="subtitle1" component="p">
-            {currentComponent.data.label}
-          </Typography>
-        </Grid>
-        {currentComponent &&
-          settings[currentComponent.data.type] &&
-          Object.keys(settings[currentComponent.data.type])?.map((field) => {
-            return (
-              <Grid item xs={12}>
-                <Tooltip
-                  title={
-                    settings[currentComponent.data.type][field]['helperText']
-                  }
-                >
-                  <TextField
-                    type={
-                      settings[currentComponent.data.type][field]['type'] ??
-                      'text'
-                    }
-                    id="outlined-basic"
-                    label={field}
-                    defaultValue={
-                      settings[currentComponent.data.type][field]['default']
-                    }
-                    variant="outlined"
-                    fullWidth
-                    required
-                  />
-                </Tooltip>
-              </Grid>
+      <FormProvider {...methods}>
+        <form
+          onSubmit={methods.handleSubmit((data) => {
+            const finalData = {};
+            Object.keys(data).forEach((element) => {
+              finalData[element] = data[element]
+                ? settings[currentComponent.data.type][element]['type'] ===
+                  'number'
+                  ? parseFloat(data[element])
+                  : data[element]
+                : settings[currentComponent.data.type][element]['default'];
+            });
+            console.log(finalData);
+            setElements((els) =>
+              els.map((el) => {
+                if (el.id === currentComponent.id) {
+                  el.data.configs = finalData;
+                }
+                return el;
+              })
             );
           })}
-      </Grid>
+        >
+          <Grid container spacing={2}>
+            <Grid item xs={12}>
+              <Typography color="default" variant="subtitle1" component="h6">
+                {currentComponent.data.label}
+              </Typography>
+            </Grid>
+
+            {currentComponent &&
+              Object.keys(currentComponent.data.configs ?? {})?.map((key) => {
+                return (
+                  <CustomTextField
+                    comp={key}
+                    currentComponent={currentComponent}
+                  />
+                );
+              })}
+            <Grid item xs={8}></Grid>
+            {Object.keys(currentComponent.data.configs ?? {}).length !== 0 ? (
+              <Grid item xs={4}>
+                <Button type="submit" color="success" variant="contained">
+                  Save
+                </Button>
+              </Grid>
+            ) : (
+              <div></div>
+            )}
+          </Grid>
+        </form>
+      </FormProvider>
     </div>
   );
 };

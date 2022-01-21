@@ -6,33 +6,17 @@ import ReactFlow, {
   MiniMap,
   Controls,
   Background,
+  updateEdge,
 } from 'react-flow-renderer';
 import { settings } from '../settings/componentSettings';
-
-const initialElements = [
-  {
-    id: '1',
-    type: 'input',
-    data: {
-      label: (
-        <>
-          <strong>Start</strong>
-        </>
-      ),
-      type: 'Start',
-    },
-    position: { x: 100, y: 100 },
-  },
-];
 
 let id = 2;
 const getId = () => `${id++}`;
 
-const GraphPanel = ({ setCurrentComponent }) => {
+const GraphPanel = ({ setCurrentComponent, elements, setElements }) => {
   const reactFlowWrapper = useRef(null);
   const [reactFlowInstance, setReactFlowInstance] = useState(null);
 
-  const [elements, setElements] = useState(initialElements);
   const onElementClick = (event, element) => {
     if (element.data.type !== 'Start') {
       setCurrentComponent(element);
@@ -49,12 +33,10 @@ const GraphPanel = ({ setCurrentComponent }) => {
     setReactFlowInstance(_reactFlowInstance);
     _reactFlowInstance.fitView();
   };
-
   const onDragOver = (event) => {
     event.preventDefault();
     event.dataTransfer.dropEffect = 'move';
   };
-
   const onDrop = (event) => {
     event.preventDefault();
 
@@ -66,15 +48,26 @@ const GraphPanel = ({ setCurrentComponent }) => {
       y: event.clientY - reactFlowBounds.top,
     });
     const id = getId();
+    const configs = {};
+    Object.keys(settings[`${name}`] ?? {}).forEach((key) => {
+      configs[key] = settings[`${name}`][key]['default'];
+    });
     const newNode = {
       id: id,
       type,
       position,
-      data: { label: `${name} ${id}`, type: `${name}` },
+      data: {
+        label: `${name} ${id}`,
+        type: `${name}`,
+        configs: configs,
+      },
     };
 
     setElements((es) => es.concat(newNode));
   };
+  const onEdgeUpdate = (oldEdge, newConnection) =>
+    setElements((els) => updateEdge(oldEdge, newConnection, els));
+
   return (
     <div ref={reactFlowWrapper} style={{ flexGrow: 1 }}>
       <ReactFlow
@@ -82,6 +75,7 @@ const GraphPanel = ({ setCurrentComponent }) => {
         onElementsRemove={onElementsRemove}
         onConnect={onConnect}
         onElementClick={onElementClick}
+        onEdgeUpdate={onEdgeUpdate}
         onLoad={onLoad}
         onDrop={onDrop}
         onDragOver={onDragOver}

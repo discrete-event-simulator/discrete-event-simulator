@@ -9,8 +9,6 @@ import { makeStyles } from '@mui/styles';
 import DemoPage from './Demo';
 import TabPanel from '../components/panels/TabPanel';
 import ReactFlow, { ReactFlowProvider, Controls } from 'react-flow-renderer';
-//@ts-ignore
-import { DragDropContext } from 'react-beautiful-dnd';
 const useStyles = makeStyles((theme) => ({
   drawer: {
     display: 'flex',
@@ -30,14 +28,24 @@ const HomePage = () => {
   const classes = useStyles();
   const [panel, setPanel] = useState(0);
   const [currentComponent, setCurrentComponent] = useState(null);
-  const [newNode, setNewNode] = useState(null);
-  const onDragEnd = (props: any) => {
-    const { source, destination } = props;
-    console.log('End', source, destination);
-    if (destination.droppableId === 'graph') {
-      setNewNode(networkComps[source.index]);
-    }
-  };
+  const initialElements = [
+    {
+      id: '1',
+      type: 'input',
+      data: {
+        label: (
+          <>
+            <strong>Start</strong>
+          </>
+        ),
+        type: 'Start',
+      },
+      position: { x: 100, y: 100 },
+    },
+  ];
+
+  const [elements, setElements] = useState(initialElements);
+
   return (
     <Container
       style={{
@@ -48,6 +56,7 @@ const HomePage = () => {
       }}
       maxWidth={false}
     >
+      {console.log(elements)}
       <Drawer
         className={classes.drawer}
         variant="permanent"
@@ -93,7 +102,10 @@ const HomePage = () => {
                     height: '100vh',
                   }}
                 >
-                  <CompSettingPanel currentComponent={currentComponent} />
+                  <CompSettingPanel
+                    currentComponent={currentComponent}
+                    setElements={setElements}
+                  />
                 </TabPanel>
               </Grid>
               <Grid
@@ -106,7 +118,11 @@ const HomePage = () => {
                   height: '100vh',
                 }}
               >
-                <GraphPanel setCurrentComponent={setCurrentComponent} />
+                <GraphPanel
+                  setCurrentComponent={setCurrentComponent}
+                  elements={elements}
+                  setElements={setElements}
+                />
               </Grid>
             </Grid>
           </ReactFlowProvider>

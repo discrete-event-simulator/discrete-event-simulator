@@ -2,7 +2,7 @@ export const settings = {
   "Wire": {
     "delay_dist": {
       "default": 0.1,
-      "type": "number",
+      "type": "number", // "text" for texts
       "required": true,
       "helperText": "a no-parameter function that returns the successive propagation delays on this wire."
     },

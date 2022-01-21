@@ -11,22 +11,6 @@ import {
 } from '@mui/material';
 import AltRouteIcon from '@mui/icons-material/AltRoute';
 import { styled } from '@mui/styles';
-//@ts-ignore
-import { DragDropContext, Draggable, Droppable } from 'react-beautiful-dnd';
-import { borderRadius } from '@mui/system';
-
-const CompList = styled(List)({
-  '& .MuiListItemButton-root': {
-    paddingLeft: 24,
-    paddingRight: 24,
-  },
-  '& .MuiListItemIcon-root': {
-    minWidth: 0,
-  },
-  '& .MuiSvgIcon-root': {
-    fontSize: 20,
-  },
-});
 
 const NetworkCompPanel = ({ networkComps }) => {
   const handleClickCreatePacket = () => {
