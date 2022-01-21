@@ -37,8 +37,9 @@ const NetworkCompPanel = ({ networkComps }) => {
     ]);
   };
 
-  const onDragStart = (event, nodeType) => {
+  const onDragStart = (event, nodeType, name) => {
     event.dataTransfer.setData('application/reactflow', nodeType);
+    event.dataTransfer.setData('application/reactflowname', name);
     event.dataTransfer.effectAllowed = 'move';
   };
 
@@ -59,7 +60,7 @@ const NetworkCompPanel = ({ networkComps }) => {
                 display: 'flex',
                 marginBottom: '5px',
               }}
-              onDragStart={(event) => onDragStart(event, comp)}
+              onDragStart={(event) => onDragStart(event, 'default', comp)}
               draggable
             >
               <AltRouteIcon />

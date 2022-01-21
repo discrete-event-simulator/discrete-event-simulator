@@ -1,5 +1,5 @@
 // @ts-nocheck
-import React, { useState, useEffect } from 'react';
+import React, { useState, useRef } from 'react';
 import ReactFlow, {
   removeElements,
   addEdge,
@@ -36,11 +36,6 @@ function randomColor() {
 //@ts-ignore
 import { Droppable, Draggable } from 'react-beautiful-dnd';
 
-const onLoad = (reactFlowInstance) => {
-  console.log('flow loaded:', reactFlowInstance);
-  reactFlowInstance.fitView();
-};
-
 const initialElements = [
   {
     id: '1',
@@ -56,8 +51,12 @@ const initialElements = [
   },
 ];
 
-const GraphPanel = ({ newNode }) => {
+let id = 0;
+const getId = () => `dndnode_${id++}`;
 
+const GraphPanel = ({ newNode }) => {
+  const reactFlowWrapper = useRef(null);
+  const [reactFlowInstance, setReactFlowInstance] = useState(null);
   const [currentComp, setCurrentComp] = React.useState('');
   const handleOpen = (data) => setCurrentComp(data);
   const handleClose = (data) => {
@@ -68,6 +67,10 @@ const GraphPanel = ({ newNode }) => {
   const onElementsRemove = (elementsToRemove) =>
     setElements((els) => removeElements(elementsToRemove, els));
   const onConnect = (params) => setElements((els) => addEdge(params, els));
+  const onLoad = (_reactFlowInstance) => {
+    setReactFlowInstance(_reactFlowInstance);
+    _reactFlowInstance.fitView();
+  };
 
   const onDragOver = (event) => {
     event.preventDefault();
@@ -79,6 +82,7 @@ const GraphPanel = ({ newNode }) => {
 
     const reactFlowBounds = reactFlowWrapper.current.getBoundingClientRect();
     const type = event.dataTransfer.getData('application/reactflow');
+    const name = event.dataTransfer.getData('application/reactflowname');
     const position = reactFlowInstance.project({
       x: event.clientX - reactFlowBounds.left,
       y: event.clientY - reactFlowBounds.top,
@@ -87,13 +91,13 @@ const GraphPanel = ({ newNode }) => {
       id: getId(),
       type,
       position,
-      data: { label: `${type} node` },
+      data: { label: `${name}` },
     };
 
     setElements((es) => es.concat(newNode));
   };
   return (
-    <>
+    <div ref={reactFlowWrapper} style={{ flexGrow: 1 }}>
       <ReactFlow
         elements={elements}
         onElementsRemove={onElementsRemove}
@@ -125,7 +129,7 @@ const GraphPanel = ({ newNode }) => {
       </ReactFlow>
 
       <CompConfigModal component={currentComp} handleClose={handleClose} />
-    </>
+    </div>
   );
 };
 
