@@ -19,8 +19,12 @@ const CompSettingPanel = ({ currentComponent }) => {
         Settings
       </Typography>
       <Grid container spacing={2}>
-        <Grid item>{currentComponent.data.label}</Grid>
-        <Grid item>
+        <Grid item xs={12}>
+          <Typography color="default" variant="subtitle1" component="p">
+            {currentComponent.data.label}
+          </Typography>
+        </Grid>
+        <Grid item xs={12}>
           <TextField
             id="outlined-basic"
             label="Outlined"
@@ -28,7 +32,7 @@ const CompSettingPanel = ({ currentComponent }) => {
             fullWidth
           />
         </Grid>
-        <Grid item>
+        <Grid item xs={12}>
           <TextField
             id="outlined-basic"
             label="Outlined"
@@ -36,7 +40,7 @@ const CompSettingPanel = ({ currentComponent }) => {
             fullWidth
           />
         </Grid>
-        <Grid item>
+        <Grid item xs={12}>
           <TextField
             id="outlined-basic"
             label="Outlined"
