@@ -9,7 +9,11 @@ import {
 } from 'react-hook-form';
 import CustomTextField from './CustomTextField';
 
-const CompSettingPanel = ({ currentComponent, setElements }) => {
+const CompSettingPanel = ({
+  currentComponent,
+  setElements,
+  setCurrentComponent,
+}) => {
   console.log(currentComponent);
   const methods = useForm();
   return currentComponent === null ? (
@@ -47,6 +51,7 @@ const CompSettingPanel = ({ currentComponent, setElements }) => {
                 return el;
               })
             );
+            setCurrentComponent(null);
           })}
         >
           <Grid container spacing={2}>

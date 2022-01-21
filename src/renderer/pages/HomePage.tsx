@@ -105,6 +105,7 @@ const HomePage = () => {
                   <CompSettingPanel
                     currentComponent={currentComponent}
                     setElements={setElements}
+                    setCurrentComponent={setCurrentComponent}
                   />
                 </TabPanel>
               </Grid>
