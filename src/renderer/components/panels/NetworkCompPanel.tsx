@@ -1,3 +1,4 @@
+// @ts-nocheck
 import React from 'react';
 import {
   Button,
@@ -12,6 +13,7 @@ import AltRouteIcon from '@mui/icons-material/AltRoute';
 import { styled } from '@mui/styles';
 //@ts-ignore
 import { DragDropContext, Draggable, Droppable } from 'react-beautiful-dnd';
+import { borderRadius } from '@mui/system';
 
 const CompList = styled(List)({
   '& .MuiListItemButton-root': {
@@ -35,40 +37,38 @@ const NetworkCompPanel = ({ networkComps }) => {
     ]);
   };
 
+  const onDragStart = (event, nodeType) => {
+    event.dataTransfer.setData('application/reactflow', nodeType);
+    event.dataTransfer.effectAllowed = 'move';
+  };
+
   return (
     <div style={{ display: 'flex', flexDirection: 'column', flexGrow: 1 }}>
       <Typography color="primary" variant="h6" style={{ marginTop: '16px' }}>
         List of Components
       </Typography>
-      <Droppable droppableId={'0'} isDropDisabled={true}>
-        {(provided) => (
-          <List style={{ flexGrow: 1 }} ref={provided.innerRef}>
-            {networkComps?.map((comp, index) => {
-              return (
-                <Draggable draggableId={comp} key={comp} index={index}>
-                  {(provided1) => (
-                    <ListItem
-                      key={comp}
-                      button
-                      role={undefined}
-                      disableGutters
-                      ContainerComponent="li"
-                      ref={provided1.innerRef}
-                      {...provided1.draggableProps}
-                      {...provided1.dragHandleProps}
-                    >
-                      <ListItemIcon>
-                        <AltRouteIcon />
-                      </ListItemIcon>
-                      <ListItemText style={{ color: 'black' }} primary={comp} />
-                    </ListItem>
-                  )}
-                </Draggable>
-              );
-            })}
-          </List>
-        )}
-      </Droppable>
+      <div style={{ flexGrow: 1, color: 'black' }}>
+        {networkComps?.map((comp, index) => {
+          return (
+            <div
+              style={{
+                textAlign: 'center',
+                borderRadius: '5px',
+                border: '1px solid',
+                padding: '10px',
+                display: 'flex',
+                marginBottom: '5px',
+              }}
+              onDragStart={(event) => onDragStart(event, comp)}
+              draggable
+            >
+              <AltRouteIcon />
+              {comp}
+            </div>
+          );
+        })}
+      </div>
+
       <Button variant="contained" onClick={handleClickCreatePacket}>
         create a packet
       </Button>

@@ -8,7 +8,10 @@ import SidePanel from 'renderer/components/panels/SidePanel';
 import { makeStyles } from '@mui/styles';
 import DemoPage from './Demo';
 import TabPanel from '../components/panels/TabPanel';
-
+import ReactFlow, {
+  ReactFlowProvider,
+  Controls,
+} from 'react-flow-renderer'
 //@ts-ignore
 import { DragDropContext } from 'react-beautiful-dnd';
 const useStyles = makeStyles((theme) => ({
@@ -57,7 +60,7 @@ const HomePage = () => {
       </Drawer>
       <TabPanel value={panel} index={0}>
         <Container>
-          <DragDropContext onDragEnd={onDragEnd}>
+          <ReactFlowProvider>
             <Grid container spacing={2}>
               <Grid
                 item
@@ -85,7 +88,7 @@ const HomePage = () => {
                 <GraphPanel newNode={newNode} />
               </Grid>
             </Grid>
-          </DragDropContext>
+          </ReactFlowProvider>
         </Container>
       </TabPanel>
       <TabPanel value={panel} index={1}>

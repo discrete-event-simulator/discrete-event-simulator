@@ -1,5 +1,12 @@
+// @ts-nocheck
 import React, { useState, useEffect } from 'react';
-import Graph from 'react-graph-vis';
+import ReactFlow, {
+  removeElements,
+  addEdge,
+  MiniMap,
+  Controls,
+  Background,
+} from 'react-flow-renderer';
 import CompConfigModal from '../configs/CompConfigModal';
 
 const options = {
@@ -9,9 +16,9 @@ const options = {
   edges: {
     color: '#000000',
   },
-  nodes:{
-    shape:'box'
-  }
+  nodes: {
+    shape: 'box',
+  },
 };
 function randomColor() {
   const red = Math.floor(Math.random() * 256)
@@ -28,86 +35,96 @@ function randomColor() {
 
 //@ts-ignore
 import { Droppable, Draggable } from 'react-beautiful-dnd';
-const GraphPanel = ({ newNode }) => {
-  useEffect(() => {
-    if (newNode) {
-      createNode(40, 40, newNode);
-    }
-  }, [newNode]);
-  const createNode = (x, y, name) => {
-    const color = '#FFF';
 
-    setState(({ graph: { nodes, edges }, counter, ...rest }) => {
-      const id = counter + 1;
-      const from = counter;
-      return {
-        graph: {
-          nodes: [...nodes, { id, label: `${name} ${id}`, color, x, y }],
-          edges: [...edges, { from, to: id }],
-        },
-        counter: id,
-        ...rest,
-      };
-    });
-  };
+const onLoad = (reactFlowInstance) => {
+  console.log('flow loaded:', reactFlowInstance);
+  reactFlowInstance.fitView();
+};
 
-  const [state, setState] = useState({
-    counter: 1,
-    graph: {
-      nodes: [{ id: 1, label: 'Start', color: '#e04141' }],
-      edges: [
-      ],
+const initialElements = [
+  {
+    id: '1',
+    type: 'input',
+    data: {
+      label: (
+        <>
+          <strong>Start</strong>
+        </>
+      ),
     },
+    position: { x: 100, y: 100 },
+  },
+];
 
-  });
-  const { graph, } = state;
+const GraphPanel = ({ newNode }) => {
+
   const [currentComp, setCurrentComp] = React.useState('');
   const handleOpen = (data) => setCurrentComp(data);
   const handleClose = (data) => {
-   setCurrentComp("");
+    setCurrentComp('');
   };
 
-  const events = {
+  const [elements, setElements] = useState(initialElements);
+  const onElementsRemove = (elementsToRemove) =>
+    setElements((els) => removeElements(elementsToRemove, els));
+  const onConnect = (params) => setElements((els) => addEdge(params, els));
 
-     select: function({ nodes, edges }){
-        console.log('Selected nodes:');
-        console.log(nodes);
-        console.log(state.graph.nodes);
-        console.log('Selected edges:');
-        console.log(edges);
-        console.log()
-        //alert('Selected node: ' + nodes);
-        const selectedNode = state.graph.nodes.filter((node)=>node.id === nodes[0])
-        if(selectedNode){
-          setCurrentComp(selectedNode[0].label);
-        }
-      }
+  const onDragOver = (event) => {
+    event.preventDefault();
+    event.dataTransfer.dropEffect = 'move';
+  };
+
+  const onDrop = (event) => {
+    event.preventDefault();
+
+    const reactFlowBounds = reactFlowWrapper.current.getBoundingClientRect();
+    const type = event.dataTransfer.getData('application/reactflow');
+    const position = reactFlowInstance.project({
+      x: event.clientX - reactFlowBounds.left,
+      y: event.clientY - reactFlowBounds.top,
+    });
+    const newNode = {
+      id: getId(),
+      type,
+      position,
+      data: { label: `${type} node` },
+    };
+
+    setElements((es) => es.concat(newNode));
   };
   return (
     <>
-    <Droppable droppableId={'graph'}>
-      {(provided) => (
-        <div
-          style={{
-            border: '1px solid black',
-            width: '100%',
-            display: 'flex',
-            flexGrow: 1,
+      <ReactFlow
+        elements={elements}
+        onElementsRemove={onElementsRemove}
+        onConnect={onConnect}
+        onLoad={onLoad}
+        onDrop={onDrop}
+        onDragOver={onDragOver}
+        snapToGrid={true}
+        snapGrid={[15, 15]}
+      >
+        <MiniMap
+          nodeStrokeColor={(n) => {
+            if (n.style?.background) return n.style.background;
+            if (n.type === 'input') return '#0041d0';
+            if (n.type === 'output') return '#ff0072';
+            if (n.type === 'default') return '#1a192b';
+
+            return '#eee';
           }}
-          ref={provided.innerRef}
-        >
-          <Graph
-            graph={graph}
-            options={options}
-            events={
-             events
-            }
-            style={{ display: 'flex', width: '100%', flexGrow: 1 }}
-          />
-        </div>
-      )}
-    </Droppable>
-    <CompConfigModal component={currentComp} handleClose={handleClose}/>
+          nodeColor={(n) => {
+            if (n.style?.background) return n.style.background;
+
+            return '#fff';
+          }}
+          nodeBorderRadius={2}
+        />
+        <Controls />
+        <Background color="#aaa" gap={16} />
+      </ReactFlow>
+
+      <CompConfigModal component={currentComp} handleClose={handleClose} />
     </>
   );
 };
