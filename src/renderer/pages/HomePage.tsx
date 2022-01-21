@@ -2,7 +2,7 @@ import { Container, Grid, Drawer } from '@mui/material';
 import React from 'react';
 import { useEffect, useState } from 'react';
 import NetworkCompPanel from 'renderer/components/panels/NetworkCompPanel';
-import ActionPanel from 'renderer/components/panels/ActionPanel';
+import CompSettingPanel from 'renderer/components/panels/CompSettingPanel';
 import GraphPanel from 'renderer/components/panels/GraphPanel';
 import SidePanel from 'renderer/components/panels/SidePanel';
 import { makeStyles } from '@mui/styles';
@@ -29,6 +29,7 @@ const HomePage = () => {
   }, []);
   const classes = useStyles();
   const [panel, setPanel] = useState(0);
+  const [currentComponent, setCurrentComponent] = useState(null);
   const [newNode, setNewNode] = useState(null);
   const onDragEnd = (props: any) => {
     const { source, destination } = props;
@@ -70,7 +71,30 @@ const HomePage = () => {
                   height: '100vh',
                 }}
               >
-                <NetworkCompPanel networkComps={networkComps} />
+                <TabPanel
+                  value={currentComponent === null ? 0 : 1}
+                  index={0}
+                  style={{
+                    display: 'flex',
+                    flexGrow: 1,
+                    flexDirection: 'column',
+                    height: '100vh',
+                  }}
+                >
+                  <NetworkCompPanel networkComps={networkComps} />
+                </TabPanel>
+                <TabPanel
+                  value={currentComponent === null ? 0 : 1}
+                  index={1}
+                  style={{
+                    display: 'flex',
+                    flexGrow: 1,
+                    flexDirection: 'column',
+                    height: '100vh',
+                  }}
+                >
+                  <CompSettingPanel currentComponent={currentComponent} />
+                </TabPanel>
               </Grid>
               <Grid
                 item
@@ -82,7 +106,7 @@ const HomePage = () => {
                   height: '100vh',
                 }}
               >
-                <GraphPanel newNode={newNode} />
+                <GraphPanel setCurrentComponent={setCurrentComponent} />
               </Grid>
             </Grid>
           </ReactFlowProvider>

@@ -44,7 +44,14 @@ const NetworkCompPanel = ({ networkComps }) => {
   };
 
   return (
-    <div style={{ display: 'flex', flexDirection: 'column', flexGrow: 1 }}>
+    <div
+      style={{
+        display: 'flex',
+        flexDirection: 'column',
+        flexGrow: 1,
+        height: '100%',
+      }}
+    >
       <Typography color="primary" variant="h6" style={{ marginTop: '16px' }}>
         List of Components
       </Typography>
@@ -69,10 +76,6 @@ const NetworkCompPanel = ({ networkComps }) => {
           );
         })}
       </div>
-
-      <Button variant="contained" onClick={handleClickCreatePacket}>
-        create a packet
-      </Button>
     </div>
   );
 };

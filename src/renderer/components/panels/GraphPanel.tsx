@@ -51,19 +51,21 @@ const initialElements = [
   },
 ];
 
-let id = 0;
-const getId = () => `dndnode_${id++}`;
+let id = 2;
+const getId = () => `${id++}`;
 
-const GraphPanel = ({ newNode }) => {
+const GraphPanel = ({ setCurrentComponent }) => {
   const reactFlowWrapper = useRef(null);
   const [reactFlowInstance, setReactFlowInstance] = useState(null);
-  const [currentComp, setCurrentComp] = React.useState('');
-  const handleOpen = (data) => setCurrentComp(data);
-  const handleClose = (data) => {
-    setCurrentComp('');
-  };
 
   const [elements, setElements] = useState(initialElements);
+  const onElementClick = (event, element) => {
+    setCurrentComponent(element);
+  };
+  const onPaneClick = (event) => {
+    setCurrentComponent(null);
+    console.log('click pane');
+  };
   const onElementsRemove = (elementsToRemove) =>
     setElements((els) => removeElements(elementsToRemove, els));
   const onConnect = (params) => setElements((els) => addEdge(params, els));
@@ -87,11 +89,12 @@ const GraphPanel = ({ newNode }) => {
       x: event.clientX - reactFlowBounds.left,
       y: event.clientY - reactFlowBounds.top,
     });
+    const id = getId();
     const newNode = {
-      id: getId(),
+      id: id,
       type,
       position,
-      data: { label: `${name}` },
+      data: { label: `${name} ${id}` },
     };
 
     setElements((es) => es.concat(newNode));
@@ -102,9 +105,12 @@ const GraphPanel = ({ newNode }) => {
         elements={elements}
         onElementsRemove={onElementsRemove}
         onConnect={onConnect}
+        onElementClick={onElementClick}
         onLoad={onLoad}
         onDrop={onDrop}
         onDragOver={onDragOver}
+        onPaneClick={onPaneClick}
+        elementsSelectable={true}
         snapToGrid={true}
         snapGrid={[15, 15]}
       >
@@ -127,8 +133,6 @@ const GraphPanel = ({ newNode }) => {
         <Controls />
         <Background color="#aaa" gap={16} />
       </ReactFlow>
-
-      <CompConfigModal component={currentComp} handleClose={handleClose} />
     </div>
   );
 };
