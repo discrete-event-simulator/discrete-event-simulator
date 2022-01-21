@@ -8,10 +8,7 @@ import SidePanel from 'renderer/components/panels/SidePanel';
 import { makeStyles } from '@mui/styles';
 import DemoPage from './Demo';
 import TabPanel from '../components/panels/TabPanel';
-import ReactFlow, {
-  ReactFlowProvider,
-  Controls,
-} from 'react-flow-renderer'
+import ReactFlow, { ReactFlowProvider, Controls } from 'react-flow-renderer';
 //@ts-ignore
 import { DragDropContext } from 'react-beautiful-dnd';
 const useStyles = makeStyles((theme) => ({
@@ -48,6 +45,7 @@ const HomePage = () => {
         flexDirection: 'row',
         overflow: 'hidden',
       }}
+      maxWidth={false}
     >
       <Drawer
         className={classes.drawer}
@@ -59,7 +57,7 @@ const HomePage = () => {
         <SidePanel panel={panel} setPanel={setPanel} />
       </Drawer>
       <TabPanel value={panel} index={0}>
-        <Container>
+        <Container maxWidth={false}>
           <ReactFlowProvider>
             <Grid container spacing={2}>
               <Grid
@@ -84,7 +82,6 @@ const HomePage = () => {
                   height: '100vh',
                 }}
               >
-                <ActionPanel />
                 <GraphPanel newNode={newNode} />
               </Grid>
             </Grid>

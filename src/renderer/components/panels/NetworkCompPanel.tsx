@@ -58,7 +58,7 @@ const NetworkCompPanel = ({ networkComps }) => {
                 border: '1px solid',
                 padding: '10px',
                 display: 'flex',
-                marginBottom: '5px',
+                marginBottom: '10px',
               }}
               onDragStart={(event) => onDragStart(event, 'default', comp)}
               draggable
