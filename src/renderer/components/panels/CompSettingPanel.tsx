@@ -1,9 +1,9 @@
 import React from 'react';
-import { Grid, TextField, Typography } from '@mui/material';
+import { Grid, TextField, Typography, Tooltip } from '@mui/material';
+import { settings } from '../settings/componentSettings';
 
 const CompSettingPanel = ({ currentComponent }) => {
   console.log(currentComponent);
-  console.log(currentComponent.data.label);
   return currentComponent === null ? (
     <div></div>
   ) : (
@@ -24,30 +24,34 @@ const CompSettingPanel = ({ currentComponent }) => {
             {currentComponent.data.label}
           </Typography>
         </Grid>
-        <Grid item xs={12}>
-          <TextField
-            id="outlined-basic"
-            label="Outlined"
-            variant="outlined"
-            fullWidth
-          />
-        </Grid>
-        <Grid item xs={12}>
-          <TextField
-            id="outlined-basic"
-            label="Outlined"
-            variant="outlined"
-            fullWidth
-          />
-        </Grid>
-        <Grid item xs={12}>
-          <TextField
-            id="outlined-basic"
-            label="Outlined"
-            variant="outlined"
-            fullWidth
-          />
-        </Grid>
+        {currentComponent &&
+          settings[currentComponent.data.type] &&
+          Object.keys(settings[currentComponent.data.type])?.map((field) => {
+            return (
+              <Grid item xs={12}>
+                <Tooltip
+                  title={
+                    settings[currentComponent.data.type][field]['helperText']
+                  }
+                >
+                  <TextField
+                    type={
+                      settings[currentComponent.data.type][field]['type'] ??
+                      'text'
+                    }
+                    id="outlined-basic"
+                    label={field}
+                    defaultValue={
+                      settings[currentComponent.data.type][field]['default']
+                    }
+                    variant="outlined"
+                    fullWidth
+                    required
+                  />
+                </Tooltip>
+              </Grid>
+            );
+          })}
       </Grid>
     </div>
   );

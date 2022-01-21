@@ -7,33 +7,7 @@ import ReactFlow, {
   Controls,
   Background,
 } from 'react-flow-renderer';
-
-const options = {
-  layout: {
-    hierarchical: true,
-  },
-  edges: {
-    color: '#000000',
-  },
-  nodes: {
-    shape: 'box',
-  },
-};
-function randomColor() {
-  const red = Math.floor(Math.random() * 256)
-    .toString(16)
-    .padStart(2, '0');
-  const green = Math.floor(Math.random() * 256)
-    .toString(16)
-    .padStart(2, '0');
-  const blue = Math.floor(Math.random() * 256)
-    .toString(16)
-    .padStart(2, '0');
-  return `#${red}${green}${blue}`;
-}
-
-//@ts-ignore
-import { Droppable, Draggable } from 'react-beautiful-dnd';
+import { settings } from '../settings/componentSettings';
 
 const initialElements = [
   {
@@ -45,6 +19,7 @@ const initialElements = [
           <strong>Start</strong>
         </>
       ),
+      type: 'Start',
     },
     position: { x: 100, y: 100 },
   },
@@ -59,7 +34,9 @@ const GraphPanel = ({ setCurrentComponent }) => {
 
   const [elements, setElements] = useState(initialElements);
   const onElementClick = (event, element) => {
-    setCurrentComponent(element);
+    if (element.data.type !== 'Start') {
+      setCurrentComponent(element);
+    }
   };
   const onPaneClick = (event) => {
     setCurrentComponent(null);
@@ -93,7 +70,7 @@ const GraphPanel = ({ setCurrentComponent }) => {
       id: id,
       type,
       position,
-      data: { label: `${name} ${id}` },
+      data: { label: `${name} ${id}`, type: `${name}` },
     };
 
     setElements((es) => es.concat(newNode));
