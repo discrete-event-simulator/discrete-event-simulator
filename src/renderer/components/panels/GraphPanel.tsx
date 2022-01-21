@@ -7,7 +7,6 @@ import ReactFlow, {
   Controls,
   Background,
 } from 'react-flow-renderer';
-import CompConfigModal from '../configs/CompConfigModal';
 
 const options = {
   layout: {
