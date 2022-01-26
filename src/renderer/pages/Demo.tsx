@@ -137,6 +137,12 @@ const PacketSinkCard = () => {
     setParameter('PacketSink:rec_arrivals', checked);
   };
 
+  const handleTesting = ({
+    target: { checked },
+  }: React.ChangeEvent<HTMLInputElement>) => {
+    setParameter('PacketSink:test_newScript', checked);
+  };
+
   return (
     <Card sx={{ width: '300px' }}>
       <CardContent>PacketSink</CardContent>
@@ -145,6 +151,10 @@ const PacketSinkCard = () => {
           <FormControlLabel
             control={<Switch defaultChecked onChange={handleChange} />}
             label="record arrivals"
+          ></FormControlLabel>
+          <FormControlLabel
+            control={<Switch defaultChecked onChange={handleTesting} />}
+            label="Testing using new script"
           ></FormControlLabel>
         </FormGroup>
       </CardActions>
