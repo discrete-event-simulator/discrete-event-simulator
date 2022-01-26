@@ -131,42 +131,20 @@ class CodeGenerator:
   def generate_data_display(self):
     display_data = self.json_data["display_data"]
 
-    # dfs to find the starting point of the network to this destination
-    def find_starting_nodes_from_end(component_name):
-      starting_nodes = set()
-      visited = set()
-
-      def dfs(node):
-        if node in visited:
-          return
-        visited.add(node)
-        if len(self.connection_graph[node]) == 0:
-          starting_nodes.add(node)
-        else:
-          for child in self.connection_graph[node]:
-            dfs(child)
-
-      dfs(component_name)
-      return starting_nodes
-
     for component in display_data:
       component_name = component["name"]
-      informations_needed = component['informations']
-      starting_nodes = find_starting_nodes_from_end(component_name)
-      record_flow_ids = False if "rec_flow_ids" not in self.comp_dict[component_name] else self.comp_dict[component_name]["rec_flow_ids"]
-
+      informations_needed = component["informations"]
+      self.code.append("print(\"Final Simulation Statistics for {}:\")\n".format(component_name))
       for info in informations_needed:
-        for node in starting_nodes:
+        self.code.append("print(\"Information Printed: {}\")".format(info))
 
-          source_name = "source" if "element_id" not in self.comp_dict[node] else self.comp_dict[node]["element_id"]
-
-          if record_flow_ids:
-            source_name = self.comp_dict[node]["flow_id"]
-          print_statement = """print(\"{} packet {}: \" +
-          \", \".join([\"{{:.2f}}\".format(x) for x in {}.{}[\"{}\"]]))
-          """.format(node, info, component_name, info, source_name)
-
-          self.code.append(print_statement)
+        self.code.append(
+          "for flow_id in {}.{}.keys():".format(component_name, info)
+        )
+        self.code.append(
+          "\tprint(\"Flow: {{}}: \".format(flow_id) +\", \".join([\"{{:.2f}}\".format(x) for x in {}.{}[flow_id]]))\n"
+          .format(component_name, info)
+        )
 
   def generate_file(self):
     self.generate_imports()
