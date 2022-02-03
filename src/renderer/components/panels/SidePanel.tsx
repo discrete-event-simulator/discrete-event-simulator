@@ -2,6 +2,7 @@ import React from 'react';
 import { List, ListItem, ListItemButton, ListItemIcon } from '@mui/material';
 import SettingsInputComponentIcon from '@mui/icons-material/SettingsInputComponent';
 import HistoryIcon from '@mui/icons-material/History';
+import CheckIcon from '@mui/icons-material/Check';
 
 const SidePanel = (props: any) => {
   const { panel, setPanel } = props;
@@ -17,6 +18,10 @@ const SidePanel = (props: any) => {
     {
       icon: HistoryIcon,
       clickEvent: historyClick,
+    },
+    {
+      icon: CheckIcon,
+      clickEvent: () => {},
     },
   ];
   const handleClick = (index: number) => {
