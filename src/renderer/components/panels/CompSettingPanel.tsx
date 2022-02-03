@@ -37,9 +37,15 @@ const CompSettingPanel = ({
             Object.keys(data).forEach((element) => {
               finalData[element] = data[element]
                 ? settings[currentComponent.data.type][element]['type'] ===
-                  'number'
+                  'float'
                   ? parseFloat(data[element])
-                  : data[element]
+                  : settings[currentComponent.data.type][element]['type'] ===
+                    'int'
+                    ? parseInt(data[element])
+                    : settings[currentComponent.data.type][element]['type'] ===
+                      'boolean'
+                      ? (data[element] === "true")
+                      : data[element]
                 : settings[currentComponent.data.type][element]['default'];
             });
             console.log(finalData);
@@ -54,7 +60,7 @@ const CompSettingPanel = ({
             setCurrentComponent(null);
           })}
         >
-          <Grid container spacing={2}>
+          <Grid container spacing={2} marginTop='4px'>
             <Grid item xs={12}>
               <Typography color="default" variant="subtitle1" component="h6">
                 {currentComponent.data.label}

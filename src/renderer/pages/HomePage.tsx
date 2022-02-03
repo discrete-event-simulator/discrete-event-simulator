@@ -15,7 +15,8 @@ const useStyles = makeStyles((theme) => ({
     width: 50,
   },
 }));
-const networkComps = ['Wire', 'DistPacketGenerator', 'Splitter'];
+const networkComps = ['Wire', 'DistPacketGenerator', 'PacketSink', 'TCPPacketGenerator', 'TCPSink', 'SimplePacketSwitch',
+  'Flow', 'TCPCubic'];
 const HomePage = () => {
   useEffect(() => {
     (window as any).electron.ipcRenderer.on(
