@@ -83,6 +83,7 @@ const HomePage = () => {
                   flexDirection: 'column',
                   height: '100vh',
                   overflowY: 'auto',
+                  maxWidth: '300px',
                 }}
               >
                 <TabPanel
@@ -93,6 +94,7 @@ const HomePage = () => {
                     flexGrow: 1,
                     flexDirection: 'column',
                     height: '100vh',
+                    maxWidth: '300px',
                   }}
                 >
                   <NetworkCompPanel networkComps={networkComps} />
@@ -105,6 +107,7 @@ const HomePage = () => {
                     flexGrow: 1,
                     flexDirection: 'column',
                     height: '100vh',
+                    maxWidth: '300px',
                   }}
                 >
                   <CompSettingPanel
