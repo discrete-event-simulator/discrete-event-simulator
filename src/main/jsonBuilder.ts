@@ -1,5 +1,5 @@
 export default function jsonBuilder(args: any) {
-  const { dpgOut, wireOut, parameters } = args;
+  const { dpgOut, wireOut, parameters, jsonData } = args;
   // can delete this function after, this is just for testing
   // before connecting to the actual frontend
   let data = {
@@ -11,9 +11,8 @@ export default function jsonBuilder(args: any) {
           element_id: 'flow1',
           arrival_dist: parameters['DPG_1:arrival_dist'],
           flow_id: 1,
-          size_dist: 100
-        }
-
+          size_dist: 100,
+        },
       },
       {
         name: 'DPG_2',
@@ -22,8 +21,8 @@ export default function jsonBuilder(args: any) {
           element_id: 'flow2',
           arrival_dist: parameters['DPG_2:arrival_dist'],
           flow_id: 1,
-          size_dist: 200
-        }
+          size_dist: 200,
+        },
       },
       {
         name: 'Wire_1',
@@ -31,8 +30,8 @@ export default function jsonBuilder(args: any) {
         attributes: {
           delay_dist: parameters['Wire_1:delay'],
           wire_id: 1,
-          debug: true
-        }
+          debug: true,
+        },
       },
       {
         name: 'Wire_2',
@@ -40,8 +39,8 @@ export default function jsonBuilder(args: any) {
         attributes: {
           delay_dist: parameters['Wire_2:delay'],
           wire_id: 2,
-          debug: true
-        }
+          debug: true,
+        },
       },
       {
         name: 'PacketSink_1',
@@ -51,59 +50,51 @@ export default function jsonBuilder(args: any) {
           absolute_arrivals: true,
           rec_waits: true,
           rec_flow_ids: false,
-          debug: true
-        }
-
-      }
+          debug: true,
+        },
+      },
     ],
     connections: [
       {
         from: {
-          name: 'DPG_1'
+          name: 'DPG_1',
         },
         to: {
-          name: 'Wire_1'
-        }
+          name: 'Wire_1',
+        },
       },
       {
         from: {
-          name: 'DPG_2'
+          name: 'DPG_2',
         },
         to: {
-          name: 'Wire_2'
-        }
+          name: 'Wire_2',
+        },
       },
       {
         from: {
-          name: 'Wire_1'
+          name: 'Wire_1',
         },
         to: {
-          name: 'PacketSink_1'
-        }
+          name: 'PacketSink_1',
+        },
       },
       {
         from: {
-          name: 'Wire_2'
+          name: 'Wire_2',
         },
         to: {
-          name: 'PacketSink_1'
-        }
-      }
+          name: 'PacketSink_1',
+        },
+      },
     ],
     display_data: [
       {
         name: 'PacketSink_1',
-        informations: [
-          "waits",
-          "arrivals"
-        ]
-
-      }
-    ]
-
-
+        informations: ['waits', 'arrivals'],
+      },
+    ],
   };
-
-  let networkJSON = JSON.stringify(data);
+  let networkJSON = JSON.stringify(jsonData ? jsonData : data);
   return networkJSON;
 }

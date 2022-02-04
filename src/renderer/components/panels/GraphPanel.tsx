@@ -1,5 +1,5 @@
 // @ts-nocheck
-import React, { useState, useRef } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import ReactFlow, {
   removeElements,
   addEdge,
@@ -13,10 +13,108 @@ import { Button, Snackbar } from '@mui/material';
 
 let id = 2;
 const getId = () => `${id++}`;
+const parameters = {
+  'PacketSink:test_newScript': true,
+  'PacketSink:rec_arrivals': true,
+};
+let data = {
+  components: [
+    {
+      name: 'DPG_1',
+      type: 'DistPacketGenerator',
+      attributes: {
+        element_id: 'flow1',
+        arrival_dist: 1.5,
+        flow_id: 1,
+        size_dist: 100,
+      },
+    },
+    {
+      name: 'DPG_2',
+      type: 'DistPacketGenerator',
+      attributes: {
+        element_id: 'flow2',
+        arrival_dist: 1.5,
+        flow_id: 1,
+        size_dist: 200,
+      },
+    },
+    {
+      name: 'Wire_1',
+      type: 'Wire',
+      attributes: {
+        delay_dist: 0.1,
+        wire_id: 3,
+        debug: true,
+      },
+    },
+    {
+      name: 'Wire_2',
+      type: 'Wire',
+      attributes: {
+        delay_dist: 0.1,
+        wire_id: 4,
+        debug: true,
+      },
+    },
+    {
+      name: 'PacketSink_1',
+      type: 'PacketSink',
+      attributes: {
+        rec_arrivals: true,
+        absolute_arrivals: true,
+        rec_waits: true,
+        rec_flow_ids: false,
+        debug: true,
+      },
+    },
+  ],
+  connections: [
+    {
+      from: {
+        name: 'DPG_1',
+      },
+      to: {
+        name: 'Wire_1',
+      },
+    },
+    {
+      from: {
+        name: 'DPG_2',
+      },
+      to: {
+        name: 'Wire_2',
+      },
+    },
+    {
+      from: {
+        name: 'Wire_1',
+      },
+      to: {
+        name: 'PacketSink_1',
+      },
+    },
+    {
+      from: {
+        name: 'Wire_2',
+      },
+      to: {
+        name: 'PacketSink_1',
+      },
+    },
+  ],
+  display_data: [
+    {
+      name: 'PacketSink_1',
+      informations: ['waits', 'arrivals'],
+    },
+  ],
+};
 
 const GraphPanel = ({ setCurrentComponent, elements, setElements }) => {
   const reactFlowWrapper = useRef(null);
   const [reactFlowInstance, setReactFlowInstance] = useState(null);
+  const [canRun, setCanRun] = useState(false);
 
   const onElementClick = (event, element) => {
     if (element.data.type !== 'Start') {
@@ -76,6 +174,20 @@ const GraphPanel = ({ setCurrentComponent, elements, setElements }) => {
   const onEdgeUpdate = (oldEdge, newConnection) =>
     setElements((els) => updateEdge(oldEdge, newConnection, els));
 
+  useEffect(() => {
+    (window as any).electron.ipcRenderer.on('reply', (data: any) => {
+      console.log('received', data);
+    });
+  }, []);
+
+  const submitData = () => {
+    (window as any).electron.ipcRenderer.send('run', {
+      dpgOut: '',
+      wireOut: '',
+      parameters,
+      jsonData: data,
+    });
+  };
   return (
     <div ref={reactFlowWrapper} style={{ flexGrow: 1 }}>
       <Button
@@ -88,6 +200,8 @@ const GraphPanel = ({ setCurrentComponent, elements, setElements }) => {
           right: 0,
           top: 0,
         }}
+        onClick={submitData}
+        disabled={!canRun}
       >
         Run
       </Button>

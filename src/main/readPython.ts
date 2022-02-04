@@ -16,18 +16,15 @@ ipcMain.on('run', async (event, args) => {
     console.log('Print json data of the network:');
     console.log(jsonData);
 
-
     let options = {
       pythonOptions: ['-u'],
-      args: [jsonData]
+      args: [jsonData],
     };
 
-
-    PythonShell.run('generator.py', options , (err, results) => {
+    PythonShell.run('generator.py', options, (err, results) => {
       if (err) throw err;
       event.reply('reply', results);
-    })
-
+    });
   } else {
     const pyScript = scriptBuilder(args);
     console.log(pyScript);

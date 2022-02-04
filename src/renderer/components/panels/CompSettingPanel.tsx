@@ -85,6 +85,7 @@ const CompSettingPanel = ({
               Object.keys(currentComponent.data.configs ?? {})?.map((key) => {
                 return (
                   <CustomTextField
+                    key={key}
                     comp={key}
                     currentComponent={currentComponent}
                   />

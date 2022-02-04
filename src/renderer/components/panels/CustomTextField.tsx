@@ -13,11 +13,14 @@ const CustomTextField = ({ comp, currentComponent }) => {
 
   return (
     <Grid item xs={12}>
-      <Tooltip title={settings[currentComponent.data.type][comp]['helperText']}>
-        <Controller
-          name={comp}
-          control={control}
-          render={({ field }) => (
+      {console.log(settings[currentComponent.data.type][comp]['helperText'])}
+      <Controller
+        name={comp}
+        control={control}
+        render={({ field }) => (
+          <Tooltip
+            title={settings[currentComponent.data.type][comp]['helperText']}
+          >
             <TextField
               type={
                 settings[currentComponent.data.type][comp]['type'] ?? 'text'
@@ -30,9 +33,9 @@ const CustomTextField = ({ comp, currentComponent }) => {
               required
               {...field}
             />
-          )}
-        />
-      </Tooltip>
+          </Tooltip>
+        )}
+      />
     </Grid>
   );
 };
