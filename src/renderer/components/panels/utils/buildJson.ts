@@ -44,9 +44,7 @@ const buildJson = (elements) => {
     });
 
   elements
-    .filter(
-      (element) => !element?.source && displays.includes(element.data.type)
-    )
+    .filter((element) => !element?.source && element.data.type.includes('Sink'))
     .forEach((element) => {
       const pObj = {
         name: element.data.label.split(' ').join('_'),

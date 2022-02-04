@@ -41,7 +41,6 @@ export const settings = {
       helperText: 'the ID of this element.',
     },
     element_id: {
-      immutable: true,
       default: '',
       type: 'text',
       required: true,

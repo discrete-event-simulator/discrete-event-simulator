@@ -123,7 +123,7 @@ const GraphPanel = ({
   const [canRun, setCanRun] = useState(false);
 
   const onElementClick = (event, element) => {
-    if (element.data.type !== 'Start') {
+    if (element?.data?.type && element.data.type !== 'Start') {
       setCurrentComponent(element);
     }
   };
