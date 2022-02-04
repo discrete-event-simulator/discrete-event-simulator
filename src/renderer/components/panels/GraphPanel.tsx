@@ -32,6 +32,7 @@ const GraphPanel = ({ setCurrentComponent, elements, setElements }) => {
       if (elementsToRemove[0].data.type === 'Start') {
         return els;
       }
+      setCurrentComponent(null);
       return removeElements(elementsToRemove, els);
     });
 
