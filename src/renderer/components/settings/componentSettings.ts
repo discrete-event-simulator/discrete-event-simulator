@@ -68,7 +68,7 @@ export const settings = {
       helperText: 'Starts generation after an initial delay. Defaults to 0.',
     },
     finish: {
-      default: 0,
+      default: 10000000,
       type: 'float',
       required: true,
       helperText: 'Stops generation at the finish time. Defaults to infinite.',

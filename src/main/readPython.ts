@@ -15,7 +15,8 @@ ipcMain.on('run', async (event, args) => {
     const jsonData = jsonBuilder(args);
     console.log('Print json data of the network:');
     console.log(jsonData);
-
+    console.log('Print string json data of the network:');
+    console.log(JSON.stringify(jsonData));
     let options = {
       pythonOptions: ['-u'],
       args: [jsonData],
