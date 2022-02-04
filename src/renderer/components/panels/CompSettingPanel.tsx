@@ -48,23 +48,31 @@ const CompSettingPanel = ({
       <FormProvider {...methods}>
         <form
           onSubmit={methods.handleSubmit((data) => {
-            console.log('data', data);
             const finalData = {};
             Object.keys(data).forEach((element) => {
-              finalData[element] = data[element]
-                ? settings[currentComponent.data.type][element]['type'] ===
-                  'float'
-                  ? parseFloat(data[element])
-                  : settings[currentComponent.data.type][element]['type'] ===
-                    'int'
-                  ? parseInt(data[element])
-                  : settings[currentComponent.data.type][element]['type'] ===
-                    'boolean'
-                  ? data[element] === 'true'
-                  : data[element]
-                : settings[currentComponent.data.type][element]['default'];
+              if (element.includes('_id')) {
+                finalData[element] =
+                  settings[currentComponent.data.type][element]['type'] ===
+                  'int'
+                    ? parseInt(currentComponent.data.configs[element])
+                    : currentComponent.data.configs[element];
+              } else {
+                finalData[element] = data[element]
+                  ? settings[currentComponent.data.type][element]['type'] ===
+                    'float'
+                    ? parseFloat(data[element])
+                    : settings[currentComponent.data.type][element]['type'] ===
+                      'int'
+                    ? parseInt(data[element])
+                    : settings[currentComponent.data.type][element]['type'] ===
+                      'boolean'
+                    ? data[element] === 'true'
+                    : data[element]
+                  : settings[currentComponent.data.type][element]['default'];
+              }
             });
-            console.log(finalData);
+
+            console.log('finalData', finalData);
             setElements((els) =>
               els.map((el) => {
                 if (el.id === currentComponent.id) {

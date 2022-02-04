@@ -112,7 +112,12 @@ let data = {
   ],
 };
 
-const GraphPanel = ({ setCurrentComponent, elements, setElements }) => {
+const GraphPanel = ({
+  setCurrentComponent,
+  elements,
+  setElements,
+  initialElements,
+}) => {
   const reactFlowWrapper = useRef(null);
   const [reactFlowInstance, setReactFlowInstance] = useState(null);
   const [canRun, setCanRun] = useState(false);
@@ -157,7 +162,13 @@ const GraphPanel = ({ setCurrentComponent, elements, setElements }) => {
     const id = getId();
     const configs = {};
     Object.keys(settings[`${name}`] ?? {}).forEach((key) => {
-      configs[key] = settings[`${name}`][key]['default'];
+      if (key === 'wire_id') {
+        configs[key] = parseInt(id);
+      } else if (key === 'element_id') {
+        configs[key] = `flow${id}`;
+      } else {
+        configs[key] = settings[`${name}`][key]['default'];
+      }
     });
     const newNode = {
       id: id,
@@ -179,16 +190,21 @@ const GraphPanel = ({ setCurrentComponent, elements, setElements }) => {
     (window as any).electron.ipcRenderer.on('reply', (data: any) => {
       console.log('received', data);
     });
+    setElements(initialElements);
   }, []);
 
+  useEffect(() => {
+    setCanRun(elements.length > 1);
+  }, [elements]);
+
   const submitData = () => {
-    buildJson(elements);
+    const jsonData = buildJson(elements);
 
     (window as any).electron.ipcRenderer.send('run', {
       dpgOut: '',
       wireOut: '',
       parameters,
-      jsonData: data,
+      jsonData,
     });
   };
   return (

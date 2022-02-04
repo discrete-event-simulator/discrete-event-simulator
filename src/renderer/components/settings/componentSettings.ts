@@ -1,5 +1,13 @@
+export const displays = ['PacketSink'];
 export const settings = {
   Wire: {
+    wire_id: {
+      default: 0,
+      type: 'int',
+      required: true,
+      immutable: true,
+      helperText: 'the ID of this element.',
+    },
     delay_dist: {
       default: 0.1,
       type: 'float', // "text" for texts
@@ -7,6 +15,7 @@ export const settings = {
       helperText:
         'a no-parameter function that returns the successive propagation delays on this wire.',
     },
+    /*
     loss_dist: {
       default: 0.1,
       type: 'float',
@@ -14,10 +23,12 @@ export const settings = {
       helperText:
         'a function that takes one optional parameter, which is the packet ID, and returns the loss rate',
     },
+    */
   },
 
   DistPacketGenerator: {
     element_id: {
+      immutable: true,
       default: '',
       type: 'text',
       required: true,

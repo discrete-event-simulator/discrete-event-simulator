@@ -15,8 +15,16 @@ const useStyles = makeStyles((theme) => ({
     width: 50,
   },
 }));
-const networkComps = ['Wire', 'DistPacketGenerator', 'PacketSink', 'TCPPacketGenerator', 'TCPSink', 'SimplePacketSwitch',
-  'Flow', 'TCPCubic'];
+const networkComps = [
+  'Wire',
+  'DistPacketGenerator',
+  'PacketSink',
+  'TCPPacketGenerator',
+  'TCPSink',
+  'SimplePacketSwitch',
+  'Flow',
+  'TCPCubic',
+];
 const HomePage = () => {
   useEffect(() => {
     (window as any).electron.ipcRenderer.on(
@@ -34,11 +42,7 @@ const HomePage = () => {
       id: '1',
       type: 'input',
       data: {
-        label: (
-          <>
-            <strong>Start</strong>
-          </>
-        ),
+        label: 'Start',
         type: 'Start',
       },
       position: { x: 100, y: 100 },
@@ -121,6 +125,7 @@ const HomePage = () => {
                 }}
               >
                 <GraphPanel
+                  initialElements={initialElements}
                   setCurrentComponent={setCurrentComponent}
                   elements={elements}
                   setElements={setElements}

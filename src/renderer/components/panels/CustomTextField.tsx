@@ -31,6 +31,7 @@ const CustomTextField = ({ comp, currentComponent }) => {
               fullWidth
               required
               {...field}
+              disabled={settings[currentComponent.data.type][comp]['immutable']}
             />
           </Tooltip>
         )}
