@@ -15,6 +15,12 @@ export const settings = {
       helperText:
         'a no-parameter function that returns the successive propagation delays on this wire.',
     },
+    debug: {
+      default: true,
+      type: 'boolean',
+      required: true,
+      helperText: 'If True, prints more verbose debug information.',
+    },
     /*
     loss_dist: {
       default: 0.1,
@@ -27,6 +33,13 @@ export const settings = {
   },
 
   DistPacketGenerator: {
+    flow_id: {
+      default: 0,
+      type: 'int',
+      required: true,
+      immutable: true,
+      helperText: 'the ID of this element.',
+    },
     element_id: {
       immutable: true,
       default: '',
@@ -99,7 +112,7 @@ export const settings = {
         "otherwise, the 'src' field in the packets are used",
     },
     debug: {
-      default: false,
+      default: true,
       type: 'boolean',
       required: true,
       helperText: 'If True, prints more verbose debug information.',

@@ -61,7 +61,6 @@ const HomePage = () => {
       }}
       maxWidth={false}
     >
-      {console.log(elements)}
       <Drawer
         className={classes.drawer}
         variant="permanent"
