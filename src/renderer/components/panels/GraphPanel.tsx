@@ -9,6 +9,7 @@ import ReactFlow, {
   updateEdge,
 } from 'react-flow-renderer';
 import { settings } from '../settings/componentSettings';
+import { Button, Snackbar } from '@mui/material';
 
 let id = 2;
 const getId = () => `${id++}`;
@@ -27,7 +28,13 @@ const GraphPanel = ({ setCurrentComponent, elements, setElements }) => {
     console.log('click pane');
   };
   const onElementsRemove = (elementsToRemove) =>
-    setElements((els) => removeElements(elementsToRemove, els));
+    setElements((els) => {
+      if (elementsToRemove[0].data.type === 'Start') {
+        return els;
+      }
+      return removeElements(elementsToRemove, els);
+    });
+
   const onConnect = (params) => setElements((els) => addEdge(params, els));
   const onLoad = (_reactFlowInstance) => {
     setReactFlowInstance(_reactFlowInstance);
@@ -70,6 +77,19 @@ const GraphPanel = ({ setCurrentComponent, elements, setElements }) => {
 
   return (
     <div ref={reactFlowWrapper} style={{ flexGrow: 1 }}>
+      <Button
+        variant="contained"
+        style={{
+          marginRight: 5,
+          marginTop: 5,
+          zIndex: 500,
+          position: 'absolute',
+          right: 0,
+          top: 0,
+        }}
+      >
+        Run
+      </Button>
       <ReactFlow
         elements={elements}
         onElementsRemove={onElementsRemove}

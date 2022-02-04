@@ -7,6 +7,7 @@ import {
   Controller,
   useFormContext,
 } from 'react-hook-form';
+import { removeElements } from 'react-flow-renderer';
 import CustomTextField from './CustomTextField';
 
 const CompSettingPanel = ({
@@ -16,6 +17,19 @@ const CompSettingPanel = ({
 }) => {
   console.log(currentComponent);
   const methods = useForm();
+
+  const handleDelete = () => {
+    setElements((els) => {
+      const findComponent = els.filter((el) => {
+        return el.id === currentComponent.id;
+      });
+      if (findComponent.length > 0) {
+        setCurrentComponent(null);
+        return removeElements(findComponent, els);
+      }
+      return els;
+    });
+  };
   return currentComponent === null ? (
     <div></div>
   ) : (
@@ -41,11 +55,11 @@ const CompSettingPanel = ({
                   ? parseFloat(data[element])
                   : settings[currentComponent.data.type][element]['type'] ===
                     'int'
-                    ? parseInt(data[element])
-                    : settings[currentComponent.data.type][element]['type'] ===
-                      'boolean'
-                      ? (data[element] === "true")
-                      : data[element]
+                  ? parseInt(data[element])
+                  : settings[currentComponent.data.type][element]['type'] ===
+                    'boolean'
+                  ? data[element] === 'true'
+                  : data[element]
                 : settings[currentComponent.data.type][element]['default'];
             });
             console.log(finalData);
@@ -60,7 +74,7 @@ const CompSettingPanel = ({
             setCurrentComponent(null);
           })}
         >
-          <Grid container spacing={2} marginTop='4px'>
+          <Grid container spacing={2} marginTop="4px">
             <Grid item xs={12}>
               <Typography color="default" variant="subtitle1" component="h6">
                 {currentComponent.data.label}
@@ -76,10 +90,29 @@ const CompSettingPanel = ({
                   />
                 );
               })}
-            <Grid item xs={8}></Grid>
             {Object.keys(currentComponent.data.configs ?? {}).length !== 0 ? (
               <Grid item xs={4}>
-                <Button type="submit" color="success" variant="contained">
+                <Button
+                  fullWidth
+                  onClick={handleDelete}
+                  color="error"
+                  variant="contained"
+                >
+                  Delete
+                </Button>
+              </Grid>
+            ) : (
+              <div></div>
+            )}
+            <Grid item xs={4}></Grid>
+            {Object.keys(currentComponent.data.configs ?? {}).length !== 0 ? (
+              <Grid item xs={4}>
+                <Button
+                  fullWidth
+                  type="submit"
+                  color="success"
+                  variant="contained"
+                >
                   Save
                 </Button>
               </Grid>
