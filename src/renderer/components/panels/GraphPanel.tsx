@@ -10,6 +10,7 @@ import ReactFlow, {
 } from 'react-flow-renderer';
 import { settings } from '../settings/componentSettings';
 import { Button, Snackbar } from '@mui/material';
+import buildJson from './utils/buildJson';
 
 let id = 2;
 const getId = () => `${id++}`;
@@ -181,6 +182,8 @@ const GraphPanel = ({ setCurrentComponent, elements, setElements }) => {
   }, []);
 
   const submitData = () => {
+    buildJson(elements);
+
     (window as any).electron.ipcRenderer.send('run', {
       dpgOut: '',
       wireOut: '',

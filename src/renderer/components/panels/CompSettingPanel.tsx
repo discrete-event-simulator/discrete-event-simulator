@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Grid, Button, TextField, Typography, Tooltip } from '@mui/material';
+import { Grid, Button, TextField, Typography, MenuItem } from '@mui/material';
 import { settings } from '../settings/componentSettings';
 import {
   FormProvider,
@@ -9,6 +9,7 @@ import {
 } from 'react-hook-form';
 import { removeElements } from 'react-flow-renderer';
 import CustomTextField from './CustomTextField';
+import CustomSelectField from './CustomSelectField';
 
 const CompSettingPanel = ({
   currentComponent,
@@ -47,6 +48,7 @@ const CompSettingPanel = ({
       <FormProvider {...methods}>
         <form
           onSubmit={methods.handleSubmit((data) => {
+            console.log('data', data);
             const finalData = {};
             Object.keys(data).forEach((element) => {
               finalData[element] = data[element]
@@ -83,7 +85,20 @@ const CompSettingPanel = ({
 
             {currentComponent &&
               Object.keys(currentComponent.data.configs ?? {})?.map((key) => {
-                return (
+                return settings[currentComponent.data.type][key]['type'] ===
+                  'boolean' ? (
+                  <CustomSelectField
+                    key={key}
+                    comp={key}
+                    currentComponent={currentComponent}
+                    defaultValue={
+                      currentComponent.data.configs[key] ? 'true' : 'false'
+                    }
+                  >
+                    <MenuItem value={'true'}>True</MenuItem>
+                    <MenuItem value={'false'}>False</MenuItem>
+                  </CustomSelectField>
+                ) : (
                   <CustomTextField
                     key={key}
                     comp={key}

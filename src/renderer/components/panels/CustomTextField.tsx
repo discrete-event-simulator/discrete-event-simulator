@@ -13,7 +13,6 @@ const CustomTextField = ({ comp, currentComponent }) => {
 
   return (
     <Grid item xs={12}>
-      {console.log(settings[currentComponent.data.type][comp]['helperText'])}
       <Controller
         name={comp}
         control={control}
