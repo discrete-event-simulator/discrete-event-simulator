@@ -2,7 +2,6 @@ from mimetypes import common_types
 import sys
 import string
 import json
-
 jsonString = sys.argv[1]
 
 # x = json.loads(jsonString)
@@ -21,7 +20,35 @@ class CodeGenerator:
             "Wire": "from ns.port.wire import Wire",
             "PacketSink": "from ns.packet.sink import PacketSink",
             "Splitter": "from ns.utils.splitter import Splitter",
-            "SimplePacketSwitch": "from ns.switch.switch import SimplePacketSwitch"
+            "SimplePacketSwitch": "from ns.switch.switch import SimplePacketSwitch",
+            "Packet": "from ns.packet.packet import Packet",
+            "TracePacketGenerator": "from ns.packet.trace_generator import TracePacketGenerator",
+            "TCPPacketGenerator": "from ns.packet.tcp_generator import TCPPacketGenerator",
+            "ProxyPacketGenerator": "from ns.packet.proxy_generator import ProxyPacketGenerator",
+            "TCPSink": "from ns.packet.tcp_sink import TCPSink",
+            "ProxySink": "from ns.packet.proxy_sink import ProxySink",
+            "Port": "from ns.port.port import Port",
+            "REDPort": "from ns.port.red_port import REDPort",
+            "NWaySplitter": "from ns.utils.splitter import NWaySplitter",
+            "TrTCM": "from ns.utils.misc import TrTCM",
+            "RandomDemux": "from ns.demux.random_demux import RandomDemux",
+            "FlowDemux": "from ns.demux.flow_demux import FlowDemux",
+            "FIBDemux": "from ns.demux.fib_demux import FIBDemux",
+            "TokenBucketShaper": "from ns.shaper.token_bucket import TokenBucketShaper",
+            "TwoRateTokenBucketShaper": "from ns.shaper.two_rate_token_bucket import TwoRateTokenBucketShaper",
+            "SPServer": "from ns.scheduler.sp import SPServer",
+            "WFQServer": "from ns.scheduler.wfq import WFQServer",
+            "DRRServer": "from ns.scheduler.drr import DRRServer",
+            "VirtualClockServer": "from ns.scheduler.virtual_clock import VirtualClockServer",
+            "SimplePacketSwitch": "from ns.switch.switch import SimplePacketSwitch",
+            "FairPacketSwitch": "from ns.switch.switch import FairPacketSwitch",
+            "PortMonitor": "from ns.port.monitor import PortMonitor",
+            "ServerMonitor": "from ns.scheduler.monitor import ServerMonitor",
+            "Flow": "from ns.flow.flow import Flow",
+            "TCPCubic": "from ns.flow.cubic import TCPCubic",
+            "CongestionControl": "from ns.flow.cc import CongestionControl",
+            "TCPReno": "from ns.flow.cc import TCPReno",
+            "Timer": "from ns.utils.timer import Timer"
         }
         self.comp_dict = self.create_component_dict()
         self.connection_graph = self.create_component_connection_graph()
