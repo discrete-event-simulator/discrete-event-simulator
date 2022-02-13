@@ -34,9 +34,10 @@ const NetworkCompPanel = ({ networkComps }) => {
         flexDirection: 'column',
         flexGrow: 1,
         height: '100%',
+        marginRight: '16px',
       }}
     >
-      <Typography color="primary" variant="h6" style={{ marginTop: '16px' }}>
+      <Typography color="primary" variant="h6" style={{ marginTop: '16px', marginBottom: '16px' }}>
         List of Components
       </Typography>
       <div style={{ flexGrow: 1, color: 'black' }}>

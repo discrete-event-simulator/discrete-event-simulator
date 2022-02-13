@@ -21,10 +21,28 @@ const networkComps = [
   'PacketSink',
   'TCPPacketGenerator',
   'TCPSink',
-  'SimplePacketSwitch',
+  'PacketSwitch',
   'Flow',
+  'CongestionControl',
   'TCPCubic',
+  'Packet',
+  'ProxyPacketGenerator',
+  'ProxySink',
+  'TracePacketGenerator',
+  'Port',
+  'REDPort',
+  'DRRServer',
+  'ServerMonitor',
+  'SPServer',
+  'VirtualClockServer',
+  'WFQServer',
+  'TokenBucketShaper',
+  'TwoRateTokenBucketShaper',
+  'TrTCM',
+  'Splitter',
+  'Timer',
 ];
+
 const HomePage = () => {
   useEffect(() => {
     (window as any).electron.ipcRenderer.on(

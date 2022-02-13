@@ -40,6 +40,7 @@ const CompSettingPanel = ({
         flexDirection: 'column',
         flexGrow: 1,
         color: 'black',
+        marginRight: '16px',
       }}
     >
       <Typography color="primary" variant="h6" style={{ marginTop: '16px' }}>
@@ -63,11 +64,11 @@ const CompSettingPanel = ({
                     ? parseFloat(data[element])
                     : settings[currentComponent.data.type][element]['type'] ===
                       'int'
-                    ? parseInt(data[element])
-                    : settings[currentComponent.data.type][element]['type'] ===
-                      'boolean'
-                    ? data[element] === 'true'
-                    : data[element]
+                      ? parseInt(data[element])
+                      : settings[currentComponent.data.type][element]['type'] ===
+                        'boolean'
+                        ? data[element] === 'true'
+                        : data[element]
                   : settings[currentComponent.data.type][element]['default'];
               }
             });
