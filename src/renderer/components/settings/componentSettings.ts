@@ -1,4 +1,4 @@
-export const displays = ['PacketSink'];
+export const displays = ['PacketSink', 'ProxySink', 'TCPSink'];
 export const allComponents = [
   'Wire',
   'DistPacketGenerator',
@@ -94,7 +94,7 @@ export const settings = {
       immutable: true,
       helperText: 'The ID of flow that serves as the source.',
     },
-    element_ID: {
+    element_id: {
       default: '',
       type: 'text',
       required: true,
@@ -142,7 +142,7 @@ export const settings = {
       immutable: true,
       helperText: 'The ID of flow that serves as the source.',
     },
-    element_ID: {
+    element_id: {
       default: '',
       type: 'text',
       required: true,
@@ -219,7 +219,7 @@ export const settings = {
       required: true,
       helperText: 'The ID of flow that serves as the source.',
     },
-    element_ID: {
+    element_id: {
       default: '',
       type: 'text',
       required: true,
@@ -417,7 +417,7 @@ export const settings = {
   },
 
   ProxyPacketGenerator: {
-    element_ID: {
+    element_id: {
       default: '',
       type: 'text',
       required: true,
@@ -445,7 +445,7 @@ export const settings = {
   },
 
   ProxySink: {
-    element_ID: {
+    element_id: {
       default: '',
       type: 'text',
       required: true,
@@ -894,7 +894,7 @@ export const settings = {
       required: true,
       helperText: "the size of an outgoing port' bounded buffer, in packets",
     },
-    element_ID: {
+    element_id: {
       default: '',
       type: 'text',
       required: false,
