@@ -1,4 +1,58 @@
 export const displays = ['PacketSink'];
+export const allComponents = [
+  'Wire',
+  'DistPacketGenerator',
+  'PacketSink',
+  'TCPPacketGenerator',
+  'TCPSink',
+  'PacketSwitch',
+  'Flow',
+  'CongestionControl',
+  'TCPCubic',
+  'Packet',
+  'ProxyPacketGenerator',
+  'ProxySink',
+  'TracePacketGenerator',
+  'Port',
+  'REDPort',
+  'DRRServer',
+  'ServerMonitor',
+  'SPServer',
+  'VirtualClockServer',
+  'WFQServer',
+  'TokenBucketShaper',
+  'TwoRateTokenBucketShaper',
+  'TrTCM',
+  'Splitter',
+  'Timer',
+];
+export const whiteListComponents = [
+  'Wire',
+  'DistPacketGenerator',
+  'PacketSink',
+  'TCPPacketGenerator',
+  'TCPSink',
+  'PacketSwitch',
+  'Flow',
+  'CongestionControl',
+  'TCPCubic',
+  'Packet',
+  'ProxyPacketGenerator',
+  'ProxySink',
+  'TracePacketGenerator',
+  'Port',
+  'REDPort',
+  'DRRServer',
+  'ServerMonitor',
+  'SPServer',
+  'VirtualClockServer',
+  'WFQServer',
+  'TokenBucketShaper',
+  'TwoRateTokenBucketShaper',
+  'TrTCM',
+  'Splitter',
+  'Timer',
+];
 export const settings = {
   Wire: {
     wire_id: {
@@ -217,7 +271,8 @@ export const settings = {
     },
   },
 
-  Flow: { // pkt_gen, pkt_sink, path
+  Flow: {
+    // pkt_gen, pkt_sink, path
     fid: {
       default: 1,
       type: 'int',
@@ -366,7 +421,8 @@ export const settings = {
       default: '',
       type: 'text',
       required: true,
-      helperText: 'a string that serves as the ID of this element for debugging purposes',
+      helperText:
+        'a string that serves as the ID of this element for debugging purposes',
     },
     listen_port: {
       default: 3000,
@@ -393,19 +449,23 @@ export const settings = {
       default: '',
       type: 'text',
       required: true,
-      helperText: 'a string that serves as the ID of this element for debugging purposes',
+      helperText:
+        'a string that serves as the ID of this element for debugging purposes',
     },
-    destination_hostname: { // destination tuple
+    destination_hostname: {
+      // destination tuple
       default: '',
       type: 'text',
       required: true,
-      helperText: 'the hostname of the real-world destination server where packets should be relayed to',
+      helperText:
+        'the hostname of the real-world destination server where packets should be relayed to',
     },
     destination_port: {
       default: 0,
       type: 'int',
       required: true,
-      helperText: 'the port number of the real-world destination server where packets should be relayed to',
+      helperText:
+        'the port number of the real-world destination server where packets should be relayed to',
     },
     packet_size: {
       default: 40960,
@@ -423,19 +483,22 @@ export const settings = {
       default: true,
       type: 'boolean',
       required: true,
-      helperText: 'If True absolute `arrival times will be recorded, otherwise the time between consecutive arrivals is recorded.',
+      helperText:
+        'If True absolute `arrival times will be recorded, otherwise the time between consecutive arrivals is recorded.',
     },
     rec_waits: {
       default: true,
       type: 'boolean',
       required: true,
-      helperText: 'If True, the waiting times experienced by the packets are recorded.',
+      helperText:
+        'If True, the waiting times experienced by the packets are recorded.',
     },
     rec_flow_ids: {
       default: true,
       type: 'boolean',
       required: true,
-      helperText: "if True, the flow IDs that the packets are used as the index for recording; otherwise, the 'src' field in the packets are used",
+      helperText:
+        "if True, the flow IDs that the packets are used as the index for recording; otherwise, the 'src' field in the packets are used",
     },
     debug: {
       default: true,
@@ -458,29 +521,34 @@ export const settings = {
       required: true,
       helperText: 'the element id of this port',
     },
-    qlimit: { // can be None (no limit)
+    qlimit: {
+      // can be None (no limit)
       default: 10000000,
       type: 'int',
       required: true,
-      helperText: 'a queue limit in bytes or packets (including the packet in service), beyond which all packets will be dropped.',
+      helperText:
+        'a queue limit in bytes or packets (including the packet in service), beyond which all packets will be dropped.',
     },
     limit_bytes: {
       default: true,
       type: 'boolean',
       required: true,
-      helperText: 'If True, the queue limit will be based on bytes; if False, the queue limit will be based on packets.',
+      helperText:
+        'If True, the queue limit will be based on bytes; if False, the queue limit will be based on packets.',
     },
     zero_downstream_buffer: {
       default: true,
       type: 'boolean',
       required: true,
-      helperText: "If True, assume that the downstream element does not have any buffers, and backpressure is in effect so that all waiting packets queue up in this element's buffer.",
+      helperText:
+        "If True, assume that the downstream element does not have any buffers, and backpressure is in effect so that all waiting packets queue up in this element's buffer.",
     },
     absolute_arrivals: {
       default: true,
       type: 'boolean',
       required: true,
-      helperText: 'If True absolute `arrival times will be recorded, otherwise the time between consecutive arrivals is recorded.',
+      helperText:
+        'If True absolute `arrival times will be recorded, otherwise the time between consecutive arrivals is recorded.',
     },
     debug: {
       default: true,
@@ -503,33 +571,38 @@ export const settings = {
       required: true,
       helperText: 'the element id of this port',
     },
-    qlimit: { // can be None (no limit)
+    qlimit: {
+      // can be None (no limit)
       default: 10000000,
       type: 'int',
       required: true,
-      helperText: 'a queue limit in bytes or packets (including the packet in service), beyond which all packets will be dropped.',
+      helperText:
+        'a queue limit in bytes or packets (including the packet in service), beyond which all packets will be dropped.',
     },
     max_threshold: {
       default: 10000000,
       type: 'int',
       required: true,
-      helperText: 'The maximum (average) queue length threshold, beyond which packets will be dropped at the maximum probability.',
+      helperText:
+        'The maximum (average) queue length threshold, beyond which packets will be dropped at the maximum probability.',
     },
     min_threshold: {
       default: 1,
       type: 'int',
       required: true,
-      helperText: 'The minimum (average) queue length threshold to start dropping packets. This threshold should be set high enough to maximize the link utilization. ' + 
+      helperText:
+        'The minimum (average) queue length threshold to start dropping packets. This threshold should be set high enough to maximize the link utilization. ' +
         'If the minimum threshold is too low, packets may be dropped unnecessarily, and the transmission link will not be fully used.',
     },
     max_probability: {
       default: 1,
       type: 'float',
       required: true,
-      helperText: "The maximum probability (which is equivalent to 1 / mark probability denominator) " +
-        "is the fraction of packets dropped when the average queue length is at the " +
+      helperText:
+        'The maximum probability (which is equivalent to 1 / mark probability denominator) ' +
+        'is the fraction of packets dropped when the average queue length is at the ' +
         "maximum threshold, which is 'max_threshold'. The rate of packet drop increases " +
-        "linearly as the average queue length increases, until the average queue length " +
+        'linearly as the average queue length increases, until the average queue length ' +
         "reaches the maximum threshold, 'max_threshold'. All packets will be dropped when " +
         "'qlimit' is exceeded.",
     },
@@ -537,26 +610,30 @@ export const settings = {
       default: 9,
       type: 'float',
       required: true,
-      helperText: "The exponential weight factor 'n' for computing the average queue size. " +
-        "average = (old_average * (1-1/2^n)) + (current_queue_size * 1/2^n)",
+      helperText:
+        "The exponential weight factor 'n' for computing the average queue size. " +
+        'average = (old_average * (1-1/2^n)) + (current_queue_size * 1/2^n)',
     },
     limit_bytes: {
       default: true,
       type: 'boolean',
       required: true,
-      helperText: 'If True, the queue limit will be based on bytes; if False, the queue limit will be based on packets.',
+      helperText:
+        'If True, the queue limit will be based on bytes; if False, the queue limit will be based on packets.',
     },
     zero_downstream_buffer: {
       default: true,
       type: 'boolean',
       required: true,
-      helperText: "If True, assume that the downstream element does not have any buffers, and backpressure is in effect so that all waiting packets queue up in this element's buffer.",
+      helperText:
+        "If True, assume that the downstream element does not have any buffers, and backpressure is in effect so that all waiting packets queue up in this element's buffer.",
     },
     absolute_arrivals: {
       default: true,
       type: 'boolean',
       required: true,
-      helperText: 'If True absolute `arrival times will be recorded, otherwise the time between consecutive arrivals is recorded.',
+      helperText:
+        'If True absolute `arrival times will be recorded, otherwise the time between consecutive arrivals is recorded.',
     },
     debug: {
       default: true,
@@ -566,7 +643,8 @@ export const settings = {
     },
   },
 
-  DRRServer: { // weights, flow_classes
+  DRRServer: {
+    // weights, flow_classes
     rate: {
       default: 0,
       type: 'float',
@@ -577,13 +655,15 @@ export const settings = {
       default: true,
       type: 'boolean',
       required: true,
-      helperText: 'Does this server have a zero-length buffer? This is useful when multiple basic elements need to be put together to construct a more complex element with a unified buffer.',
+      helperText:
+        'Does this server have a zero-length buffer? This is useful when multiple basic elements need to be put together to construct a more complex element with a unified buffer.',
     },
     zero_downstream_buffer: {
       default: true,
       type: 'boolean',
       required: true,
-      helperText: "Does this server's downstream element have a zero-length buffer? If so, packets may queue up in this element's own buffer rather than be forwarded to the next-hop element.",
+      helperText:
+        "Does this server's downstream element have a zero-length buffer? If so, packets may queue up in this element's own buffer rather than be forwarded to the next-hop element.",
     },
     debug: {
       default: true,
@@ -593,11 +673,12 @@ export const settings = {
     },
   },
 
-  ServerMonitor: { // server, dist, total_flows
+  ServerMonitor: {
+    // server, dist, total_flows
     /*
       To be compatible with this monitor, the scheduling server will need to implement three
       callback functions:
-      
+
       packet_in_service() -> Packet: returns the current packet being sent to the downstream node
       byte_size(flow_id) -> int: returns the queue length in bytes for a flow with a
       particular flow ID
@@ -605,15 +686,17 @@ export const settings = {
       flow with a particular flow ID
       all_flows -> list: returns a list containing all the flow IDs
     */
-      pkt_in_service_included: {
+    pkt_in_service_included: {
       default: true,
       type: 'boolean',
       required: true,
-      helperText: 'If True, monitor packets in service + in the queue; if False, only monitor packets in queue.',
+      helperText:
+        'If True, monitor packets in service + in the queue; if False, only monitor packets in queue.',
     },
   },
 
-  SPServer: { // priorities, flow_classes
+  SPServer: {
+    // priorities, flow_classes
     rate: {
       default: 0,
       type: 'float',
@@ -624,13 +707,15 @@ export const settings = {
       default: true,
       type: 'boolean',
       required: true,
-      helperText: 'Does this server have a zero-length buffer? This is useful when multiple basic elements need to be put together to construct a more complex element with a unified buffer.',
+      helperText:
+        'Does this server have a zero-length buffer? This is useful when multiple basic elements need to be put together to construct a more complex element with a unified buffer.',
     },
     zero_downstream_buffer: {
       default: true,
       type: 'boolean',
       required: true,
-      helperText: "Does this server's downstream element have a zero-length buffer? If so, packets may queue up in this element's own buffer rather than be forwarded to the next-hop element.",
+      helperText:
+        "Does this server's downstream element have a zero-length buffer? If so, packets may queue up in this element's own buffer rather than be forwarded to the next-hop element.",
     },
     debug: {
       default: true,
@@ -640,7 +725,8 @@ export const settings = {
     },
   },
 
-  VirtualClockServer: { // vticks, flow_classes
+  VirtualClockServer: {
+    // vticks, flow_classes
     rate: {
       default: 0,
       type: 'float',
@@ -651,13 +737,15 @@ export const settings = {
       default: true,
       type: 'boolean',
       required: true,
-      helperText: 'Does this server have a zero-length buffer? This is useful when multiple basic elements need to be put together to construct a more complex element with a unified buffer.',
+      helperText:
+        'Does this server have a zero-length buffer? This is useful when multiple basic elements need to be put together to construct a more complex element with a unified buffer.',
     },
     zero_downstream_buffer: {
       default: true,
       type: 'boolean',
       required: true,
-      helperText: "Does this server's downstream element have a zero-length buffer? If so, packets may queue up in this element's own buffer rather than be forwarded to the next-hop element.",
+      helperText:
+        "Does this server's downstream element have a zero-length buffer? If so, packets may queue up in this element's own buffer rather than be forwarded to the next-hop element.",
     },
     debug: {
       default: true,
@@ -667,7 +755,8 @@ export const settings = {
     },
   },
 
-  WFQServer: { // weights, flow_classes
+  WFQServer: {
+    // weights, flow_classes
     rate: {
       default: 0,
       type: 'float',
@@ -678,13 +767,15 @@ export const settings = {
       default: true,
       type: 'boolean',
       required: true,
-      helperText: 'Does this server have a zero-length buffer? This is useful when multiple basic elements need to be put together to construct a more complex element with a unified buffer.',
+      helperText:
+        'Does this server have a zero-length buffer? This is useful when multiple basic elements need to be put together to construct a more complex element with a unified buffer.',
     },
     zero_downstream_buffer: {
       default: true,
       type: 'boolean',
       required: true,
-      helperText: "Does this server's downstream element have a zero-length buffer? If so, packets may queue up in this element's own buffer rather than be forwarded to the next-hop element.",
+      helperText:
+        "Does this server's downstream element have a zero-length buffer? If so, packets may queue up in this element's own buffer rather than be forwarded to the next-hop element.",
     },
     debug: {
       default: true,
@@ -707,23 +798,27 @@ export const settings = {
       required: true,
       helperText: 'the token bucket size in bytes',
     },
-    peak: { // can be None (infinite peak sending rate)
+    peak: {
+      // can be None (infinite peak sending rate)
       default: 10000000,
       type: 'int',
       required: true,
-      helperText: 'the peak sending rate in bits of the buffer (quickest time two packets could be sent)',
+      helperText:
+        'the peak sending rate in bits of the buffer (quickest time two packets could be sent)',
     },
     zero_buffer: {
       default: true,
       type: 'boolean',
       required: true,
-      helperText: 'Does this server have a zero-length buffer? This is useful when multiple basic elements need to be put together to construct a more complex element with a unified buffer.',
+      helperText:
+        'Does this server have a zero-length buffer? This is useful when multiple basic elements need to be put together to construct a more complex element with a unified buffer.',
     },
     zero_downstream_buffer: {
       default: true,
       type: 'boolean',
       required: true,
-      helperText: "Does this server's downstream element have a zero-length buffer? If so, packets may queue up in this element's own buffer rather than be forwarded to the next-hop element.",
+      helperText:
+        "Does this server's downstream element have a zero-length buffer? If so, packets may queue up in this element's own buffer rather than be forwarded to the next-hop element.",
     },
     debug: {
       default: true,
@@ -762,13 +857,15 @@ export const settings = {
       default: true,
       type: 'boolean',
       required: true,
-      helperText: 'Does this server have a zero-length buffer? This is useful when multiple basic elements need to be put together to construct a more complex element with a unified buffer.',
+      helperText:
+        'Does this server have a zero-length buffer? This is useful when multiple basic elements need to be put together to construct a more complex element with a unified buffer.',
     },
     zero_downstream_buffer: {
       default: true,
       type: 'boolean',
       required: true,
-      helperText: "Does this server's downstream element have a zero-length buffer? If so, packets may queue up in this element's own buffer rather than be forwarded to the next-hop element.",
+      helperText:
+        "Does this server's downstream element have a zero-length buffer? If so, packets may queue up in this element's own buffer rather than be forwarded to the next-hop element.",
     },
     debug: {
       default: true,
@@ -816,7 +913,8 @@ export const settings = {
       default: 1,
       type: 'int',
       required: true,
-      helperText: 'the Peak Information Rate in units of bits (slighly different from RFC)',
+      helperText:
+        'the Peak Information Rate in units of bits (slighly different from RFC)',
     },
     pbs: {
       default: 1,
@@ -828,7 +926,7 @@ export const settings = {
       default: 1,
       type: 'int',
       required: true,
-      helperText: "the Committed Information Rate in units of bits",
+      helperText: 'the Committed Information Rate in units of bits',
     },
     cbs: {
       default: 1,
@@ -837,12 +935,14 @@ export const settings = {
     },
   },
 
-  Timer: { // timeout_callback
+  Timer: {
+    // timeout_callback
     timer_id: {
       default: 1,
       type: 'int',
       required: true,
-      helperText: 'The id of this timer, used as a parameter when the timeout callback function is called',
+      helperText:
+        'The id of this timer, used as a parameter when the timeout callback function is called',
     },
     timeout: {
       default: 1,

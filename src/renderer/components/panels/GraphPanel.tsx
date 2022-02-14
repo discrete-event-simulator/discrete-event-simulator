@@ -18,99 +18,6 @@ const parameters = {
   'PacketSink:test_newScript': true,
   'PacketSink:rec_arrivals': true,
 };
-let data = {
-  components: [
-    {
-      name: 'DPG_1',
-      type: 'DistPacketGenerator',
-      attributes: {
-        element_id: 'flow1',
-        arrival_dist: 1.5,
-        flow_id: 1,
-        size_dist: 100,
-      },
-    },
-    {
-      name: 'DPG_2',
-      type: 'DistPacketGenerator',
-      attributes: {
-        element_id: 'flow2',
-        arrival_dist: 1.5,
-        flow_id: 1,
-        size_dist: 200,
-      },
-    },
-    {
-      name: 'Wire_1',
-      type: 'Wire',
-      attributes: {
-        delay_dist: 0.1,
-        wire_id: 3,
-        debug: true,
-      },
-    },
-    {
-      name: 'Wire_2',
-      type: 'Wire',
-      attributes: {
-        delay_dist: 0.1,
-        wire_id: 4,
-        debug: true,
-      },
-    },
-    {
-      name: 'PacketSink_1',
-      type: 'PacketSink',
-      attributes: {
-        rec_arrivals: true,
-        absolute_arrivals: true,
-        rec_waits: true,
-        rec_flow_ids: false,
-        debug: true,
-      },
-    },
-  ],
-  connections: [
-    {
-      from: {
-        name: 'DPG_1',
-      },
-      to: {
-        name: 'Wire_1',
-      },
-    },
-    {
-      from: {
-        name: 'DPG_2',
-      },
-      to: {
-        name: 'Wire_2',
-      },
-    },
-    {
-      from: {
-        name: 'Wire_1',
-      },
-      to: {
-        name: 'PacketSink_1',
-      },
-    },
-    {
-      from: {
-        name: 'Wire_2',
-      },
-      to: {
-        name: 'PacketSink_1',
-      },
-    },
-  ],
-  display_data: [
-    {
-      name: 'PacketSink_1',
-      informations: ['waits', 'arrivals'],
-    },
-  ],
-};
 
 const GraphPanel = ({
   setCurrentComponent,
@@ -164,7 +71,7 @@ const GraphPanel = ({
     Object.keys(settings[`${name}`] ?? {}).forEach((key) => {
       if (key === 'wire_id' || key === 'flow_id') {
         configs[key] = parseInt(id);
-      } else if (key === 'element_id') {
+      } else if (key === 'element_id' || key === 'element_ID') {
         configs[key] = `flow${id}`;
       } else {
         configs[key] = settings[`${name}`][key]['default'];
