@@ -87,7 +87,7 @@ const GraphPanel = ({
         configs: configs,
       },
     };
-
+    setCurrentComponent(newNode);
     setElements((es) => es.concat(newNode));
   };
   const onEdgeUpdate = (oldEdge, newConnection) =>

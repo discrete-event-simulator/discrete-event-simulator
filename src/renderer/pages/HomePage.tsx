@@ -102,7 +102,7 @@ const HomePage = () => {
       return;
     }
     const offsetRight = e.clientX - 55;
-    const minWidth = 200;
+    const minWidth = 240;
     const maxWidth = 400;
 
     if (offsetRight > minWidth && offsetRight < maxWidth) {

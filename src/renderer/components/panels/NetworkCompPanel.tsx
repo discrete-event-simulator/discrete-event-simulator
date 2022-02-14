@@ -43,7 +43,7 @@ const NetworkCompPanel = () => {
           variant="h6"
           style={{ marginBottom: '16px' }}
         >
-          List of Components
+          Network Components
         </Typography>
         <div style={{ flexGrow: 1, color: 'black' }}>
           {whiteListComponents?.map((comp, index) => {
