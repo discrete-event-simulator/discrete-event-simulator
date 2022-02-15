@@ -104,7 +104,8 @@ const GraphPanel = ({
       setSimulationData(data);
     });
     setElements(initialElements);
-  }, [initialElements, setElements, setSimulationData]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   useEffect(() => {
     setCanRun(elements.length > 1);
