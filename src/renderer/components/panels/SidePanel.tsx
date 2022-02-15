@@ -1,8 +1,8 @@
-import React from 'react';
-import { List, ListItem, ListItemButton, ListItemIcon } from '@mui/material';
-import SettingsInputComponentIcon from '@mui/icons-material/SettingsInputComponent';
-import HistoryIcon from '@mui/icons-material/History';
 import CheckIcon from '@mui/icons-material/Check';
+import HistoryIcon from '@mui/icons-material/History';
+import SettingsInputComponentIcon from '@mui/icons-material/SettingsInputComponent';
+import { List, ListItem, ListItemButton, ListItemIcon } from '@mui/material';
+import React from 'react';
 
 const SidePanel = (props: any) => {
   const { panel, setPanel } = props;
@@ -37,7 +37,7 @@ const SidePanel = (props: any) => {
                 padding: '0px',
                 marginBottom: '8px',
               }}
-              selected={index == panel}
+              selected={index === panel}
               button
               key={index}
             >

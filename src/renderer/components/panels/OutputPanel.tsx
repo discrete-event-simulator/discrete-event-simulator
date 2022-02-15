@@ -37,7 +37,15 @@ const OutputPanel = () => {
   const mousemoveEvent = useCallback(
     (e) => {
       if (!isDragging.current) return;
-      setOffset((currentSize) => currentSize - e.movementY);
+      const minHeight = 200;
+      const maxHeight = 500;
+      setOffset((currentSize) => {
+        const newSize = currentSize - e.movementY;
+        if (newSize < maxHeight && newSize > minHeight) {
+          return newSize;
+        }
+        return currentSize;
+      });
     },
     [setOffset]
   );
@@ -49,6 +57,7 @@ const OutputPanel = () => {
   const classes = useStyles();
 
   const mouseupEvent = useCallback(() => {
+    console.log('Up');
     isDragging.current = false;
   }, [isDragging]);
 
@@ -60,7 +69,8 @@ const OutputPanel = () => {
       window.removeEventListener('mousemove', mousemoveEvent);
       window.removeEventListener('mouseup', mouseupEvent);
     };
-  }, [setOffset, mouseupEvent, mousemoveEvent]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   const handler = useCallback(() => {
     isDragging.current = true;
@@ -93,7 +103,9 @@ const OutputPanel = () => {
         }}
       >
         {simulationData &&
-          simulationData.map((data) => <div key={data}>{data}</div>)}
+          simulationData.map((data, index) => (
+            <div key={`${data}${index}`}>{data}</div>
+          ))}
       </div>
     </div>
   );

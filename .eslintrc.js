@@ -25,6 +25,7 @@ module.exports = {
     radix: 0,
     'react/jsx-props-no-spreading': 0,
     'no-plusplus': 0,
+    'react/no-array-index-key': 0,
   },
   parserOptions: {
     ecmaVersion: 2020,
