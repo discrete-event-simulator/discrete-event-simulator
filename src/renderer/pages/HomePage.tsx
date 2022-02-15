@@ -126,10 +126,8 @@ const HomePage = () => {
   const handleMouseup = (e) => {
     e.stopPropagation();
     resizing.current = false;
-    document.removeEventListener('mouseup', (event) => handleMouseup(event));
-    document.removeEventListener('mousemove', (event) =>
-      handleMousemove(event)
-    );
+    document.removeEventListener('mouseup', handleMouseup);
+    document.removeEventListener('mousemove', handleMousemove);
     setInterval(function () {
       window.dispatchEvent(new Event('resize'));
     }, 1);
@@ -138,8 +136,8 @@ const HomePage = () => {
     e.preventDefault();
     resizing.current = true;
 
-    document.addEventListener('mouseup', (event) => handleMouseup(event));
-    document.addEventListener('mousemove', (event) => handleMousemove(event));
+    document.addEventListener('mouseup', handleMouseup);
+    document.addEventListener('mousemove', handleMousemove);
   };
 
   const handleMousemove = (e) => {
