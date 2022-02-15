@@ -5,6 +5,7 @@ import NetworkCompPanel from 'renderer/components/panels/NetworkCompPanel';
 import CompSettingPanel from 'renderer/components/panels/CompSettingPanel';
 import GraphPanel from 'renderer/components/panels/GraphPanel';
 import SidePanel from 'renderer/components/panels/SidePanel';
+import EnvTest from 'renderer/components/envTest';
 import { makeStyles } from '@mui/styles';
 import DemoPage from './Demo';
 import TabPanel from '../components/panels/TabPanel';
@@ -232,6 +233,9 @@ const HomePage = () => {
       </TabPanel>
       <TabPanel value={panel} index={1}>
         <DemoPage />
+      </TabPanel>
+      <TabPanel value={panel} index={2}>
+        <EnvTest />
       </TabPanel>
     </Container>
   );
