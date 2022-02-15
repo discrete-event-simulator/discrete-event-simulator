@@ -9,7 +9,11 @@ import {
 } from '@mui/material';
 import { useEffect, useState } from 'react';
 
+import usePythonPath from './pythonPath';
+
 const EnvTestPage = () => {
+  const [pythonPath, setPythonPath] = usePythonPath();
+
   const [error, setError] = useState(null);
   const [result, setResult] = useState(null);
   const [version, setVersion] = useState(null);
@@ -23,8 +27,11 @@ const EnvTestPage = () => {
       setVersion(data.pythonVersion?.stdout);
       setResult(data.success);
       setLoading(false);
+      if (data.success) {
+        setPythonPath(pyPath);
+      }
     });
-  }, [setError, setResult, setLoading, setVersion]);
+  }, [setError, setResult, setLoading, setVersion, pyPath, setPythonPath]);
 
   const handleTest = () => {
     setLoading(true);
@@ -53,7 +60,7 @@ const EnvTestPage = () => {
           onChange={handleChangePath}
           label="python path (optional)"
           type="text"
-        ></TextField>
+        />
         <Button disabled={loading} onClick={handleTest}>
           {loading ? <CircularProgress /> : 'Test'}
         </Button>

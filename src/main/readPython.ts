@@ -4,6 +4,8 @@ import { Options, PythonShell } from 'python-shell';
 import jsonBuilder from './jsonBuilder';
 import scriptBuilder from './scriptBuilder';
 
+let userPythonPath = '';
+
 ipcMain.on('test', (event, args) => {
   console.log('received from renderer: ', args);
 
@@ -25,6 +27,8 @@ ipcMain.on('test', (event, args) => {
     }
 
     const pythonVersion = await PythonShell.getVersion();
+
+    userPythonPath = args.pythonPath; // stores user's python path in memory
 
     event.reply('reply:test', { err: errMsg, success: !err, pythonVersion });
   });
@@ -49,8 +53,9 @@ ipcMain.on('run', async (event, args) => {
       args: [jsonData],
     };
 
-    if (args.pythonPath) {
-      options.pythonPath = args.pythonPath;
+    if (args.pythonPath || userPythonPath) {
+      options.pythonPath = args.pythonPath || userPythonPath;
+      console.log('currently using python path:', options.pythonPath)
     }
 
     PythonShell.run('generator.py', options, (err, results) => {

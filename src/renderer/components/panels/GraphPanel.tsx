@@ -1,15 +1,18 @@
 // @ts-nocheck
-import React, { useState, useRef, useEffect } from 'react';
+import { Button, Snackbar } from '@mui/material';
+import React, { useContext, useEffect, useRef, useState } from 'react';
 import ReactFlow, {
-  removeElements,
   addEdge,
-  MiniMap,
-  Controls,
   Background,
+  Controls,
+  MiniMap,
+  removeElements,
   updateEdge,
 } from 'react-flow-renderer';
+import { AppContext } from 'renderer/pages/HomePage';
+
+import usePythonPath from '../envTest/pythonPath';
 import { settings } from '../settings/componentSettings';
-import { Button, Snackbar } from '@mui/material';
 import buildJson from './utils/buildJson';
 
 let id = 2;
@@ -25,6 +28,9 @@ const GraphPanel = ({
   setElements,
   initialElements,
 }) => {
+  const { setSimulationData } = useContext(AppContext);
+  const [pythonPath] = usePythonPath();
+
   const reactFlowWrapper = useRef(null);
   const [reactFlowInstance, setReactFlowInstance] = useState(null);
   const [canRun, setCanRun] = useState(false);
@@ -74,17 +80,17 @@ const GraphPanel = ({
       } else if (key === 'element_id') {
         configs[key] = `flow${id}`;
       } else {
-        configs[key] = settings[`${name}`][key]['default'];
+        configs[key] = settings[`${name}`][key].default;
       }
     });
     const newNode = {
-      id: id,
+      id,
       type,
       position,
       data: {
         label: `${name} ${id}`,
         type: `${name}`,
-        configs: configs,
+        configs,
       },
     };
     setCurrentComponent(newNode);
@@ -96,6 +102,7 @@ const GraphPanel = ({
   useEffect(() => {
     (window as any).electron.ipcRenderer.on('reply', (data: any) => {
       console.log('received', data);
+      setSimulationData(data);
     });
     setElements(initialElements);
   }, []);
@@ -112,6 +119,7 @@ const GraphPanel = ({
       wireOut: '',
       parameters,
       jsonData,
+      pythonPath,
     });
   };
   return (
@@ -141,8 +149,8 @@ const GraphPanel = ({
         onDrop={onDrop}
         onDragOver={onDragOver}
         onPaneClick={onPaneClick}
-        elementsSelectable={true}
-        snapToGrid={true}
+        elementsSelectable
+        snapToGrid
         snapGrid={[15, 15]}
       >
         <MiniMap

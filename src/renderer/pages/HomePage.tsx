@@ -1,17 +1,24 @@
-import { Container, Grid, Drawer } from '@mui/material';
-import React from 'react';
-import { useEffect, useState, useRef } from 'react';
-import NetworkCompPanel from 'renderer/components/panels/NetworkCompPanel';
+import { Container, Drawer, Grid } from '@mui/material';
+import { makeStyles } from '@mui/styles';
+import { Theme } from '@mui/system';
+import clsx from 'clsx';
+import React, { useEffect, useRef, useState } from 'react';
+import ReactFlow, { Controls, ReactFlowProvider } from 'react-flow-renderer';
+import EnvTest from 'renderer/components/envTest';
+import PythonPathLoader from 'renderer/components/envTest/pythonPath';
 import CompSettingPanel from 'renderer/components/panels/CompSettingPanel';
 import GraphPanel from 'renderer/components/panels/GraphPanel';
+import NetworkCompPanel from 'renderer/components/panels/NetworkCompPanel';
+import OutputPanel from 'renderer/components/panels/OutputPanel';
 import SidePanel from 'renderer/components/panels/SidePanel';
-import EnvTest from 'renderer/components/envTest';
-import { makeStyles } from '@mui/styles';
-import DemoPage from './Demo';
+
 import TabPanel from '../components/panels/TabPanel';
-import clsx from 'clsx';
-import { Theme } from '@mui/system';
-import ReactFlow, { ReactFlowProvider, Controls } from 'react-flow-renderer';
+import DemoPage from './Demo';
+
+export const AppContext = React.createContext({
+  simulationData: null,
+  setSimulationData: (output: string) => {},
+});
 
 const drawerWidth = 240;
 const useStyles = makeStyles((theme: Theme) => ({
@@ -53,6 +60,10 @@ const HomePage = () => {
       }
     );
   }, []);
+
+  // app contexts
+  const [simulationData, setSimulationData] = useState(null);
+
   const classes = useStyles();
   const resizing = useRef(false);
   const [panel, setPanel] = useState(0);
@@ -118,126 +129,134 @@ const HomePage = () => {
     }
   };
   return (
-    <Container
-      style={{
-        padding: '0px',
-        display: 'flex',
-        flexDirection: 'row',
-        overflow: 'hidden',
+    <AppContext.Provider
+      value={{
+        simulationData,
+        setSimulationData,
       }}
-      maxWidth={false}
     >
-      <Drawer
-        className={classes.drawer}
-        variant="permanent"
-        classes={{
-          paper: classes.drawer,
+      <Container
+        style={{
+          padding: '0px',
+          display: 'flex',
+          flexDirection: 'row',
+          overflow: 'hidden',
         }}
+        maxWidth={false}
       >
-        <SidePanel panel={panel} setPanel={setPanel} />
-      </Drawer>
-      <TabPanel
-        value={panel}
-        index={0}
-        style={{ display: 'flex', flexDirection: 'row' }}
-      >
-        <div style={{ display: 'flex', flexDirection: 'row' }}>
-          <ReactFlowProvider>
-            <Drawer
-              variant="permanent"
-              open
-              anchor={'left'}
-              classes={{
-                paper: classes.drawerPaper,
-              }}
-              PaperProps={{ style: drawerState.newSetWidth }}
-            >
-              <div
-                id="dragger"
-                onMouseDown={(event) => {
-                  handleMousedown(event);
+        <Drawer
+          className={classes.drawer}
+          variant="permanent"
+          classes={{
+            paper: classes.drawer,
+          }}
+        >
+          <SidePanel panel={panel} setPanel={setPanel} />
+        </Drawer>
+        <TabPanel
+          value={panel}
+          index={0}
+          style={{ display: 'flex', flexDirection: 'row' }}
+        >
+          <div style={{ display: 'flex', flexDirection: 'row' }}>
+            <ReactFlowProvider>
+              <Drawer
+                variant="permanent"
+                open
+                anchor="left"
+                classes={{
+                  paper: classes.drawerPaper,
                 }}
-                onMouseEnter={(event) => {
-                  setDrawerState((last) => {
-                    return {
-                      ...last,
-                      hovering: true,
-                    };
-                  });
-                }}
-                onMouseLeave={(event) => {
-                  setDrawerState((last) => {
-                    return {
-                      ...last,
-                      hovering: false,
-                    };
-                  });
-                }}
-                className={clsx(
-                  classes.dragger,
-                  drawerState.hovering ? classes.draggerHover : ''
-                )}
-              />
-              <TabPanel
-                value={currentComponent === null ? 0 : 1}
-                index={0}
-                style={{
-                  display: 'flex',
-                  flexGrow: 1,
-                  flexDirection: 'column',
-                  height: '100vh',
-                  maxWidth: '300px',
-                }}
+                PaperProps={{ style: drawerState.newSetWidth }}
               >
-                <NetworkCompPanel />
-              </TabPanel>
-              <TabPanel
-                value={currentComponent === null ? 0 : 1}
-                index={1}
-                style={{
-                  display: 'flex',
-                  flexGrow: 1,
-                  flexDirection: 'column',
-                  height: '100vh',
-                  maxWidth: '300px',
-                }}
-              >
-                <CompSettingPanel
-                  currentComponent={currentComponent}
-                  setElements={setElements}
-                  setCurrentComponent={setCurrentComponent}
+                <div
+                  id="dragger"
+                  onMouseDown={(event) => {
+                    handleMousedown(event);
+                  }}
+                  onMouseEnter={(event) => {
+                    setDrawerState((last) => {
+                      return {
+                        ...last,
+                        hovering: true,
+                      };
+                    });
+                  }}
+                  onMouseLeave={(event) => {
+                    setDrawerState((last) => {
+                      return {
+                        ...last,
+                        hovering: false,
+                      };
+                    });
+                  }}
+                  className={clsx(
+                    classes.dragger,
+                    drawerState.hovering ? classes.draggerHover : ''
+                  )}
                 />
-              </TabPanel>
-            </Drawer>
+                <TabPanel
+                  value={currentComponent === null ? 0 : 1}
+                  index={0}
+                  style={{
+                    display: 'flex',
+                    flexGrow: 1,
+                    flexDirection: 'column',
+                    height: '100vh',
+                    maxWidth: '300px',
+                  }}
+                >
+                  <NetworkCompPanel />
+                </TabPanel>
+                <TabPanel
+                  value={currentComponent === null ? 0 : 1}
+                  index={1}
+                  style={{
+                    display: 'flex',
+                    flexGrow: 1,
+                    flexDirection: 'column',
+                    height: '100vh',
+                    maxWidth: '300px',
+                  }}
+                >
+                  <CompSettingPanel
+                    currentComponent={currentComponent}
+                    setElements={setElements}
+                    setCurrentComponent={setCurrentComponent}
+                  />
+                </TabPanel>
+              </Drawer>
 
-            <Grid container spacing={2}>
-              <Grid
-                item
-                xs={12}
-                style={{
-                  display: 'flex',
-                  flexDirection: 'column',
-                  height: '100vh',
-                }}
-              >
-                <GraphPanel
-                  initialElements={initialElements}
-                  setCurrentComponent={setCurrentComponent}
-                  elements={elements}
-                  setElements={setElements}
-                />
+              <Grid container spacing={2}>
+                <Grid
+                  item
+                  xs={12}
+                  style={{
+                    display: 'flex',
+                    flexDirection: 'column',
+                    height: '100vh',
+                  }}
+                >
+                  <GraphPanel
+                    initialElements={initialElements}
+                    setCurrentComponent={setCurrentComponent}
+                    elements={elements}
+                    setElements={setElements}
+                  />
+                  <OutputPanel />
+                </Grid>
               </Grid>
-            </Grid>
-          </ReactFlowProvider>
-        </div>
-      </TabPanel>
-      <TabPanel value={panel} index={1}>
-        <DemoPage />
-      </TabPanel>
-      <TabPanel value={panel} index={2}>
-        <EnvTest />
-      </TabPanel>
-    </Container>
+            </ReactFlowProvider>
+          </div>
+        </TabPanel>
+        <TabPanel value={panel} index={1}>
+          <DemoPage />
+        </TabPanel>
+        <TabPanel value={panel} index={2}>
+          <EnvTest />
+        </TabPanel>
+      </Container>
+    </AppContext.Provider>
   );
 };
 
