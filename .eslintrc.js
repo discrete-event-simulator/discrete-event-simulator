@@ -17,7 +17,7 @@ module.exports = {
     'simple-import-sort/imports': 'error',
     'simple-import-sort/exports': 'error',
     'react/prop-types': 0,
-    'operator-linebreak': ['error', 'after'],
+    'operator-linebreak': 0,
     'no-unused-vars': 1,
     'guard-for-in': 0,
     'jsx-a11y/no-static-element-interactions': 0,

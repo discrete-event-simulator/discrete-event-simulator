@@ -1,7 +1,7 @@
 /* eslint-disable jsx-a11y/control-has-associated-label */
 import { makeStyles } from '@material-ui/core';
 import { DragHandle } from '@mui/icons-material';
-import { SvgIcon } from '@mui/material';
+import { SvgIcon, Typography } from '@mui/material';
 import { useCallback, useContext, useEffect, useRef, useState } from 'react';
 import { AppContext } from 'renderer/pages/HomePage';
 
@@ -105,7 +105,7 @@ const OutputPanel = () => {
       >
         {simulationData &&
           simulationData.map((data, index) => (
-            <div key={`${data}${index}`}>{data}</div>
+            <Typography key={`${data}${index}`}>{data}</Typography>
           ))}
       </div>
     </div>

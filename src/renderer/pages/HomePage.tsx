@@ -1,6 +1,13 @@
 import { DragHandle } from '@mui/icons-material';
 import TerminalIcon from '@mui/icons-material/Terminal';
-import { Container, Drawer, Grid, IconButton, SvgIcon } from '@mui/material';
+import {
+  Collapse,
+  Container,
+  Drawer,
+  Grid,
+  IconButton,
+  SvgIcon,
+} from '@mui/material';
 import { makeStyles } from '@mui/styles';
 import { flexbox, Theme } from '@mui/system';
 import clsx from 'clsx';
@@ -24,6 +31,12 @@ export const AppContext = React.createContext({
 
 const drawerWidth = 240;
 const useStyles = makeStyles((theme: Theme) => ({
+  outpanelOpen: {
+    display: 'flex',
+  },
+  outpanelClose: {
+    display: 'none',
+  },
   drawer: {
     background: '#E4E4E4',
     display: 'flex',
@@ -76,6 +89,13 @@ const HomePage = () => {
 
   // app contexts
   const [simulationData, setSimulationData] = useState(null);
+  const [outputPanelOpen, setOutputPanelOpen] = useState(false);
+
+  useEffect(() => {
+    if (simulationData) {
+      setOutputPanelOpen(true);
+    }
+  }, [simulationData]);
 
   const classes = useStyles();
   const resizing = useRef(false);
@@ -298,7 +318,15 @@ const HomePage = () => {
                       elements={elements}
                       setElements={setElements}
                     />
-                    <OutputPanel />
+                    <div
+                      className={
+                        outputPanelOpen
+                          ? classes.outpanelOpen
+                          : classes.outpanelClose
+                      }
+                    >
+                      <OutputPanel />
+                    </div>
                   </Grid>
                 </Grid>
               </ReactFlowProvider>
@@ -314,6 +342,7 @@ const HomePage = () => {
                   padding: '2px 15px',
                   color: 'white',
                 }}
+                onClick={() => setOutputPanelOpen(!outputPanelOpen)}
               >
                 <TerminalIcon style={{ width: '15px', height: '15px' }} />
               </IconButton>
