@@ -1,5 +1,4 @@
-// @ts-nocheck
-import { Button, Snackbar } from '@mui/material';
+import { Button } from '@mui/material';
 import React, { useContext, useEffect, useRef, useState } from 'react';
 import ReactFlow, {
   addEdge,
@@ -72,23 +71,23 @@ const GraphPanel = ({
       x: event.clientX - reactFlowBounds.left,
       y: event.clientY - reactFlowBounds.top,
     });
-    const id = getId();
+    const elementId = getId();
     const configs = {};
     Object.keys(settings[`${name}`] ?? {}).forEach((key) => {
       if (key === 'wire_id' || key === 'flow_id') {
-        configs[key] = parseInt(id);
+        configs[key] = parseInt(elementId);
       } else if (key === 'element_id') {
-        configs[key] = `flow${id}`;
+        configs[key] = `flow${elementId}`;
       } else {
         configs[key] = settings[`${name}`][key].default;
       }
     });
     const newNode = {
-      id,
+      id: elementId,
       type,
       position,
       data: {
-        label: `${name} ${id}`,
+        label: `${name} ${elementId}`,
         type: `${name}`,
         configs,
       },
@@ -105,7 +104,7 @@ const GraphPanel = ({
       setSimulationData(data);
     });
     setElements(initialElements);
-  }, []);
+  }, [initialElements, setElements, setSimulationData]);
 
   useEffect(() => {
     setCanRun(elements.length > 1);
@@ -155,7 +154,7 @@ const GraphPanel = ({
       >
         <MiniMap
           nodeStrokeColor={(n) => {
-            if (n.style?.background) return n.style.background;
+            if (n.style?.background) return `${n.style.background}`;
             if (n.type === 'input') return '#0041d0';
             if (n.type === 'output') return '#ff0072';
             if (n.type === 'default') return '#1a192b';
@@ -163,7 +162,7 @@ const GraphPanel = ({
             return '#eee';
           }}
           nodeColor={(n) => {
-            if (n.style?.background) return n.style.background;
+            if (n.style?.background) return `${n.style.background}`;
 
             return '#fff';
           }}

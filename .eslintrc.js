@@ -20,6 +20,11 @@ module.exports = {
     'operator-linebreak': ['error', 'after'],
     'no-unused-vars': 1,
     'guard-for-in': 0,
+    'jsx-a11y/no-static-element-interactions': 0,
+    '@typescript-eslint/ban-ts-comment': 0,
+    radix: 0,
+    'react/jsx-props-no-spreading': 0,
+    'no-plusplus': 0,
   },
   parserOptions: {
     ecmaVersion: 2020,

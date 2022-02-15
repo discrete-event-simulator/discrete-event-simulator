@@ -1,13 +1,13 @@
-import { FormControl, InputLabel, Select, Tooltip, Grid } from '@mui/material';
+import { FormControl, Grid, InputLabel, Select, Tooltip } from '@mui/material';
+import {
+  Controller,
+  FormProvider,
+  useForm,
+  useFormContext,
+} from 'react-hook-form';
 
 import { settings } from '../settings/componentSettings';
 
-import {
-  FormProvider,
-  useForm,
-  Controller,
-  useFormContext,
-} from 'react-hook-form';
 const CustomSelectField = ({
   defaultValue,
   comp,
@@ -15,7 +15,7 @@ const CustomSelectField = ({
   children,
   ...props
 }) => {
-  const labelId = `${name}-label`;
+  const labelId = `${comp}-label`;
   const { control } = useFormContext();
   return (
     <Grid item xs={12}>

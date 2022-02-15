@@ -93,8 +93,10 @@ const HomePage = () => {
   const handleMouseup = (e) => {
     e.stopPropagation();
     resizing.current = false;
-    document.removeEventListener('mouseup', (e) => handleMouseup(e));
-    document.removeEventListener('mousemove', (e) => handleMousemove(e));
+    document.removeEventListener('mouseup', (event) => handleMouseup(event));
+    document.removeEventListener('mousemove', (event) =>
+      handleMousemove(event)
+    );
     setInterval(function () {
       window.dispatchEvent(new Event('resize'));
     }, 1);
@@ -103,8 +105,8 @@ const HomePage = () => {
     e.preventDefault();
     resizing.current = true;
 
-    document.addEventListener('mouseup', (e) => handleMouseup(e));
-    document.addEventListener('mousemove', (e) => handleMousemove(e));
+    document.addEventListener('mouseup', (event) => handleMouseup(event));
+    document.addEventListener('mousemove', (event) => handleMousemove(event));
   };
 
   const handleMousemove = (e) => {
@@ -234,7 +236,6 @@ const HomePage = () => {
                   style={{
                     display: 'flex',
                     flexDirection: 'column',
-                    height: '100vh',
                   }}
                 >
                   <GraphPanel

@@ -1,15 +1,16 @@
+import { Button, Grid, MenuItem, TextField, Typography } from '@mui/material';
 import React, { Component } from 'react';
-import { Grid, Button, TextField, Typography, MenuItem } from '@mui/material';
-import { settings } from '../settings/componentSettings';
+import { removeElements } from 'react-flow-renderer';
 import {
+  Controller,
   FormProvider,
   useForm,
-  Controller,
   useFormContext,
 } from 'react-hook-form';
-import { removeElements } from 'react-flow-renderer';
-import CustomTextField from './CustomTextField';
+
+import { settings } from '../settings/componentSettings';
 import CustomSelectField from './CustomSelectField';
+import CustomTextField from './CustomTextField';
 
 const CompSettingPanel = ({
   currentComponent,
@@ -32,7 +33,7 @@ const CompSettingPanel = ({
     });
   };
   return currentComponent === null ? (
-    <div></div>
+    <div />
   ) : (
     <div
       style={{
@@ -61,25 +62,31 @@ const CompSettingPanel = ({
               Object.keys(data).forEach((element) => {
                 if (element.includes('_id')) {
                   finalData[element] =
-                    settings[currentComponent.data.type][element]['type'] ===
-                    'int'
+                    settings[currentComponent.data.type][element].type === 'int'
                       ? parseInt(currentComponent.data.configs[element])
                       : currentComponent.data.configs[element];
+                } else if (data[element]) {
+                  if (
+                    settings[currentComponent.data.type][element].type ===
+                    'float'
+                  ) {
+                    finalData[element] = parseFloat(data[element]);
+                  } else if (
+                    settings[currentComponent.data.type][element].type === 'int'
+                  ) {
+                    finalData[element] = parseInt(data[element]);
+                  } else if (
+                    settings[currentComponent.data.type][element].type ===
+                    'boolean'
+                  ) {
+                    finalData[element] = data[element] === 'true';
+                  } else {
+                    finalData[element] =
+                      settings[currentComponent.data.type][element].default;
+                  }
                 } else {
-                  finalData[element] = data[element]
-                    ? settings[currentComponent.data.type][element]['type'] ===
-                      'float'
-                      ? parseFloat(data[element])
-                      : settings[currentComponent.data.type][element][
-                          'type'
-                        ] === 'int'
-                      ? parseInt(data[element])
-                      : settings[currentComponent.data.type][element][
-                          'type'
-                        ] === 'boolean'
-                      ? data[element] === 'true'
-                      : data[element]
-                    : settings[currentComponent.data.type][element]['default'];
+                  finalData[element] =
+                    settings[currentComponent.data.type][element].default;
                 }
               });
 
@@ -104,7 +111,7 @@ const CompSettingPanel = ({
 
               {currentComponent &&
                 Object.keys(currentComponent.data.configs ?? {})?.map((key) => {
-                  return settings[currentComponent.data.type][key]['type'] ===
+                  return settings[currentComponent.data.type][key].type ===
                     'boolean' ? (
                     <CustomSelectField
                       key={key}
@@ -114,8 +121,8 @@ const CompSettingPanel = ({
                         currentComponent.data.configs[key] ? 'true' : 'false'
                       }
                     >
-                      <MenuItem value={'true'}>True</MenuItem>
-                      <MenuItem value={'false'}>False</MenuItem>
+                      <MenuItem value="true">True</MenuItem>
+                      <MenuItem value="false">False</MenuItem>
                     </CustomSelectField>
                   ) : (
                     <CustomTextField
@@ -137,9 +144,9 @@ const CompSettingPanel = ({
                   </Button>
                 </Grid>
               ) : (
-                <div></div>
+                <div />
               )}
-              <Grid item xs={4}></Grid>
+              <Grid item xs={4} />
               {Object.keys(currentComponent.data.configs ?? {}).length !== 0 ? (
                 <Grid item xs={4}>
                   <Button
@@ -152,7 +159,7 @@ const CompSettingPanel = ({
                   </Button>
                 </Grid>
               ) : (
-                <div></div>
+                <div />
               )}
             </Grid>
           </form>
