@@ -82,7 +82,6 @@ const OutputPanel = () => {
       style={{
         width: '100%',
         height: offset,
-        background: 'black',
         position: 'relative',
       }}
     >
@@ -96,11 +95,12 @@ const OutputPanel = () => {
       </button>
       <div
         style={{
-          marginTop: '30px',
+          marginTop: '3px',
           padding: '8px',
+          backgroundColor: 'black',
           color: 'white',
           overflowY: 'scroll',
-          height: 'calc(100% - 50px)',
+          height: 'calc(100% - 19px)',
         }}
       >
         {simulationData &&
