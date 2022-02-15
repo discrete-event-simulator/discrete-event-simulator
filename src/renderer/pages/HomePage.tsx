@@ -1,4 +1,5 @@
-import { Container, Drawer, Grid } from '@mui/material';
+import { DragHandle } from '@mui/icons-material';
+import { Container, Drawer, Grid, SvgIcon } from '@mui/material';
 import { makeStyles } from '@mui/styles';
 import { Theme } from '@mui/system';
 import clsx from 'clsx';
@@ -42,12 +43,17 @@ const useStyles = makeStyles((theme: Theme) => ({
     right: 0,
     bottom: 0,
     zIndex: 100,
-    backgroundColor: '#f4f7f9',
+    backgroundColor: 'lightgray',
     opacity: 0.1,
     userSelect: 'none',
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'center',
+    transition: 'width 0.2s, opacity 0.2s',
   },
   draggerHover: {
-    opacity: 1,
+    opacity: 0.3,
+    width: '10px',
   },
 }));
 
@@ -196,10 +202,16 @@ const HomePage = () => {
                     classes.dragger,
                     drawerState.hovering ? classes.draggerHover : ''
                   )}
-                />
+                >
+                  <SvgIcon
+                    style={{ transform: 'rotate(90deg)' }}
+                    component={DragHandle}
+                  />
+                </div>
+
                 <TabPanel
                   value={currentComponent === null ? 0 : 1}
-                  index={0}
+                  index={1}
                   style={{
                     display: 'flex',
                     flexGrow: 1,
@@ -207,7 +219,34 @@ const HomePage = () => {
                     height: '100vh',
                     maxWidth: '300px',
                   }}
+                  PaperProps={{ style: drawerState.newSetWidth }}
                 >
+                  <div
+                    id="dragger"
+                    onMouseDown={(event) => {
+                      handleMousedown(event);
+                    }}
+                    onMouseEnter={(event) => {
+                      setDrawerState((last) => {
+                        return {
+                          ...last,
+                          hovering: true,
+                        };
+                      });
+                    }}
+                    onMouseLeave={(event) => {
+                      setDrawerState((last) => {
+                        return {
+                          ...last,
+                          hovering: false,
+                        };
+                      });
+                    }}
+                    className={clsx(
+                      classes.dragger,
+                      drawerState.hovering ? classes.draggerHover : ''
+                    )}
+                  />
                   <NetworkCompPanel />
                 </TabPanel>
                 <TabPanel
