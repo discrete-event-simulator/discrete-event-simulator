@@ -155,7 +155,11 @@ const HomePage = () => {
         >
           <SidePanel panel={panel} setPanel={setPanel} />
         </Drawer>
-        <TabPanel value={panel} index={0}>
+        <TabPanel
+          value={panel}
+          index={0}
+          style={{ display: 'flex', flexDirection: 'row' }}
+        >
           <div style={{ display: 'flex', flexDirection: 'row' }}>
             <ReactFlowProvider>
               <Drawer
