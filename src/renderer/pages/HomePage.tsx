@@ -1,7 +1,8 @@
 import { DragHandle } from '@mui/icons-material';
-import { Container, Drawer, Grid, SvgIcon } from '@mui/material';
+import TerminalIcon from '@mui/icons-material/Terminal';
+import { Container, Drawer, Grid, IconButton, SvgIcon } from '@mui/material';
 import { makeStyles } from '@mui/styles';
-import { Theme } from '@mui/system';
+import { flexbox, Theme } from '@mui/system';
 import clsx from 'clsx';
 import React, { useEffect, useRef, useState } from 'react';
 import ReactFlow, { Controls, ReactFlowProvider } from 'react-flow-renderer';
@@ -30,7 +31,6 @@ const useStyles = makeStyles((theme: Theme) => ({
   },
   drawerPaper: {
     width: drawerWidth,
-    height: '100vh',
     position: 'relative',
   },
   dragger: {
@@ -54,6 +54,13 @@ const useStyles = makeStyles((theme: Theme) => ({
   draggerHover: {
     opacity: 0.3,
     width: '10px',
+  },
+  bottomBar: {
+    display: 'flex',
+    flexDirection: 'column',
+    height: '15px',
+    width: '100%',
+    background: theme.palette.primary.main,
   },
 }));
 
@@ -161,63 +168,29 @@ const HomePage = () => {
         >
           <SidePanel panel={panel} setPanel={setPanel} />
         </Drawer>
-        <TabPanel
-          value={panel}
-          index={0}
-          style={{ display: 'flex', flexDirection: 'row' }}
-        >
-          <div style={{ display: 'flex', flexDirection: 'row' }}>
-            <ReactFlowProvider>
-              <Drawer
-                variant="permanent"
-                open
-                anchor="left"
-                classes={{
-                  paper: classes.drawerPaper,
-                }}
-                PaperProps={{ style: drawerState.newSetWidth }}
-              >
-                <div
-                  id="dragger"
-                  onMouseDown={(event) => {
-                    handleMousedown(event);
-                  }}
-                  onMouseEnter={(event) => {
-                    setDrawerState((last) => {
-                      return {
-                        ...last,
-                        hovering: true,
-                      };
-                    });
-                  }}
-                  onMouseLeave={(event) => {
-                    setDrawerState((last) => {
-                      return {
-                        ...last,
-                        hovering: false,
-                      };
-                    });
-                  }}
-                  className={clsx(
-                    classes.dragger,
-                    drawerState.hovering ? classes.draggerHover : ''
-                  )}
-                >
-                  <SvgIcon
-                    style={{ transform: 'rotate(90deg)' }}
-                    component={DragHandle}
-                  />
-                </div>
-
-                <TabPanel
-                  value={currentComponent === null ? 0 : 1}
-                  index={0}
-                  style={{
-                    display: 'flex',
-                    flexGrow: 1,
-                    flexDirection: 'column',
-                    height: '100vh',
-                    maxWidth: '300px',
+        <TabPanel value={panel} index={0}>
+          <div
+            style={{
+              display: 'flex',
+              flexDirection: 'column',
+              height: '100vh',
+            }}
+          >
+            <div
+              style={{
+                display: 'flex',
+                flexDirection: 'row',
+                flexGrow: 1,
+                height: 'calc(100% - 15px)',
+              }}
+            >
+              <ReactFlowProvider>
+                <Drawer
+                  variant="permanent"
+                  open
+                  anchor="left"
+                  classes={{
+                    paper: classes.drawerPaper,
                   }}
                   PaperProps={{ style: drawerState.newSetWidth }}
                 >
@@ -246,47 +219,105 @@ const HomePage = () => {
                       classes.dragger,
                       drawerState.hovering ? classes.draggerHover : ''
                     )}
-                  />
-                  <NetworkCompPanel />
-                </TabPanel>
-                <TabPanel
-                  value={currentComponent === null ? 0 : 1}
-                  index={1}
-                  style={{
-                    display: 'flex',
-                    flexGrow: 1,
-                    flexDirection: 'column',
-                    height: '100vh',
-                    maxWidth: '300px',
-                  }}
-                >
-                  <CompSettingPanel
-                    currentComponent={currentComponent}
-                    setElements={setElements}
-                    setCurrentComponent={setCurrentComponent}
-                  />
-                </TabPanel>
-              </Drawer>
+                  >
+                    <SvgIcon
+                      style={{ transform: 'rotate(90deg)' }}
+                      component={DragHandle}
+                    />
+                  </div>
 
-              <Grid container spacing={2}>
-                <Grid
-                  item
-                  xs={12}
-                  style={{
-                    display: 'flex',
-                    flexDirection: 'column',
-                  }}
-                >
-                  <GraphPanel
-                    initialElements={initialElements}
-                    setCurrentComponent={setCurrentComponent}
-                    elements={elements}
-                    setElements={setElements}
-                  />
-                  <OutputPanel />
+                  <TabPanel
+                    value={currentComponent === null ? 0 : 1}
+                    index={0}
+                    style={{
+                      display: 'flex',
+                      flexGrow: 1,
+                      flexDirection: 'column',
+                      maxWidth: '300px',
+                    }}
+                    PaperProps={{ style: drawerState.newSetWidth }}
+                  >
+                    <div
+                      id="dragger"
+                      onMouseDown={(event) => {
+                        handleMousedown(event);
+                      }}
+                      onMouseEnter={(event) => {
+                        setDrawerState((last) => {
+                          return {
+                            ...last,
+                            hovering: true,
+                          };
+                        });
+                      }}
+                      onMouseLeave={(event) => {
+                        setDrawerState((last) => {
+                          return {
+                            ...last,
+                            hovering: false,
+                          };
+                        });
+                      }}
+                      className={clsx(
+                        classes.dragger,
+                        drawerState.hovering ? classes.draggerHover : ''
+                      )}
+                    />
+                    <NetworkCompPanel />
+                  </TabPanel>
+                  <TabPanel
+                    value={currentComponent === null ? 0 : 1}
+                    index={1}
+                    style={{
+                      display: 'flex',
+                      flexGrow: 1,
+                      flexDirection: 'column',
+                      maxWidth: '300px',
+                    }}
+                  >
+                    <CompSettingPanel
+                      currentComponent={currentComponent}
+                      setElements={setElements}
+                      setCurrentComponent={setCurrentComponent}
+                    />
+                  </TabPanel>
+                </Drawer>
+
+                <Grid container spacing={2}>
+                  <Grid
+                    item
+                    xs={12}
+                    style={{
+                      display: 'flex',
+                      flexDirection: 'column',
+                    }}
+                  >
+                    <GraphPanel
+                      initialElements={initialElements}
+                      setCurrentComponent={setCurrentComponent}
+                      elements={elements}
+                      setElements={setElements}
+                    />
+                    <OutputPanel />
+                  </Grid>
                 </Grid>
-              </Grid>
-            </ReactFlowProvider>
+              </ReactFlowProvider>
+            </div>
+            <div className={classes.bottomBar}>
+              <div style={{ flexGrow: 1 }} />
+              <IconButton
+                disableRipple
+                style={{
+                  width: '15px',
+                  height: '15px',
+                  marginLeft: 'auto',
+                  padding: '2px 15px',
+                  color: 'white',
+                }}
+              >
+                <TerminalIcon style={{ width: '15px', height: '15px' }} />
+              </IconButton>
+            </div>
           </div>
         </TabPanel>
         <TabPanel value={panel} index={1}>

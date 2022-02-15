@@ -30,12 +30,13 @@ const useStyles = makeStyles(() => ({
 const OutputPanel = () => {
   const { simulationData } = useContext(AppContext);
 
-  const [offset, setOffset] = useState(400);
+  const [offset, setOffset] = useState(200);
   const ref = useRef<HTMLButtonElement>();
   const isDragging = useRef(false);
 
   const mousemoveEvent = useCallback(
     (e) => {
+      console.log('move');
       if (!isDragging.current) return;
       const minHeight = 200;
       const maxHeight = 500;
