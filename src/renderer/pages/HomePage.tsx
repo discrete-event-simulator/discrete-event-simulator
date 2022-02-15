@@ -1,17 +1,17 @@
-import { Container, Grid, Drawer } from '@mui/material';
-import React from 'react';
-import { useEffect, useState, useRef } from 'react';
-import NetworkCompPanel from 'renderer/components/panels/NetworkCompPanel';
+import { DragHandle } from '@mui/icons-material';
+import { Container, Drawer, Grid, SvgIcon } from '@mui/material';
+import { makeStyles } from '@mui/styles';
+import { Theme } from '@mui/system';
+import clsx from 'clsx';
+import React, { useEffect, useRef, useState } from 'react';
+import { ReactFlowProvider } from 'react-flow-renderer';
+import EnvTest from 'renderer/components/envTest';
 import CompSettingPanel from 'renderer/components/panels/CompSettingPanel';
 import GraphPanel from 'renderer/components/panels/GraphPanel';
+import NetworkCompPanel from 'renderer/components/panels/NetworkCompPanel';
 import SidePanel from 'renderer/components/panels/SidePanel';
-import EnvTest from 'renderer/components/envTest';
-import { makeStyles } from '@mui/styles';
-import DemoPage from './Demo';
 import TabPanel from '../components/panels/TabPanel';
-import clsx from 'clsx';
-import { Theme } from '@mui/system';
-import ReactFlow, { ReactFlowProvider, Controls } from 'react-flow-renderer';
+import DemoPage from './Demo';
 
 const drawerWidth = 240;
 const useStyles = makeStyles((theme: Theme) => ({
@@ -35,12 +35,17 @@ const useStyles = makeStyles((theme: Theme) => ({
     right: 0,
     bottom: 0,
     zIndex: 100,
-    backgroundColor: '#f4f7f9',
+    backgroundColor: 'lightgray',
     opacity: 0.1,
     userSelect: 'none',
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'center',
+    transition: 'width 0.2s, opacity 0.2s',
   },
   draggerHover: {
-    opacity: 1,
+    opacity: 0.3,
+    width: '10px',
   },
 }));
 
@@ -177,7 +182,10 @@ const HomePage = () => {
                   classes.dragger,
                   drawerState.hovering ? classes.draggerHover : ''
                 )}
-              />
+                  
+              >
+                <SvgIcon style={{ transform: 'rotate(90deg)'}} component={DragHandle}></SvgIcon>
+                </div>
               <TabPanel
                 value={currentComponent === null ? 0 : 1}
                 index={0}
