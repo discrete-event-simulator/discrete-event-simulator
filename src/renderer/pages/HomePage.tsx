@@ -45,6 +45,7 @@ const useStyles = makeStyles((theme: Theme) => ({
   drawerPaper: {
     width: drawerWidth,
     position: 'relative',
+    overflow: 'hidden',
   },
   dragger: {
     width: '3px',
