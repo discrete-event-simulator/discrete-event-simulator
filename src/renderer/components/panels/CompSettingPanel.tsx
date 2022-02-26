@@ -104,7 +104,7 @@ const CompSettingPanel = ({
           >
             <Grid container spacing={2} marginTop="4px">
               <Grid item xs={12}>
-                <Typography color="default" variant="subtitle1" component="h6">
+                <Typography color="primary" marginBottom='4px'>
                   {currentComponent.data.label}
                 </Typography>
               </Grid>

@@ -45,7 +45,7 @@ const NetworkCompPanel = () => {
         >
           Network Components
         </Typography>
-        <div style={{ flexGrow: 1, color: 'black' }}>
+        <div style={{ flexGrow: 1 }}>
           {whiteListComponents?.map((comp, index) => {
             return (
               <div

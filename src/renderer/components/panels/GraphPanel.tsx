@@ -170,7 +170,7 @@ const GraphPanel = ({
           nodeBorderRadius={2}
         />
         <Controls />
-        <Background color="#aaa" gap={16} />
+        <Background color="background" gap={16} />
       </ReactFlow>
     </div>
   );

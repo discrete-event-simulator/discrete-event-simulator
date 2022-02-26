@@ -38,7 +38,7 @@ const useStyles = makeStyles((theme: Theme) => ({
     display: 'none',
   },
   drawer: {
-    background: '#E4E4E4',
+    background: theme.palette.secondary.main,
     display: 'flex',
     width: 50,
   },
