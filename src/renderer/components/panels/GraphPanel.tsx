@@ -10,6 +10,9 @@ import ReactFlow, {
 } from 'react-flow-renderer';
 import { AppContext } from 'renderer/pages/HomePage';
 
+import { makeStyles } from '@mui/styles';
+import { Theme } from '@mui/system';
+
 import usePythonPath from '../envTest/pythonPath';
 import { settings } from '../settings/componentSettings';
 import buildJson from './utils/buildJson';
@@ -20,6 +23,12 @@ const parameters = {
   'PacketSink:test_newScript': true,
   'PacketSink:rec_arrivals': true,
 };
+
+const useStyles = makeStyles((theme: Theme) => ({
+  graphCanvas: {
+    background: theme.palette.background.paper,
+  },
+}));
 
 const GraphPanel = ({
   setCurrentComponent,
@@ -33,6 +42,8 @@ const GraphPanel = ({
   const reactFlowWrapper = useRef(null);
   const [reactFlowInstance, setReactFlowInstance] = useState(null);
   const [canRun, setCanRun] = useState(false);
+  
+  const classes = useStyles();
 
   const onElementClick = (event, element) => {
     if (element?.data?.type && element.data.type !== 'Start') {
@@ -140,6 +151,7 @@ const GraphPanel = ({
         Run
       </Button>
       <ReactFlow
+        className={classes.graphCanvas}
         elements={elements}
         onElementsRemove={onElementsRemove}
         onConnect={onConnect}
@@ -154,6 +166,7 @@ const GraphPanel = ({
         snapGrid={[15, 15]}
       >
         <MiniMap
+          className={classes.graphCanvas}
           nodeStrokeColor={(n) => {
             if (n.style?.background) return `${n.style.background}`;
             if (n.type === 'input') return '#0041d0';

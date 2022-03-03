@@ -9,7 +9,16 @@ import {
 } from '@mui/material';
 import { useEffect, useState } from 'react';
 
+import { makeStyles } from '@mui/styles';
+import { Theme } from '@mui/system';
+
 import usePythonPath from './pythonPath';
+
+const useStyles = makeStyles((theme: Theme) => ({
+  envCanvas: {
+    background: theme.palette.background.paper,
+  },
+}));
 
 const EnvTestPage = () => {
   const [pythonPath, setPythonPath] = usePythonPath();
@@ -19,6 +28,8 @@ const EnvTestPage = () => {
   const [version, setVersion] = useState(null);
   const [loading, setLoading] = useState(false);
   const [pyPath, setPyPath] = useState(null);
+
+  const classes = useStyles();
 
   useEffect(() => {
     (window as any).electron.ipcRenderer.on('reply:test', (data: any) => {
