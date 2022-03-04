@@ -1,4 +1,6 @@
 import { Button } from '@mui/material';
+import { makeStyles } from '@mui/styles';
+import { Theme } from '@mui/system';
 import React, { useContext, useEffect, useRef, useState } from 'react';
 import ReactFlow, {
   addEdge,
@@ -9,9 +11,6 @@ import ReactFlow, {
   updateEdge,
 } from 'react-flow-renderer';
 import { AppContext } from 'renderer/pages/HomePage';
-
-import { makeStyles } from '@mui/styles';
-import { Theme } from '@mui/system';
 
 import usePythonPath from '../envTest/pythonPath';
 import { settings } from '../settings/componentSettings';
@@ -35,6 +34,7 @@ const GraphPanel = ({
   elements,
   setElements,
   initialElements,
+  setSBState,
 }) => {
   const { setSimulationData } = useContext(AppContext);
   const [pythonPath] = usePythonPath();
@@ -42,7 +42,7 @@ const GraphPanel = ({
   const reactFlowWrapper = useRef(null);
   const [reactFlowInstance, setReactFlowInstance] = useState(null);
   const [canRun, setCanRun] = useState(false);
-  
+
   const classes = useStyles();
 
   const onElementClick = (event, element) => {
@@ -54,16 +54,33 @@ const GraphPanel = ({
     setCurrentComponent(null);
     console.log('click pane');
   };
+
   const onElementsRemove = (elementsToRemove) =>
     setElements((els) => {
-      if (elementsToRemove[0].data.type === 'Start') {
+      if (elementsToRemove[0]?.data?.type === 'Start') {
         return els;
       }
+
       setCurrentComponent(null);
+      console.log(elementsToRemove);
       return removeElements(elementsToRemove, els);
     });
 
-  const onConnect = (params) => setElements((els) => addEdge(params, els));
+  const onConnect = (params) => {
+    const limit = 1;
+    if (
+      elements.filter((els) => els?.source === params.source).length >= limit
+    ) {
+      setSBState({
+        open: true,
+        message: `Only ${limit} connection${limit > 1 ? 's' : ''} allowed`,
+      });
+      return;
+    }
+
+    setElements((els) => addEdge(params, els));
+  };
+
   const onLoad = (_reactFlowInstance) => {
     setReactFlowInstance(_reactFlowInstance);
     _reactFlowInstance.fitView();

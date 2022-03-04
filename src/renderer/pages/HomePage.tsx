@@ -6,6 +6,8 @@ import {
   Drawer,
   Grid,
   IconButton,
+  Snackbar,
+  SnackbarContent,
   SvgIcon,
 } from '@mui/material';
 import { makeStyles } from '@mui/styles';
@@ -78,10 +80,11 @@ const useStyles = makeStyles((theme: Theme) => ({
   },
   backgroundContainer: {
     background: theme.palette.background.paper,
-  }
+  },
 }));
 
-const HomePage = () => {
+const HomePage = (props: any) => {
+  const { dash } = props;
   useEffect(() => {
     (window as any).electron.ipcRenderer.on(
       'reply:create-packet',
@@ -94,7 +97,7 @@ const HomePage = () => {
   // app contexts
   const [simulationData, setSimulationData] = useState(null);
   const [outputPanelOpen, setOutputPanelOpen] = useState(false);
-
+  const [sbState, setSBState] = useState({ open: false, message: '' });
   useEffect(() => {
     if (simulationData) {
       setOutputPanelOpen(true);
@@ -321,6 +324,7 @@ const HomePage = () => {
                       setCurrentComponent={setCurrentComponent}
                       elements={elements}
                       setElements={setElements}
+                      setSBState={setSBState}
                     />
                     <div
                       className={
@@ -352,6 +356,20 @@ const HomePage = () => {
               </IconButton>
             </div>
           </div>
+          <Snackbar
+            anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }}
+            open={sbState.open}
+            onClose={() => setSBState((sb) => ({ ...sb, open: false }))}
+            autoHideDuration={3000}
+          >
+            <SnackbarContent
+              sx={{
+                backgroundColor: (theme) => theme.palette.background.default,
+                color: (theme) => theme.palette.text.primary,
+              }}
+              message={sbState.message}
+            />
+          </Snackbar>
         </TabPanel>
         <TabPanel value={panel} index={1}>
           <DemoPage />
