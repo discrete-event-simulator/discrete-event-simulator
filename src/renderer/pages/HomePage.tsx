@@ -26,6 +26,8 @@ import SidePanel from 'renderer/components/panels/SidePanel';
 import TabPanel from '../components/panels/TabPanel';
 import DemoPage from './Demo';
 
+import { orange, lightBlue, grey } from '@material-ui/core/colors';
+
 export const AppContext = React.createContext({
   simulationData: null,
   setSimulationData: (output: string) => {},
@@ -123,6 +125,11 @@ const HomePage = (props: any) => {
       data: {
         label: 'Start',
         type: 'Start',
+      },
+      style: {
+        backgroundColor: dash.darkMode? grey[800] : '#FFFFFF',
+        borderColor: dash.darkMode ? orange[500] : lightBlue[500],
+        color: dash.darkMode ? '#FFFFFF' : '#252525',
       },
       position: { x: 100, y: 100 },
     },
@@ -325,6 +332,7 @@ const HomePage = (props: any) => {
                       elements={elements}
                       setElements={setElements}
                       setSBState={setSBState}
+                      dash={dash}
                     />
                     <div
                       className={

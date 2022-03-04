@@ -16,6 +16,8 @@ import usePythonPath from '../envTest/pythonPath';
 import { settings } from '../settings/componentSettings';
 import buildJson from './utils/buildJson';
 
+import { orange, lightBlue, grey } from '@material-ui/core/colors';
+
 let id = 2;
 const getId = () => `${id++}`;
 const parameters = {
@@ -35,6 +37,7 @@ const GraphPanel = ({
   setElements,
   initialElements,
   setSBState,
+  dash,
 }) => {
   const { setSimulationData } = useContext(AppContext);
   const [pythonPath] = usePythonPath();
@@ -115,7 +118,9 @@ const GraphPanel = ({
       type,
       position,
       style: {
-        Background: "#fff",
+        backgroundColor: dash.darkMode? grey[800] : '#FFFFFF',
+        borderColor: dash.darkMode ? grey[300] : '#252525',
+        color: dash.darkMode ? '#FFFFFF' : '#252525',
       },
       data: {
         label: `${name} ${elementId}`,
@@ -153,6 +158,7 @@ const GraphPanel = ({
       pythonPath,
     });
   };
+
   return (
     <div ref={reactFlowWrapper} style={{ flexGrow: 1 }}>
       <Button
@@ -198,7 +204,7 @@ const GraphPanel = ({
           nodeColor={(n) => {
             if (n.style?.background) return `${n.style.background}`;
 
-            return '#fff';
+            return dash.darkMode? grey[800] : '#FFFFFF';
           }}
           nodeBorderRadius={2}
         />
