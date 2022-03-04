@@ -97,6 +97,9 @@ const GraphPanel = ({
       id: elementId,
       type,
       position,
+      style: {
+        Background: "#fff",
+      },
       data: {
         label: `${name} ${elementId}`,
         type: `${name}`,
