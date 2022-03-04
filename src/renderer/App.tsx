@@ -31,7 +31,9 @@ export default function App() {
     <ThemeProvider theme={theme}>
       <Router>
         <Switch>
-          <Route path="/" component={HomePage} />
+          <Route path="/">
+            <HomePage dash={dash}/>
+            </Route>
         </Switch>
       </Router>
     </ThemeProvider>
