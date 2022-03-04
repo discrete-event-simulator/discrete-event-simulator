@@ -17,11 +17,21 @@ import {
 import { Box } from '@mui/system';
 import React, { useEffect, useState, useContext } from 'react';
 
+import { makeStyles } from '@mui/styles';
+import { Theme } from '@mui/system';
+import { ClassNames } from '@emotion/react';
+
 enum NSCompoent {
   WIRE = 'Wire',
   SPLITTER = 'Splitter',
   PACKET_SINK = 'PacketSink',
 }
+
+const useStyles = makeStyles((theme: Theme) => ({
+  demoCanvas: {
+    background: theme.palette.background.paper,
+  },
+}));
 
 const AppContext = React.createContext({
   dpgOut: '',
@@ -67,8 +77,10 @@ const DPGOutSelect = () => {
     setDpgOut(String(value));
   };
 
+  const classes = useStyles();
+
   return (
-    <FormControl sx={{ width: '600px' }}>
+    <FormControl className={classes.demoCanvas} sx={{ width: '600px' }}>
       <InputLabel>
         select component that will be connected to DPG out
       </InputLabel>
@@ -90,8 +102,10 @@ const WireOutSelect = () => {
     setCanRun(true);
   };
 
+  const classes = useStyles();
+
   return (
-    <FormControl sx={{ width: '600px' }}>
+    <FormControl className={classes.demoCanvas} sx={{ width: '600px' }}>
       <InputLabel>
         select component that will be connected to Wire out
       </InputLabel>
@@ -201,7 +215,7 @@ const DPGOutRow = () => {
           display: 'flex',
           flexDirection: 'row',
           justifyContent: 'space-between',
-          margin: '20px 0',
+          margin: '20px',
         }}
       >
         <Card sx={{ width: '300px' }}>
@@ -258,6 +272,8 @@ const DemoPage = () => {
     });
   };
 
+  const classes = useStyles();
+
   return (
     <AppContext.Provider
       value={{
@@ -271,7 +287,7 @@ const DemoPage = () => {
         setCanRun,
       }}
     >
-      <Container>
+      <Container className={classes.demoCanvas}>
         <div
           style={{
             width: '100%',

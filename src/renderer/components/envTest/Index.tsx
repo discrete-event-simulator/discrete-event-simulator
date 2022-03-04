@@ -10,7 +10,7 @@ import {
 import { useEffect, useState } from 'react';
 
 import { makeStyles } from '@mui/styles';
-import { Theme } from '@mui/system';
+import { height, Theme } from '@mui/system';
 
 import usePythonPath from './pythonPath';
 
@@ -58,9 +58,15 @@ const EnvTestPage = () => {
   };
 
   return (
-    <Container>
+    <Container className={classes.envCanvas}
+      style={{
+        height: '100%',
+        width: '100%',
+      }}
+    >
       <Box
-        sx={{
+        style={{
+          paddingTop: '10px',
           width: '100%',
           display: 'flex',
           flexDirection: 'column',

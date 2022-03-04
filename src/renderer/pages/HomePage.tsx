@@ -76,6 +76,9 @@ const useStyles = makeStyles((theme: Theme) => ({
     width: '100%',
     background: theme.palette.primary.main,
   },
+  backgroundContainer: {
+    background: theme.palette.background.paper,
+  }
 }));
 
 const HomePage = () => {
@@ -170,11 +173,13 @@ const HomePage = () => {
       }}
     >
       <Container
+        className={classes.backgroundContainer}
         style={{
           padding: '0px',
           display: 'flex',
           flexDirection: 'row',
           overflow: 'hidden',
+          height: '100vh',
         }}
         maxWidth={false}
       >
