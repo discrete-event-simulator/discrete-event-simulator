@@ -1,32 +1,29 @@
 import CheckIcon from '@mui/icons-material/Check';
 import HistoryIcon from '@mui/icons-material/History';
 import SettingsInputComponentIcon from '@mui/icons-material/SettingsInputComponent';
+import SourceIcon from '@mui/icons-material/Source';
 import { List, ListItem, ListItemButton, ListItemIcon } from '@mui/material';
 import React from 'react';
 
 const SidePanel = (props: any) => {
   const { panel, setPanel } = props;
-  const inputClick = () => {};
-
-  const historyClick = () => {};
 
   const sideComps = [
-    {
-      icon: SettingsInputComponentIcon,
-      clickEvent: inputClick,
-    },
-    {
-      icon: HistoryIcon,
-      clickEvent: historyClick,
-    },
-    {
-      icon: CheckIcon,
-      clickEvent: () => {},
-    },
+    { icon: SettingsInputComponentIcon, },
+    { icon: HistoryIcon, },
+    { icon: CheckIcon, },
+    // { icon: SourceIcon, }
   ];
+
   const handleClick = (index: number) => {
-    setPanel(index);
+    if (index === 3) {
+      // const {shell} = require('electron');
+      // shell.openPath("network_graph.py");
+    } else {
+      setPanel(index);
+    }
   };
+  
   return (
     <div style={{ display: 'inline-flex', flexDirection: 'column' }}>
       <List>
