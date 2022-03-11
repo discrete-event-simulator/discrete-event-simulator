@@ -1,12 +1,7 @@
-import { Button, Grid, MenuItem, TextField, Typography } from '@mui/material';
-import React, { Component } from 'react';
+import { Button, Grid, MenuItem, Typography } from '@mui/material';
+import React from 'react';
 import { removeElements } from 'react-flow-renderer';
-import {
-  Controller,
-  FormProvider,
-  useForm,
-  useFormContext,
-} from 'react-hook-form';
+import { FormProvider, useForm } from 'react-hook-form';
 
 import { settings } from '../settings/componentSettings';
 import CustomSelectField from './CustomSelectField';
@@ -82,11 +77,11 @@ const CompSettingPanel = ({
                     finalData[element] = data[element] === 'true';
                   } else {
                     finalData[element] =
-                      settings[currentComponent.data.type][element].default;
+                      settings[currentComponent.data.type][element]?.default;
                   }
                 } else {
                   finalData[element] =
-                    settings[currentComponent.data.type][element].default;
+                    settings[currentComponent.data.type][element]?.default;
                 }
               });
 
@@ -104,7 +99,7 @@ const CompSettingPanel = ({
           >
             <Grid container spacing={2} marginTop="4px">
               <Grid item xs={12}>
-                <Typography color="primary" marginBottom='4px'>
+                <Typography color="primary" marginBottom="4px">
                   {currentComponent.data.label}
                 </Typography>
               </Grid>

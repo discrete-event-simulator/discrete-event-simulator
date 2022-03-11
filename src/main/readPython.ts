@@ -1,6 +1,7 @@
 import { ipcMain } from 'electron';
 import { writeFile } from 'fs/promises';
 import { Options, PythonShell } from 'python-shell';
+
 import jsonBuilder from './jsonBuilder';
 import scriptBuilder from './scriptBuilder';
 
@@ -48,15 +49,15 @@ ipcMain.on('run', async (event, args) => {
     console.log('Print string json data of the network:');
     console.log(JSON.stringify(jsonData));
 
-    let options: Options = {
+    const options: Options = {
       pythonOptions: ['-u'],
       args: [jsonData],
     };
 
-    if (args.pythonPath || userPythonPath) {
-      options.pythonPath = args.pythonPath || userPythonPath;
-      console.log('currently using python path:', options.pythonPath)
-    }
+    // if (args.pythonPath || userPythonPath) {
+    //   options.pythonPath = args.pythonPath || userPythonPath;
+    //   console.log('currently using python path:', options.pythonPath);
+    // }
 
     PythonShell.run('generator.py', options, (err, results) => {
       if (err) throw err;
