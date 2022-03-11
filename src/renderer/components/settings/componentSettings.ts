@@ -49,7 +49,6 @@ export const whiteListComponents = [
   'TrTCM',
   'Splitter',
   'Timer',
-  'Flow',
 ];
 export const settings = {
   Wire: {
@@ -211,17 +210,47 @@ export const settings = {
   },
 
   TCPPacketGenerator: {
-    flow: {
-      default: 'Flow_1',
-      type: 'text',
-      required: true,
-      helperText: 'The ID of flow that serves as the source.',
-    },
     element_id: {
       default: '',
       type: 'text',
       required: true,
       helperText: 'The ID for this element.',
+    },
+    flow_fid: {
+      default: 0,
+      type: 'int',
+      required: true,
+      helperText: 'flow id',
+    },
+    flow_src: {
+      default: 'flow',
+      type: 'text',
+      required: true,
+      helperText: 'flow source element',
+    },
+    flow_dst: {
+      default: 'flow',
+      type: 'text',
+      required: true,
+      helperText: 'flow destination element',
+    },
+    flow_finish_time: {
+      default: 10,
+      type: 'float',
+      required: true,
+      helperText: 'flow finish time',
+    },
+    flow_arrival_dist: {
+      default: 0.1,
+      type: 'float',
+      required: true,
+      helperText: 'flow packet arrival distribution',
+    },
+    flow_size_dist: {
+      default: 512,
+      type: 'float',
+      required: true,
+      helperText: 'flow packet size distribution',
     },
   },
 

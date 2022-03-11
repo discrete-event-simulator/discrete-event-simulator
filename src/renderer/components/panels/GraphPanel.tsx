@@ -79,45 +79,6 @@ const GraphPanel = ({
       });
       return;
     }
-    const fromElement = elements.find((e) => e.id === params.source);
-    const toElement = elements.find((e) => e.id === params.target);
-
-    if (
-      (fromElement?.data?.type === 'Flow' &&
-        toElement?.data?.type === 'TCPPacketGenerator') ||
-      (fromElement?.data?.type === 'TCPPacketGenerator' &&
-        toElement?.data?.type === 'Flow')
-    ) {
-      setElements((els) => {
-        const flowElmIndex = els.findIndex(
-          (e) =>
-            e?.data?.type === 'Flow' &&
-            [params.source, params.target].includes(e?.id)
-        );
-        const tCPPacketGeneratorElmIndex = els.findIndex(
-          (e) =>
-            e?.data?.type === 'TCPPacketGenerator' &&
-            [params.source, params.target].includes(e?.id)
-        );
-        const newElements = JSON.parse(JSON.stringify(els));
-
-        // change the flow attribute of the TCPPacketGenerator
-        newElements[
-          tCPPacketGeneratorElmIndex
-        ].data.configs.flow = `Flow_${els[flowElmIndex]?.id}`;
-
-        // change the order of them if TCPPacketGenerator was created earlier than Flow
-        if (tCPPacketGeneratorElmIndex < flowElmIndex) {
-          [newElements[tCPPacketGeneratorElmIndex], newElements[flowElmIndex]] =
-            [
-              newElements[flowElmIndex],
-              newElements[tCPPacketGeneratorElmIndex],
-            ];
-        }
-
-        return newElements;
-      });
-    }
 
     setElements((els) => addEdge(params, els));
   };

@@ -37,14 +37,6 @@ const buildJson = (elements) => {
             .join('_'),
         },
       };
-      if (
-        pObj.from.name !== 'Start' &&
-        pObj.to.name !== 'Start' &&
-        !pObj.from.name.startsWith('Flow_') &&
-        !pObj.to.name.startsWith('Flow_')
-      ) {
-        json.connections.push(pObj);
-      }
     });
 
   elements
