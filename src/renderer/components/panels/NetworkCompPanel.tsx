@@ -60,7 +60,13 @@ const NetworkCompPanel = () => {
                   cursor: 'pointer',
                   overflow: 'hidden',
                 }}
-                onDragStart={(event) => onDragStart(event, 'default', comp)}
+                onDragStart={(event) => {
+                  if(comp === "Splitter"){
+                    onDragStart(event, 'splitterNode', comp)
+                  }else{
+                    onDragStart(event, 'default', comp)}
+                  }
+                }
                 draggable
               >
                 <AltRouteIcon />

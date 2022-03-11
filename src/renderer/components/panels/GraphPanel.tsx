@@ -16,14 +16,16 @@ import { AppContext } from 'renderer/pages/HomePage';
 import usePythonPath from '../envTest/pythonPath';
 import { settings } from '../settings/componentSettings';
 import buildJson from './utils/buildJson';
-
+import SplitterNode from './SplitterNode';
 let id = 2;
 const getId = () => `${id++}`;
 const parameters = {
   'PacketSink:test_newScript': true,
   'PacketSink:rec_arrivals': true,
 };
-
+const nodeTypes = {
+  splitterNode: SplitterNode,
+};
 const useStyles = makeStyles((theme: Theme) => ({
   graphCanvas: {
     background: theme.palette.background.paper,
@@ -232,6 +234,7 @@ const GraphPanel = ({
         Run
       </Button>
       <ReactFlow
+        nodeTypes={nodeTypes}
         className={classes.graphCanvas}
         elements={elements}
         onElementsRemove={onElementsRemove}
@@ -252,13 +255,13 @@ const GraphPanel = ({
             if (n.style?.background) return `${n.style.background}`;
             if (n.type === 'input') return '#0041d0';
             if (n.type === 'output') return '#ff0072';
-            if (n.type === 'default') return '#1a192b';
+            if (n.type === 'default' || n.type === 'splitterNode')
+              return '#1a192b';
 
             return '#eee';
           }}
           nodeColor={(n) => {
             if (n.style?.background) return `${n.style.background}`;
-            console.log('Dark', dash.darkMode);
             return dash.darkMode ? grey[800] : '#FFFFFF';
           }}
           nodeBorderRadius={2}
