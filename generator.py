@@ -103,22 +103,33 @@ class CodeGenerator:
         for type in component_types:
             self.code.append(self.import_paths[type])
             if type == "TCPPacketGenerator":
+                self.code.append(self.import_paths["Flow"])
                 self.code.append(self.import_paths["TCPCubic"])
 
         self.code.append("\n\n")
 
     def create_single_component(self, var_name, var_type, var_attributes):
-        init_string = var_name + " = " + var_type + "("
+        init_string = ''
+
+        if var_type == "TCPPacketGenerator":
+            flow_name = "Flow_" + var_name.split("_")[1]
+            flow_attributes = {k.replace("flow_", ""): v for k, v in var_attributes.items() if k.startswith("flow_")}
+            flow_component = self.create_single_component(flow_name, "Flow", flow_attributes)
+            init_string += flow_component + "\n\n"
+            init_string += var_name + " = TCPPacketGenerator(env, element_id=" + "\"{}\"".format(var_name) + ", flow=" + flow_name + ", cc=TCPCubic())"
+            return init_string
+
+        init_string += var_name + " = " + var_type + "("
         # splitter doesn't need the env as a constructor, most components need this
         if var_type == "Splitter":
             init_string += ")"
             return init_string
 
-        if var_type != 'Flow':
+        if var_type != "Flow":
             init_string += "env, "
 
         items = var_attributes.items()
-        for attribute_name, attribute_value in items:
+        for attribute_name, attribute_value in items:  
             if list(items)[0][0] == attribute_name: # if first element
                 init_string += (attribute_name + "=")
             else:
@@ -130,10 +141,7 @@ class CodeGenerator:
             else:
                 # if value is a string then we want a string inside a string
                 # ex: element_id="flow1" not element_id=flow1
-                if var_type == 'TCPPacketGenerator' and attribute_name == 'flow':
-                    init_string += str(attribute_value)
-                    init_string += (", cc=TCPCubic()")
-                elif type(attribute_value) is str:
+                if type(attribute_value) is str:
                     init_string += "\"{}\"".format(attribute_value)
                 else:
                     init_string += str(attribute_value)
