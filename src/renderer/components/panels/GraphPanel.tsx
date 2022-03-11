@@ -73,11 +73,15 @@ const GraphPanel = ({
   const onConnect = (params) => {
     const limit = 1;
     if (
-      elements.filter((els) => els?.source === params.source).length >= limit
+      elements.filter(
+        (els) => els?.source === params.source && !els.sourceHandle
+      ).length >= limit
     ) {
       setSBState({
         open: true,
-        message: `Only ${limit} connection${limit > 1 ? 's' : ''} allowed`,
+        message: `Only ${limit} connection${
+          limit > 1 ? 's' : ''
+        } allowed, please add a Splitter`,
       });
       return;
     }

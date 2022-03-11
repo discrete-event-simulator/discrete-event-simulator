@@ -3,7 +3,6 @@ import React, { memo } from 'react';
 import { Handle } from 'react-flow-renderer';
 
 const customNodeStyles = {
-  color: '#FFF',
   padding: 10,
   borderRadius: 3,
   borderStyle: 'solid',
