@@ -1,13 +1,16 @@
 import simpy
 from random import expovariate
-from ns.packet.sink import PacketSink
+from ns.packet.tcp_generator import TCPPacketGenerator
+from ns.flow.cubic import TCPCubic
+from ns.flow.flow import Flow
 
 
 
 env = simpy.Environment()
 
 
-PacketSink_2 = PacketSink(env, rec_arrivals=True, absolute_arrivals=True, rec_waits=True, rec_flow_ids=True, debug=True)
+Flow_3 = Flow(fid=0, src="flow", dst="flow", finish_time=10, arrival_dist=lambda: 0.1, size_dist=lambda: 512)
+TCPPacketGenerator_2 = TCPPacketGenerator(env, flow=Flow_3, cc=TCPCubic(), element_id="flow2")
 
 
 
@@ -16,13 +19,3 @@ PacketSink_2 = PacketSink(env, rec_arrivals=True, absolute_arrivals=True, rec_wa
 
 env.run(until=100)
 
-
-print("Final Simulation Statistics for PacketSink_2:")
-
-print("Information Printed: waits")
-for flow_id in PacketSink_2.waits.keys():
-	print("Flow: {}: ".format(flow_id) +", ".join(["{:.2f}".format(x) for x in PacketSink_2.waits[flow_id]]))
-
-print("Information Printed: arrivals")
-for flow_id in PacketSink_2.arrivals.keys():
-	print("Flow: {}: ".format(flow_id) +", ".join(["{:.2f}".format(x) for x in PacketSink_2.arrivals[flow_id]]))

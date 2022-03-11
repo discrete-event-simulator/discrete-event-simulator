@@ -102,6 +102,8 @@ class CodeGenerator:
 
         for type in component_types:
             self.code.append(self.import_paths[type])
+            if type == "TCPPacketGenerator":
+                self.code.append(self.import_paths["TCPCubic"])
 
         self.code.append("\n\n")
 
@@ -112,10 +114,15 @@ class CodeGenerator:
             init_string += ")"
             return init_string
 
-        init_string += "env"
+        if var_type != 'Flow':
+            init_string += "env, "
 
-        for attribute_name, attribute_value in var_attributes.items():
-            init_string += (", " + attribute_name + "=")
+        items = var_attributes.items()
+        for attribute_name, attribute_value in items:
+            if list(items)[0][0] == attribute_name: # if first element
+                init_string += (attribute_name + "=")
+            else:
+                init_string += (", " + attribute_name + "=")
 
             # if its a distribution, pass a lambda function as param
             if "dist" in attribute_name:
@@ -123,7 +130,10 @@ class CodeGenerator:
             else:
                 # if value is a string then we want a string inside a string
                 # ex: element_id="flow1" not element_id=flow1
-                if type(attribute_value) is str:
+                if var_type == 'TCPPacketGenerator' and attribute_name == 'flow':
+                    init_string += str(attribute_value)
+                    init_string += (", cc=TCPCubic()")
+                elif type(attribute_value) is str:
                     init_string += "\"{}\"".format(attribute_value)
                 else:
                     init_string += str(attribute_value)
