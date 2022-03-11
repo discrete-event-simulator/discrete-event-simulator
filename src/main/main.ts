@@ -15,6 +15,7 @@ import { autoUpdater } from 'electron-updater';
 import path from 'path';
 import 'regenerator-runtime/runtime';
 import './readPython';
+import './openWithVscode';
 import { resolveHtmlPath } from './util';
 
 export default class AppUpdater {
