@@ -168,7 +168,24 @@ const GraphPanel = ({
     };
     setCurrentComponent(newNode);
     setElements((es) => es.concat(newNode));
+    console.log('Elements', elements);
   };
+  useEffect(() => {
+    setElements((els) =>
+      els.map((el) => {
+        // it's important that you create a new object here
+        // in order to notify react flow about the change
+        el.style = {
+          backgroundColor: dash.darkMode ? grey[800] : '#FFFFFF',
+          borderColor: dash.darkMode ? grey[300] : '#252525',
+          color: dash.darkMode ? '#FFFFFF' : '#252525',
+        };
+
+        return el;
+      })
+    );
+  }, [dash.darkMode, setElements]);
+
   const onEdgeUpdate = (oldEdge, newConnection) =>
     setElements((els) => updateEdge(oldEdge, newConnection, els));
 
@@ -241,7 +258,7 @@ const GraphPanel = ({
           }}
           nodeColor={(n) => {
             if (n.style?.background) return `${n.style.background}`;
-            console.log("Dark", dash.darkMode);
+            console.log('Dark', dash.darkMode);
             return dash.darkMode ? grey[800] : '#FFFFFF';
           }}
           nodeBorderRadius={2}
