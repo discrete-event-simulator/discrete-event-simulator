@@ -1,3 +1,4 @@
+import { ClassNames } from '@emotion/react';
 import {
   Button,
   Card,
@@ -5,21 +6,18 @@ import {
   CardContent,
   Container,
   FormControl,
+  FormControlLabel,
+  FormGroup,
   InputLabel,
   MenuItem,
   Select,
   SelectChangeEvent,
-  TextField,
   Switch,
-  FormControlLabel,
-  FormGroup,
+  TextField,
 } from '@mui/material';
-import { Box } from '@mui/system';
-import React, { useEffect, useState, useContext } from 'react';
-
 import { makeStyles } from '@mui/styles';
-import { Theme } from '@mui/system';
-import { ClassNames } from '@emotion/react';
+import { Box, Theme } from '@mui/system';
+import React, { useContext, useEffect, useState } from 'react';
 
 enum NSCompoent {
   WIRE = 'Wire',
@@ -62,7 +60,7 @@ const DPGCard = (props: { id: string }) => {
           type="number"
           defaultValue={1.5}
           onChange={handleChange}
-        ></TextField>
+        />
       </CardActions>
     </Card>
   );
@@ -136,7 +134,7 @@ const WireCard = (props: { id: string }) => {
           type="number"
           defaultValue={defaultDelay}
           onChange={handleChange}
-        ></TextField>
+        />
       </CardActions>
     </Card>
   );
@@ -165,11 +163,11 @@ const PacketSinkCard = () => {
           <FormControlLabel
             control={<Switch defaultChecked onChange={handleChange} />}
             label="record arrivals"
-          ></FormControlLabel>
+          />
           <FormControlLabel
             control={<Switch defaultChecked onChange={handleTesting} />}
             label="Testing using new script"
-          ></FormControlLabel>
+          />
         </FormGroup>
       </CardActions>
     </Card>
@@ -200,10 +198,10 @@ const DPGOutRow = () => {
             margin: '20px 0',
           }}
         >
-          <WireCard id="1"></WireCard>
-          <WireCard id="2"></WireCard>
+          <WireCard id="1" />
+          <WireCard id="2" />
         </div>
-        <WireOutSelect></WireOutSelect>
+        <WireOutSelect />
       </div>
     );
   }
@@ -227,7 +225,7 @@ const DPGOutRow = () => {
       </div>
     );
   }
-  return <div></div>;
+  return <div />;
 };
 
 const ThirdRow = () => {
@@ -239,7 +237,7 @@ const ThirdRow = () => {
       </div>
     );
   }
-  return <div></div>;
+  return <div />;
 };
 
 const DemoPage = () => {
@@ -307,15 +305,15 @@ const DemoPage = () => {
               marginBottom: '20px',
             }}
           >
-            <DPGCard id="1"></DPGCard>
-            <DPGCard id="2"></DPGCard>
+            <DPGCard id="1" />
+            <DPGCard id="2" />
           </Box>
 
-          <DPGOutSelect></DPGOutSelect>
+          <DPGOutSelect />
 
-          <DPGOutRow></DPGOutRow>
+          <DPGOutRow />
 
-          <ThirdRow></ThirdRow>
+          <ThirdRow />
 
           <Button
             disabled={!canRun}

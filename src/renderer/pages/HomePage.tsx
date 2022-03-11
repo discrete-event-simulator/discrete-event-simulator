@@ -1,3 +1,4 @@
+import { grey, lightBlue, orange } from '@material-ui/core/colors';
 import { DragHandle } from '@mui/icons-material';
 import TerminalIcon from '@mui/icons-material/Terminal';
 import {
@@ -25,8 +26,6 @@ import SidePanel from 'renderer/components/panels/SidePanel';
 
 import TabPanel from '../components/panels/TabPanel';
 import DemoPage from './Demo';
-
-import { orange, lightBlue, grey } from '@material-ui/core/colors';
 
 export const AppContext = React.createContext({
   simulationData: null,
@@ -86,7 +85,7 @@ const useStyles = makeStyles((theme: Theme) => ({
 }));
 
 const HomePage = (props: any) => {
-  const { dash } = props;
+  const { dash, setDash } = props;
   useEffect(() => {
     (window as any).electron.ipcRenderer.on(
       'reply:create-packet',
@@ -127,7 +126,7 @@ const HomePage = (props: any) => {
         type: 'Start',
       },
       style: {
-        backgroundColor: dash.darkMode? grey[800] : '#FFFFFF',
+        backgroundColor: dash.darkMode ? grey[800] : '#FFFFFF',
         borderColor: dash.darkMode ? orange[500] : lightBlue[500],
         color: dash.darkMode ? '#FFFFFF' : '#252525',
       },
@@ -200,7 +199,7 @@ const HomePage = (props: any) => {
             paper: classes.drawer,
           }}
         >
-          <SidePanel panel={panel} setPanel={setPanel} />
+          <SidePanel dash={dash} setDash={setDash} panel={panel} setPanel={setPanel} />
         </Drawer>
         <TabPanel value={panel} index={0}>
           <div

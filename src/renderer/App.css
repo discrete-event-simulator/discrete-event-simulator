@@ -17,3 +17,22 @@ body {
   height: 100%;
   width: 100%;
 }
+
+::-webkit-scrollbar {
+  width: 5px;
+  height: 10px;
+}
+::-webkit-scrollbar-thumb {
+  background: #818181;
+  -webkit-box-shadow: none;
+  border-radius: 10px;
+}
+
+/*
+::-webkit-scrollbar-thumb:window-inactive {
+    background: none;
+}
+*/
+::-webkit-scrollbar-track {
+  -webkit-box-shadow: none;
+}

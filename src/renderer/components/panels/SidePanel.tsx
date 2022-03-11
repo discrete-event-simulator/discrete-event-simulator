@@ -2,16 +2,29 @@ import CheckIcon from '@mui/icons-material/Check';
 import HistoryIcon from '@mui/icons-material/History';
 import SettingsInputComponentIcon from '@mui/icons-material/SettingsInputComponent';
 import SourceIcon from '@mui/icons-material/Source';
-import { List, ListItem, ListItemButton, ListItemIcon } from '@mui/material';
+import {
+  List,
+  ListItem,
+  ListItemButton,
+  ListItemIcon,
+  Switch,
+  Tooltip,
+} from '@mui/material';
 import React from 'react';
+import { makeStyles } from '@mui/styles';
+import { Theme } from '@mui/system';
+
+const useStyles = makeStyles((theme: Theme) => ({
+  marginCenter: { marginLeft: '-3px', marginRight: 'auto', width:'100%' },
+}));
 
 const SidePanel = (props: any) => {
-  const { panel, setPanel } = props;
-
+  const { panel, setPanel, dash, setDash } = props;
+  const classes = useStyles();
   const sideComps = [
-    { icon: SettingsInputComponentIcon, },
-    { icon: HistoryIcon, },
-    { icon: CheckIcon, },
+    { icon: SettingsInputComponentIcon },
+    { icon: HistoryIcon },
+    { icon: CheckIcon },
     // { icon: SourceIcon, }
   ];
 
@@ -23,9 +36,16 @@ const SidePanel = (props: any) => {
       setPanel(index);
     }
   };
-  
+
   return (
-    <div style={{ display: 'inline-flex', flexDirection: 'column' }}>
+    <div
+      style={{
+        display: 'inline-flex',
+        flexDirection: 'column',
+        height: '100%',
+        overflow: 'hidden',
+      }}
+    >
       <List>
         {sideComps.map((comp, index) => {
           return (
@@ -55,6 +75,15 @@ const SidePanel = (props: any) => {
           );
         })}
       </List>
+      <div style={{ flexGrow: 1 }}></div>{' '}
+      <Tooltip title={'Toggle DarkMode'} placement={'right'}>
+        <Switch
+          color="default"
+          classes={{ root: classes.marginCenter }}
+          checked={dash.darkMode}
+          onClick={()=> setDash({darkMode: !dash.darkMode})}
+        />
+      </Tooltip>
     </div>
   );
 };

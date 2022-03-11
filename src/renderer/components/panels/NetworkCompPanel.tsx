@@ -1,8 +1,9 @@
 // @ts-nocheck
-import React from 'react';
-import { Typography } from '@mui/material';
 import AltRouteIcon from '@mui/icons-material/AltRoute';
+import { Typography } from '@mui/material';
 import { styled } from '@mui/styles';
+import React from 'react';
+
 import { whiteListComponents } from '../settings/componentSettings';
 
 const NetworkCompPanel = () => {

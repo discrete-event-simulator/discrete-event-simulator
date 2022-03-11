@@ -1,3 +1,4 @@
+import { grey, lightBlue, orange } from '@material-ui/core/colors';
 import { Button } from '@mui/material';
 import { makeStyles } from '@mui/styles';
 import { Theme } from '@mui/system';
@@ -15,8 +16,6 @@ import { AppContext } from 'renderer/pages/HomePage';
 import usePythonPath from '../envTest/pythonPath';
 import { settings } from '../settings/componentSettings';
 import buildJson from './utils/buildJson';
-
-import { orange, lightBlue, grey } from '@material-ui/core/colors';
 
 let id = 2;
 const getId = () => `${id++}`;
@@ -118,7 +117,7 @@ const GraphPanel = ({
       type,
       position,
       style: {
-        backgroundColor: dash.darkMode? grey[800] : '#FFFFFF',
+        backgroundColor: dash.darkMode ? grey[800] : '#FFFFFF',
         borderColor: dash.darkMode ? grey[300] : '#252525',
         color: dash.darkMode ? '#FFFFFF' : '#252525',
       },
@@ -203,8 +202,8 @@ const GraphPanel = ({
           }}
           nodeColor={(n) => {
             if (n.style?.background) return `${n.style.background}`;
-
-            return dash.darkMode? grey[800] : '#FFFFFF';
+            console.log("Dark", dash.darkMode);
+            return dash.darkMode ? grey[800] : '#FFFFFF';
           }}
           nodeBorderRadius={2}
         />
