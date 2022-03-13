@@ -37,6 +37,13 @@ const buildJson = (elements) => {
             .join('_'),
         },
       };
+      if (element?.sourceHandle) {
+        pObj.from['port'] = element.sourceHandle === 'a' ? 'out1' : 'out2';
+      }
+      if (element?.targetHandle) {
+        pObj.to['port'] = element.targetHandle === 'a' ? 'out1' : 'out2';
+      }
+      json.connections.push(pObj);
     });
 
   elements
