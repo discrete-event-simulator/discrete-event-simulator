@@ -74,7 +74,11 @@ const GraphPanel = ({
     const limit = 1;
     if (
       elements.filter(
-        (els) => els?.source === params.source && !els.sourceHandle
+        (els) =>
+          (els?.source === params.source && !els.sourceHandle) ||
+          (els.sourceHandle &&
+            els?.source === params.source &&
+            els.sourceHandle === params?.sourceHandle)
       ).length >= limit
     ) {
       setSBState({

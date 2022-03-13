@@ -117,22 +117,7 @@ const HomePage = (props: any) => {
     hovering: false,
   });
   const [currentComponent, setCurrentComponent] = useState(null);
-  const initialElements = [
-    {
-      id: '1',
-      type: 'input',
-      data: {
-        label: 'Start',
-        type: 'Start',
-      },
-      style: {
-        backgroundColor: dash.darkMode ? grey[800] : '#FFFFFF',
-        borderColor: dash.darkMode ? orange[500] : lightBlue[500],
-        color: dash.darkMode ? '#FFFFFF' : '#252525',
-      },
-      position: { x: 100, y: 100 },
-    },
-  ];
+  const initialElements = [];
 
   const [elements, setElements] = useState(initialElements);
 
@@ -199,7 +184,12 @@ const HomePage = (props: any) => {
             paper: classes.drawer,
           }}
         >
-          <SidePanel dash={dash} setDash={setDash} panel={panel} setPanel={setPanel} />
+          <SidePanel
+            dash={dash}
+            setDash={setDash}
+            panel={panel}
+            setPanel={setPanel}
+          />
         </Drawer>
         <TabPanel value={panel} index={0}>
           <div

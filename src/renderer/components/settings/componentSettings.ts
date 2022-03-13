@@ -34,8 +34,6 @@ export const whiteListComponents = [
   'TCPSink',
   'PacketSwitch',
   'Packet',
-  'ProxyPacketGenerator',
-  'ProxySink',
   'TracePacketGenerator',
   'Port',
   'REDPort',
