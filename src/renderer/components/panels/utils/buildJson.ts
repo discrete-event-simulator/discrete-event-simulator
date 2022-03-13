@@ -9,7 +9,6 @@ const buildJson = (elements) => {
   elements
     .filter((element) => !element?.source && element?.data.type !== 'Start')
     .forEach((element) => {
-      console.log(element);
       const eObj = {
         name: element.data.label.split(' ').join('_'),
         type: element.data.type,
