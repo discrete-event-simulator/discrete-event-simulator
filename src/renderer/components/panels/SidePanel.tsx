@@ -30,10 +30,12 @@ const SidePanel = (props: any) => {
 
   const handleClick = (index: number) => {
     if (index === 3) {
-      console.log("Opening network_graph.py with vscode");
-      (window as any).electron.ipcRenderer.send('open-with-vscode', {
-        filePath: "network_graph.py",
+
+      // console.log("Opening network_graph.py with vscode");
+      (window as any).electron.ipcRenderer.send('openVscode', {
+        // fileName: "network_graph.py",
       });
+      
     } else {
       setPanel(index);
     }

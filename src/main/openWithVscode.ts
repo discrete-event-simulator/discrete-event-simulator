@@ -2,12 +2,16 @@ import { ipcMain } from 'electron';
 
 const { exec } = require("child_process");
 
-ipcMain.on('open-with-vscode', (event, args) => {
-  console.log('received from renderer: ', args);
+ipcMain.on('openVscode', (event, args) => {
 
-  let networkGraphPath = args.filePath;
+  let fileName = "network_graph.py";
+  let filePath = __dirname + "/../../" + fileName;
 
-  let command = "code" + " " + networkGraphPath;
+  // __dirname = ./src/main
+  // filepath = ./network_graph.py
+
+  console.log('opening script at:', filePath);
+  let command = "code" + " " + filePath;
 
   exec(command, (error, stdout, stderr) => {
     if (error) {
