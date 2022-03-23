@@ -1,4 +1,4 @@
-export default function jsonBuilder(args: any) {
+module.exports = function jsonBuilder(args) {
   const { dpgOut, wireOut, parameters, jsonData } = args;
   // can delete this function after, this is just for testing
   // before connecting to the actual frontend
@@ -97,4 +97,4 @@ export default function jsonBuilder(args: any) {
   };
   let networkJSON = JSON.stringify(jsonData ? jsonData : data);
   return networkJSON;
-}
+};

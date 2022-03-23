@@ -1,4 +1,4 @@
-export default function scriptBuilder(args: any) {
+module.exports = function scriptBuilder(args) {
   const { dpgOut, wireOut, parameters } = args;
 
   const isPacketSinkIncluded = wireOut === 'PacketSink';
@@ -73,4 +73,4 @@ print("Packet arrival times in flow 2: " +
   `;
 
   return pythonScript;
-}
+};

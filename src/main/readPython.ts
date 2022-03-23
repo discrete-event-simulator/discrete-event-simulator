@@ -1,17 +1,17 @@
-import { ipcMain } from 'electron';
-import { writeFile } from 'fs/promises';
-import { Options, PythonShell } from 'python-shell';
+const { ipcMain } = require('electron');
+const { writeFile } = require('fs/promises');
+const { Options, PythonShell } = require('python-shell');
 
-import jsonBuilder from './jsonBuilder';
-import scriptBuilder from './scriptBuilder';
-
+const scriptBuilder = require('./scriptBuilder.ts');
+const jsonBuilder = require('./jsonBuilder.ts');
 let userPythonPath = '';
 
 ipcMain.on('test', (event, args) => {
   console.log('received from renderer: ', args);
 
-  const options: Options = {};
+  const options = {};
   if (args.pythonPath) {
+    //@ts-ignore
     options.pythonPath = args.pythonPath;
   }
 
@@ -49,7 +49,7 @@ ipcMain.on('run', async (event, args) => {
     console.log('Print string json data of the network:');
     console.log(JSON.stringify(jsonData));
 
-    const options: Options = {
+    const options = {
       pythonOptions: ['-u'],
       args: [jsonData],
     };

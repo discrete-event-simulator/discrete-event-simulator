@@ -8,16 +8,28 @@
  * When running `npm run build` or `npm run build:main`, this file is compiled to
  * `./src/main.js` using webpack. This gives us some performance wins.
  */
-import 'core-js/stable';
-import { app, BrowserWindow, shell } from 'electron';
-import log from 'electron-log';
-import { autoUpdater } from 'electron-updater';
-import path from 'path';
-import 'regenerator-runtime/runtime';
-import './readPython';
-import { resolveHtmlPath } from './util';
+const { app, BrowserWindow, shell } = require('electron');
+const path = require('path');
+const log = require('electron-log');
+const { autoUpdater } = require('electron-updater');
 
-export default class AppUpdater {
+require('core-js/stable');
+require('regenerator-runtime/runtime');
+require('./readPython.ts');
+
+function resolveHtmlPath(htmlFileName) {
+  if (process.env.NODE_ENV === 'development') {
+    const port = process.env.PORT || 1212;
+
+    const url = new URL(`http://localhost:${port}`);
+    url.pathname = htmlFileName;
+    return url.href;
+  } else {
+    return `file://${path.resolve(__dirname, '../renderer/', htmlFileName)}`;
+  }
+}
+
+class AppUpdater {
   constructor() {
     log.transports.file.level = 'info';
     autoUpdater.logger = log;
@@ -25,7 +37,7 @@ export default class AppUpdater {
   }
 }
 
-let mainWindow: BrowserWindow | null = null;
+let mainWindow = null;
 
 if (process.env.NODE_ENV === 'production') {
   const sourceMapSupport = require('source-map-support');
@@ -61,8 +73,8 @@ const createWindow = async () => {
     ? path.join(process.resourcesPath, 'assets')
     : path.join(__dirname, '../../assets');
 
-  const getAssetPath = (...paths: string[]): string => {
-    return path.join(RESOURCES_PATH, ...paths);
+  const getAssetPath = (fileName) => {
+    return path.join(RESOURCES_PATH, fileName);
   };
 
   mainWindow = new BrowserWindow({
