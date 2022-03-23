@@ -41,7 +41,7 @@ const GraphPanel = ({
   setSBState,
   dash,
 }) => {
-  const { setSimulationData } = useContext(AppContext);
+  const { simulationData, setSimulationData } = useContext(AppContext);
   const [pythonPath] = usePythonPath();
 
   const reactFlowWrapper = useRef(null);
@@ -187,16 +187,11 @@ const GraphPanel = ({
   };
 
   const editWithVscode = () => {
-
     // console.log("Opening network_graph.py with vscode");
     (window as any).electron.ipcRenderer.send('openVscode', {
-      // fileName: "network_graph.py",
+        fileName: "network_graph.py",
     });
-
-  }
-
-  const canEdit = setSimulationData && setSimulationData.length > 1;
-  // const canEdit = true;
+  };
 
   return (
     <div ref={reactFlowWrapper} style={{ flexGrow: 1 }}>
@@ -216,8 +211,7 @@ const GraphPanel = ({
       >
         Run
       </Button>
-      
-      { canEdit && 
+      {simulationData && simulationData.length > 0 && (
         <Button
           variant="contained"
           style={{
@@ -230,12 +224,12 @@ const GraphPanel = ({
             fontWeight: 'bold',
           }}
           onClick={editWithVscode}
-          disabled={!canEdit}
+          disabled={!(simulationData && simulationData.length > 0)}
         >
-          Edit
+          Edit in Vscode
         </Button>
-      }
-      
+      )}
+
       <ReactFlow
         nodeTypes={nodeTypes}
         className={classes.graphCanvas}

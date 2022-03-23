@@ -16,6 +16,7 @@ const { autoUpdater } = require('electron-updater');
 require('core-js/stable');
 require('regenerator-runtime/runtime');
 require('./readPython.ts');
+require('./openWithVscode.ts');
 
 function resolveHtmlPath(htmlFileName) {
   if (process.env.NODE_ENV === 'development') {
