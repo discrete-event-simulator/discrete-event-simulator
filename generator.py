@@ -2,6 +2,7 @@ from mimetypes import common_types
 import sys
 import string
 import json
+import copy
 jsonString = sys.argv[1]
 
 # x = json.loads(jsonString)
@@ -59,7 +60,8 @@ class CodeGenerator:
         components = self.json_data['components']
         for component in components:
             attributes = component['attributes']
-            comp_dict[component['name']] = attributes
+            comp_dict[component['name']] = copy.deepcopy(attributes)
+            comp_dict[component['name']]['type'] = component['type']
 
         return comp_dict
 
@@ -111,40 +113,42 @@ class CodeGenerator:
     def create_single_component(self, var_name, var_type, var_attributes):
         init_string = ''
 
-        if var_type == "TCPPacketGenerator":
-            flow_name = "Flow_" + var_name.split("_")[1]
-            flow_attributes = {k.replace("flow_", ""): v for k, v in var_attributes.items() if k.startswith("flow_")}
-            flow_component = self.create_single_component(flow_name, "Flow", flow_attributes)
-            init_string += flow_component + "\n\n"
-            init_string += var_name + " = TCPPacketGenerator(env, element_id=" + "\"{}\"".format(var_name) + ", flow=" + flow_name + ", cc=TCPCubic())"
-            return init_string
-
         init_string += var_name + " = " + var_type + "("
         # splitter doesn't need the env as a constructor, most components need this
         if var_type == "Splitter":
             init_string += ")"
             return init_string
-
-        if var_type != "Flow":
+        if var_type not in ["Flow", "TCPCubic", "TCPReno"]:
             init_string += "env, "
 
         items = var_attributes.items()
-        for attribute_name, attribute_value in items:  
-            if list(items)[0][0] == attribute_name: # if first element
+        for attribute_name, attribute_value in items:
+            # this is just a flag to indicate if a component has multiple port
+            # not part of the component constructor
+            if attribute_name == "multiple_ports":
+                continue
+            if list(items)[0][0] == attribute_name:  # if first element
                 init_string += (attribute_name + "=")
             else:
                 init_string += (", " + attribute_name + "=")
-
             # if its a distribution, pass a lambda function as param
             if "dist" in attribute_name:
                 init_string += "lambda: " + str(attribute_value)
             else:
-                # if value is a string then we want a string inside a string
-                # ex: element_id="flow1" not element_id=flow1
-                if type(attribute_value) is str:
-                    init_string += "\"{}\"".format(attribute_value)
+                # If we want to reference another component
+                # If we want to reference a Flow object that has variable name flow_1
+                # can't do flow="flow_1", has to be flow=flow_1
+                if type(attribute_value) is dict and "reference" in attribute_value:
+                    init_string += str(attribute_value['reference'])
                 else:
-                    init_string += str(attribute_value)
+                    # if value is a string then we want a string inside a string
+                    # ex: element_id="element_1" not element_id=element_1
+                    # if value is not a string, we don't want it to be a string
+                    # ex: flow_id=1 not flow_id="1"
+                    if type(attribute_value) is str:
+                        init_string += "\"{}\"".format(attribute_value)
+                    else:
+                        init_string += str(attribute_value)
 
         init_string += ")"
         return init_string
@@ -168,9 +172,23 @@ class CodeGenerator:
         for connection in connections:
             child_node = connection['from']
             parent_node = connection['to']
+            child_node_name = child_node["name"]
+            child_port = ""
+            if "multiple_ports" in self.comp_dict[child_node_name]:
+                # takes care the case where there can be multiple outputs
+                # so something like out[2]
+                component_type = self.comp_dict[child_node_name]['type']
+                if component_type == "SimplePacketSwitch" or component_type == "FairPacketSwitch":
+                    # special case for the packet switch, their out is .demux.outs[(port number)].out
+                    child_port = "demux.outs[" + \
+                        str(child_node["port"]) + "].out"
+                else:
+                    child_port = "outs[" + str(child_node["port"]) + "]"
+            else:
+                # defaults to out if not port is specified
+                # else out might be named differently ex: for splitter its out1 out2
+                child_port = "out" if "port" not in child_node else child_node["port"]
 
-            # defaults to out if not port is specified
-            child_port = "out" if "port" not in child_node else child_node["port"]
             connection_string = child_node["name"] + \
                 "." + child_port + " = " + parent_node["name"]
             self.code.append(connection_string)
@@ -179,6 +197,8 @@ class CodeGenerator:
 
     # generate the print statements that prints data in packetsink
     def generate_data_display(self):
+        if "display_data" not in self.json_data:
+            return
         display_data = self.json_data["display_data"]
 
         for component in display_data:
@@ -213,6 +233,11 @@ class CodeGenerator:
         file.close()
 
 
+# for testing only, comment out when push
+# f = open('test.json')
+# data = json.load(f)
+# json_str = json.dumps(data)
+# cg = CodeGenerator(json_str)
 cg = CodeGenerator(jsonString)
 cg.generate_file()
 exec(open("network_graph.py").read())

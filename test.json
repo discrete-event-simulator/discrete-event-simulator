@@ -1,0 +1,155 @@
+{
+  "components": [
+    {
+      "name": "flow_1",
+      "type": "Flow",
+      "attributes": {
+        "fid": 0,
+        "src": "flow 1",
+        "dst": "flow 1",
+        "finish_time": 10,
+        "arrival_dist": 0.1,
+        "size_dist": 512
+      }
+    },
+    {
+      "name": "tcpCubic_1",
+      "type": "TCPCubic",
+      "attributes": {
+        "mss": 512,
+        "cwnd": 512,
+        "ssthresh": 65535,
+        "debug": false
+      }
+    },
+    {
+      "name": "sender",
+      "type": "TCPPacketGenerator",
+      "attributes": {
+        "flow": {
+          "reference": "flow_1"
+        },
+        "cc": {
+          "reference": "tcpCubic_1"
+        },
+        "rtt_estimate": 0.5,
+        "debug": true
+      }
+    },
+    {
+      "name": "wire1_downstream",
+      "type": "Wire",
+      "attributes": {
+        "delay_dist": 0.1
+      }
+    },
+    {
+      "name": "wire1_upstream",
+      "type": "Wire",
+      "attributes": {
+        "delay_dist": 0.1
+      }
+    },
+    {
+      "name": "wire2_downstream",
+      "type": "Wire",
+      "attributes": {
+        "delay_dist": 0.1
+      }
+    },
+    {
+      "name": "wire2_upstream",
+      "type": "Wire",
+      "attributes": {
+        "delay_dist": 0.1
+      }
+    },
+    {
+      "name": "switch",
+      "type": "SimplePacketSwitch",
+      "attributes": {
+        "nports": 2,
+        "port_rate": 16384,
+        "buffer_size": 5,
+        "debug": true,
+        "multiple_ports": true
+      }
+    },
+    {
+      "name": "receiver",
+      "type": "TCPSink",
+      "attributes": {
+        "rec_waits": true,
+        "debug": true
+      }
+    }
+  ],
+  "connections": [
+    {
+      "from": {
+        "name": "sender"
+      },
+      "to": {
+        "name": "wire1_downstream"
+      }
+    },
+    {
+      "from": {
+        "name": "wire1_downstream"
+      },
+      "to": {
+        "name": "switch"
+      }
+    },
+    {
+      "from": {
+        "name": "wire2_downstream"
+      },
+      "to": {
+        "name": "receiver"
+      }
+    },
+    {
+      "from": {
+        "name": "receiver"
+      },
+      "to": {
+        "name": "wire2_upstream"
+      }
+    },
+    {
+      "from": {
+        "name": "wire2_upstream"
+      },
+      "to": {
+        "name": "switch"
+      }
+    },
+    {
+      "from": {
+        "name": "switch",
+        "port": 0
+      },
+      "to": {
+        "name": "wire2_downstream"
+      }
+    },
+    {
+      "from": {
+        "name": "switch",
+        "port": 1
+      },
+      "to": {
+        "name": "wire1_upstream"
+      }
+    },
+    {
+      "from": {
+        "name": "wire1_upstream"
+      },
+      "to": {
+        "name": "sender"
+      }
+    }
+  ]
+}
