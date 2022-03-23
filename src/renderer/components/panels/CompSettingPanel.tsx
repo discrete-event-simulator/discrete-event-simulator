@@ -55,13 +55,16 @@ const CompSettingPanel = ({
           <form
             onSubmit={methods.handleSubmit((data) => {
               const finalData = {};
+              console.log(data);
               Object.keys(data).forEach((element) => {
-                if (element.includes('_id')) {
+                console.log(element, settings[currentComponent.data.type][element].type );
+                // element = element.split("-label")[0];
+                if (element.endsWith('_id')) {
                   finalData[element] =
                     settings[currentComponent.data.type][element].type === 'int'
                       ? parseInt(currentComponent.data.configs[element])
                       : currentComponent.data.configs[element];
-                } else if (data[element]) {
+                } else if (data[element] !== undefined) {
                   if (
                     settings[currentComponent.data.type][element].type ===
                     'float'
@@ -75,7 +78,7 @@ const CompSettingPanel = ({
                     settings[currentComponent.data.type][element].type ===
                     'boolean'
                   ) {
-                    finalData[element] = data[element] === 'true';
+                    finalData[element] = data[element];
                   } else {
                     finalData[element] =
                       settings[currentComponent.data.type][element]?.default;

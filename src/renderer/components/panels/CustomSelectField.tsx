@@ -16,7 +16,7 @@ const CustomSelectField = ({
   dash,
   ...props
 }) => {
-  const labelId = `${comp}-label`;
+  const labelId = `${comp}`;
   const { control } = useFormContext();
   return (
     <Grid item xs={12}>
@@ -42,14 +42,14 @@ const CustomSelectField = ({
         <Controller
           name={labelId}
           control={control}
+          defaultValue={defaultValue}
           render={({ field }) => (
             <FormControlLabel
               control={
                 <Checkbox
-                  defaultValue={defaultValue}
-                  defaultChecked={defaultValue}
-                  onChange={(e) => field.onChange(e.target.checked)}
+                 {...field}
                   checked={field.value}
+                  onChange={field.onChange}
                 />
               }
               label={comp}
@@ -58,7 +58,7 @@ const CustomSelectField = ({
           )}
         />
       </FormControl>
-      
+
     </Grid>
   );
 };
