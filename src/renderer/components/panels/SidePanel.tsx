@@ -1,7 +1,7 @@
 import CheckIcon from '@mui/icons-material/Check';
 import HistoryIcon from '@mui/icons-material/History';
 import SettingsInputComponentIcon from '@mui/icons-material/SettingsInputComponent';
-import SourceIcon from '@mui/icons-material/Source';
+
 import {
   List,
   ListItem,
@@ -25,16 +25,10 @@ const SidePanel = (props: any) => {
     { icon: SettingsInputComponentIcon },
     { icon: HistoryIcon },
     { icon: CheckIcon },
-    // { icon: SourceIcon, }
   ];
 
   const handleClick = (index: number) => {
-    if (index === 3) {
-      // const {shell} = require('electron');
-      // shell.openPath("network_graph.py");
-    } else {
       setPanel(index);
-    }
   };
 
   return (

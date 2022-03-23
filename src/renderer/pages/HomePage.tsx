@@ -302,6 +302,7 @@ const HomePage = (props: any) => {
                       currentComponent={currentComponent}
                       setElements={setElements}
                       setCurrentComponent={setCurrentComponent}
+                      dash={dash}
                     />
                   </TabPanel>
                 </Drawer>

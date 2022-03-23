@@ -11,6 +11,7 @@ const CompSettingPanel = ({
   currentComponent,
   setElements,
   setCurrentComponent,
+  dash,
 }) => {
   console.log(currentComponent);
   const methods = useForm();
@@ -113,11 +114,12 @@ const CompSettingPanel = ({
                       comp={key}
                       currentComponent={currentComponent}
                       defaultValue={
-                        currentComponent.data.configs[key] ? 'true' : 'false'
+                        currentComponent.data.configs[key]
                       }
+                      dash={dash}
                     >
-                      <MenuItem value="true">True</MenuItem>
-                      <MenuItem value="false">False</MenuItem>
+                      {/* <MenuItem value="true">True</MenuItem>
+                      <MenuItem value="false">False</MenuItem> */}
                     </CustomSelectField>
                   ) : (
                     <CustomTextField

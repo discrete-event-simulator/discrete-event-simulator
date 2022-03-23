@@ -3,6 +3,7 @@ import { Button } from '@mui/material';
 import { makeStyles } from '@mui/styles';
 import { Theme } from '@mui/system';
 import React, { useContext, useEffect, useRef, useState } from 'react';
+import SourceIcon from '@mui/icons-material/Source';
 import ReactFlow, {
   addEdge,
   Background,
@@ -185,23 +186,56 @@ const GraphPanel = ({
     });
   };
 
+  const editWithVscode = () => {
+
+    // console.log("Opening network_graph.py with vscode");
+    (window as any).electron.ipcRenderer.send('openVscode', {
+      // fileName: "network_graph.py",
+    });
+
+  }
+
+  const canEdit = setSimulationData && setSimulationData.length > 1;
+  // const canEdit = true;
+
   return (
     <div ref={reactFlowWrapper} style={{ flexGrow: 1 }}>
       <Button
         variant="contained"
         style={{
-          marginRight: 5,
-          marginTop: 5,
+          marginRight: 10,
+          marginTop: 10,
           zIndex: 500,
           position: 'absolute',
           right: 0,
           top: 0,
+          fontWeight: 'bold',
         }}
         onClick={submitData}
         disabled={!canRun}
       >
         Run
       </Button>
+      
+      { canEdit && 
+        <Button
+          variant="contained"
+          style={{
+            marginRight: 10,
+            marginTop: 55,
+            zIndex: 500,
+            position: 'absolute',
+            right: 0,
+            top: 0,
+            fontWeight: 'bold',
+          }}
+          onClick={editWithVscode}
+          disabled={!canEdit}
+        >
+          Edit
+        </Button>
+      }
+      
       <ReactFlow
         nodeTypes={nodeTypes}
         className={classes.graphCanvas}
