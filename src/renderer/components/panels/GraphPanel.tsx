@@ -226,6 +226,7 @@ const GraphPanel = ({
             fontWeight: 'bold',
           }}
           onClick={editWithVscode}
+          disabled={!canEdit}
         >
           Edit
         </Button>

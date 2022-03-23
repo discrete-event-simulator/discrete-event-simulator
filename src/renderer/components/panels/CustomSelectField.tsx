@@ -1,4 +1,4 @@
-import { FormControl, Grid, InputLabel, Select, Tooltip } from '@mui/material';
+import { Checkbox, FormControl, FormControlLabel, FormGroup, Grid, InputLabel, Select, Tooltip } from '@mui/material';
 import {
   Controller,
   FormProvider,
@@ -13,6 +13,7 @@ const CustomSelectField = ({
   comp,
   currentComponent,
   children,
+  dash,
   ...props
 }) => {
   const labelId = `${comp}-label`;
@@ -20,7 +21,7 @@ const CustomSelectField = ({
   return (
     <Grid item xs={12}>
       <FormControl fullWidth {...props}>
-        <InputLabel id={labelId}>{comp}</InputLabel>
+        {/* <InputLabel id={labelId}>{comp}</InputLabel>
         <Controller
           render={({ field }) => (
             <Select
@@ -36,8 +37,28 @@ const CustomSelectField = ({
           name={comp}
           control={control}
           defaultValue={defaultValue}
+        /> */}
+
+        <Controller
+          name={labelId}
+          control={control}
+          render={({ field }) => (
+            <FormControlLabel
+              control={
+                <Checkbox
+                  defaultValue={defaultValue}
+                  defaultChecked={defaultValue}
+                  onChange={(e) => field.onChange(e.target.checked)}
+                  checked={field.value}
+                />
+              }
+              label={comp}
+              style={{ color: dash.darkMode ? '#FFFFFF' : '#252525' }}
+            />
+          )}
         />
       </FormControl>
+      
     </Grid>
   );
 };
