@@ -9,15 +9,52 @@ const buildJson = (elements) => {
   elements
     .filter((element) => !element?.source && element?.data.type !== 'Start')
     .forEach((element) => {
-      const eObj = {
-        name: element.data.label.split(' ').join('_'),
-        type: element.data.type,
-        attributes: {
-          ...element.data.configs,
-        },
-      };
+      if (element.data.type === 'TCPPacketGenerator') {
+        const tcpPacketGeneratorId = element.data.label.split(' ')[1];
+        const flowComponentName =`Flow_${tcpPacketGeneratorId}`;
+        const tcpCubicComponentName = `TCP_Cubic_${tcpPacketGeneratorId}`;
 
-      json.components.push(eObj);
+        const flowObj = {
+          name: flowComponentName,
+          type: 'Flow',
+          attributes: {
+            ...Object.keys(element.data.configs)
+              .filter(key => key.startsWith('flow_'))
+              .reduce((acc, cur) => ({...acc, [cur.replace('flow_', '')]: element.data.configs[cur]}), {}),
+            src: `flow_${tcpPacketGeneratorId}`,
+            dst: `flow_${tcpPacketGeneratorId}`,
+          },
+        }
+        const ccObj = {
+          name: tcpCubicComponentName,
+          type: 'TCPCubic',
+          attributes: {},
+        }
+        const tcpPacketGeneratorObj = {
+          name: element.data.label.split(' ').join('_'),
+          type: element.data.type,
+          attributes: {
+            ...Object.keys(element.data.configs)
+              .filter(key => !key.startsWith('flow_'))
+              .reduce((acc, cur) => ({...acc, [cur]: element.data.configs[cur]}), {}),
+            flow: { reference: flowComponentName },
+            cc: { reference: tcpCubicComponentName },
+          },
+        }
+        json.components.push(ccObj);
+        json.components.push(flowObj);
+        json.components.push(tcpPacketGeneratorObj);
+      } else {
+        const eObj = {
+          name: element.data.label.split(' ').join('_'),
+          type: element.data.type,
+          attributes: {
+            ...element.data.configs,
+          },
+        };
+  
+        json.components.push(eObj);
+      }
     });
   elements
     .filter((element) => element?.source)

@@ -32,7 +32,7 @@ export const whiteListComponents = [
   'PacketSink',
   'TCPPacketGenerator',
   'TCPSink',
-  'PacketSwitch',
+  'SimplePacketSwitch',
   'Packet',
   'TracePacketGenerator',
   'Port',
@@ -219,18 +219,6 @@ export const settings = {
       type: 'int',
       required: true,
       helperText: 'flow id',
-    },
-    flow_src: {
-      default: 'flow',
-      type: 'text',
-      required: true,
-      helperText: 'flow source element',
-    },
-    flow_dst: {
-      default: 'flow',
-      type: 'text',
-      required: true,
-      helperText: 'flow destination element',
     },
     flow_finish_time: {
       default: 10,
@@ -882,7 +870,7 @@ export const settings = {
     },
   },
 
-  PacketSwitch: {
+  SimplePacketSwitch: {
     nports: {
       default: 1,
       type: 'int',

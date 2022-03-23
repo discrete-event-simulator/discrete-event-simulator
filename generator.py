@@ -104,9 +104,6 @@ class CodeGenerator:
 
         for type in component_types:
             self.code.append(self.import_paths[type])
-            if type == "TCPPacketGenerator":
-                self.code.append(self.import_paths["Flow"])
-                self.code.append(self.import_paths["TCPCubic"])
 
         self.code.append("\n\n")
 

@@ -118,7 +118,7 @@ const GraphPanel = ({
       if (key === 'wire_id' || key === 'flow_id') {
         configs[key] = parseInt(elementId);
       } else if (key === 'element_id') {
-        configs[key] = `flow${elementId}`;
+        configs[key] = elementId;
       } else {
         configs[key] = settings[`${name}`][key].default;
       }
