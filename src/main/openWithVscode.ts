@@ -4,10 +4,7 @@ const { exec } = require('child_process');
 
 ipcMain.on('openVscode', (event, args) => {
   let fileName = args.fileName ?? 'network_graph.py';
-  let filePath = __dirname + '/../../' + fileName;
-
-  // __dirname = ./src/main
-  // filepath = ./network_graph.py
+  let filePath = './' + fileName;
 
   console.log('opening script at:', filePath);
   let command = 'code' + ' ' + filePath;
