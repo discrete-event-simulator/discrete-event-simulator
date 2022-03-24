@@ -648,11 +648,10 @@ export const settings = {
       helperText: 'the bit rate of the port',
     },
     weights: {
-      default: [],
-      type: 'list',
-      key: 'flowId',
+      default: {},
+      type: 'dist',
       require: true,
-      helperText: 'Weights of flows',
+      helperText: 'Weights of flows (flow_id:weight)',
     },
     zero_buffer: {
       default: true,
@@ -722,7 +721,7 @@ export const settings = {
       type: 'list',
       key: 'flowId',
       require: true,
-      helperText: 'Weights of flows',
+      helperText: 'Weights of flows (flow_id:weight)',
     },
     zero_buffer: {
       default: true,
@@ -789,7 +788,7 @@ export const settings = {
       type: 'list',
       key: 'flowId',
       require: true,
-      helperText: 'Weights of flows',
+      helperText: 'Weights of flows (flow_id:weight)',
     },
     zero_buffer: {
       default: true,
