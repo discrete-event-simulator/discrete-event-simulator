@@ -66,7 +66,7 @@ export const settings = {
         'a no-parameter function that returns the successive propagation delays on this wire.',
     },
     debug: {
-      default: true,
+      default: false,
       type: 'boolean',
       required: true,
       helperText: 'If True, prints more verbose debug information.',
@@ -123,7 +123,13 @@ export const settings = {
       helperText: 'Stops generation at the finish time. Defaults to infinite.',
     },
     rec_flow: {
-      default: true,
+      default: false,
+      type: 'boolean',
+      required: true,
+      helperText: 'Are we recording the statistics of packets generated?',
+    },
+    debug: {
+      default: false,
       type: 'boolean',
       required: true,
       helperText: 'Are we recording the statistics of packets generated?',
@@ -157,13 +163,13 @@ export const settings = {
       helperText: 'Stops generation at the finish time. Defaults to infinite.',
     },
     rec_flow: {
-      default: true,
+      default: false,
       type: 'boolean',
       required: true,
       helperText: 'Are we recording the statistics of packets generated?',
     },
     debug: {
-      default: true,
+      default: false,
       type: 'boolean',
       required: true,
       helperText: 'Are we recording the statistics of packets generated?',
@@ -201,7 +207,7 @@ export const settings = {
         "otherwise, the 'src' field in the packets are used",
     },
     debug: {
-      default: true,
+      default: false,
       type: 'boolean',
       required: true,
       helperText: 'If True, prints more verbose debug information.',
@@ -340,7 +346,7 @@ export const settings = {
       helperText: 'the slow start threshold',
     },
     debug: {
-      default: true,
+      default: false,
       type: 'boolean',
       required: true,
       helperText: 'If True, prints more verbose debug information.',
@@ -367,7 +373,7 @@ export const settings = {
       helperText: 'the slow start threshold',
     },
     debug: {
-      default: true,
+      default: false,
       type: 'boolean',
       required: true,
       helperText: 'If True, prints more verbose debug information.',
@@ -434,7 +440,7 @@ export const settings = {
       helperText: 'the size of each packet when receiving real-world traffic',
     },
     debug: {
-      default: true,
+      default: false,
       type: 'boolean',
       required: true,
       helperText: 'If True, prints more verbose debug information.',
@@ -471,34 +477,34 @@ export const settings = {
       helperText: 'the size of each packet when receiving real-world traffic',
     },
     rec_arrivals: {
-      default: true,
+      default: false,
       type: 'boolean',
       required: true,
       helperText: 'If True, arrivals will be recorded.',
     },
     absolute_arrivals: {
-      default: true,
+      default: false,
       type: 'boolean',
       required: true,
       helperText:
         'If True absolute `arrival times will be recorded, otherwise the time between consecutive arrivals is recorded.',
     },
     rec_waits: {
-      default: true,
+      default: false,
       type: 'boolean',
       required: true,
       helperText:
         'If True, the waiting times experienced by the packets are recorded.',
     },
     rec_flow_ids: {
-      default: true,
+      default: false,
       type: 'boolean',
       required: true,
       helperText:
         "if True, the flow IDs that the packets are used as the index for recording; otherwise, the 'src' field in the packets are used",
     },
     debug: {
-      default: true,
+      default: false,
       type: 'boolean',
       required: true,
       helperText: 'If True, prints more verbose debug information.',
@@ -527,28 +533,21 @@ export const settings = {
         'a queue limit in bytes or packets (including the packet in service), beyond which all packets will be dropped.',
     },
     limit_bytes: {
-      default: true,
+      default: false,
       type: 'boolean',
       required: true,
       helperText:
         'If True, the queue limit will be based on bytes; if False, the queue limit will be based on packets.',
     },
     zero_downstream_buffer: {
-      default: true,
+      default: false,
       type: 'boolean',
       required: true,
       helperText:
         "If True, assume that the downstream element does not have any buffers, and backpressure is in effect so that all waiting packets queue up in this element's buffer.",
     },
-    absolute_arrivals: {
-      default: true,
-      type: 'boolean',
-      required: true,
-      helperText:
-        'If True absolute `arrival times will be recorded, otherwise the time between consecutive arrivals is recorded.',
-    },
     debug: {
-      default: true,
+      default: false,
       type: 'boolean',
       required: true,
       helperText: 'If True, prints more verbose debug information.',
@@ -612,28 +611,21 @@ export const settings = {
         'average = (old_average * (1-1/2^n)) + (current_queue_size * 1/2^n)',
     },
     limit_bytes: {
-      default: true,
+      default: false,
       type: 'boolean',
       required: true,
       helperText:
         'If True, the queue limit will be based on bytes; if False, the queue limit will be based on packets.',
     },
     zero_downstream_buffer: {
-      default: true,
+      default: false,
       type: 'boolean',
       required: true,
       helperText:
         "If True, assume that the downstream element does not have any buffers, and backpressure is in effect so that all waiting packets queue up in this element's buffer.",
     },
-    absolute_arrivals: {
-      default: true,
-      type: 'boolean',
-      required: true,
-      helperText:
-        'If True absolute `arrival times will be recorded, otherwise the time between consecutive arrivals is recorded.',
-    },
     debug: {
-      default: true,
+      default: false,
       type: 'boolean',
       required: true,
       helperText: 'If True, prints more verbose debug information.',
@@ -700,7 +692,7 @@ export const settings = {
         'A no-parameter function that returns the successive inter-arrival times of the packets.',
     },
     pkt_in_service_included: {
-      default: true,
+      default: false,
       type: 'boolean',
       required: true,
       helperText:
@@ -723,21 +715,21 @@ export const settings = {
       helperText: 'Weights of flows (flow_id:weight)',
     },
     zero_buffer: {
-      default: true,
+      default: false,
       type: 'boolean',
       required: true,
       helperText:
         'Does this server have a zero-length buffer? This is useful when multiple basic elements need to be put together to construct a more complex element with a unified buffer.',
     },
     zero_downstream_buffer: {
-      default: true,
+      default: false,
       type: 'boolean',
       required: true,
       helperText:
         "Does this server's downstream element have a zero-length buffer? If so, packets may queue up in this element's own buffer rather than be forwarded to the next-hop element.",
     },
     debug: {
-      default: true,
+      default: false,
       type: 'boolean',
       required: true,
       helperText: 'If True, prints more verbose debug information.',
@@ -753,14 +745,14 @@ export const settings = {
       helperText: 'the bit rate of the port',
     },
     zero_buffer: {
-      default: true,
+      default: false,
       type: 'boolean',
       required: true,
       helperText:
         'Does this server have a zero-length buffer? This is useful when multiple basic elements need to be put together to construct a more complex element with a unified buffer.',
     },
     zero_downstream_buffer: {
-      default: true,
+      default: false,
       type: 'boolean',
       required: true,
       helperText:
@@ -789,21 +781,21 @@ export const settings = {
       helperText: 'Weights of flows (flow_id:weight)',
     },
     zero_buffer: {
-      default: true,
+      default: false,
       type: 'boolean',
       required: true,
       helperText:
         'Does this server have a zero-length buffer? This is useful when multiple basic elements need to be put together to construct a more complex element with a unified buffer.',
     },
     zero_downstream_buffer: {
-      default: true,
+      default: false,
       type: 'boolean',
       required: true,
       helperText:
         "Does this server's downstream element have a zero-length buffer? If so, packets may queue up in this element's own buffer rather than be forwarded to the next-hop element.",
     },
     debug: {
-      default: true,
+      default: false,
       type: 'boolean',
       required: true,
       helperText: 'If True, prints more verbose debug information.',
@@ -832,21 +824,21 @@ export const settings = {
         'the peak sending rate in bits of the buffer (quickest time two packets could be sent)',
     },
     zero_buffer: {
-      default: true,
+      default: false,
       type: 'boolean',
       required: true,
       helperText:
         'Does this server have a zero-length buffer? This is useful when multiple basic elements need to be put together to construct a more complex element with a unified buffer.',
     },
     zero_downstream_buffer: {
-      default: true,
+      default: false,
       type: 'boolean',
       required: true,
       helperText:
         "Does this server's downstream element have a zero-length buffer? If so, packets may queue up in this element's own buffer rather than be forwarded to the next-hop element.",
     },
     debug: {
-      default: true,
+      default: false,
       type: 'boolean',
       required: true,
       helperText: 'If True, prints more verbose debug information.',
@@ -879,21 +871,21 @@ export const settings = {
       helperText: 'the Peak Burst Size (PBS) in bytes',
     },
     zero_buffer: {
-      default: true,
+      default: false,
       type: 'boolean',
       required: true,
       helperText:
         'Does this server have a zero-length buffer? This is useful when multiple basic elements need to be put together to construct a more complex element with a unified buffer.',
     },
     zero_downstream_buffer: {
-      default: true,
+      default: false,
       type: 'boolean',
       required: true,
       helperText:
         "Does this server's downstream element have a zero-length buffer? If so, packets may queue up in this element's own buffer rather than be forwarded to the next-hop element.",
     },
     debug: {
-      default: true,
+      default: false,
       type: 'boolean',
       required: true,
       helperText: 'If True, prints more verbose debug information.',
@@ -926,7 +918,7 @@ export const settings = {
       helperText: 'the element ID of this component',
     },
     debug: {
-      default: true,
+      default: false,
       type: 'boolean',
       required: true,
       helperText: 'If True, prints more verbose debug information.',
