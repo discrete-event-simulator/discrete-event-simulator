@@ -1,23 +1,20 @@
 import simpy
 from random import expovariate
-from ns.flow.cubic import TCPCubic
-from ns.switch.switch import SimplePacketSwitch
-from ns.flow.flow import Flow
-from ns.packet.tcp_generator import TCPPacketGenerator
+from ns.port.wire import Wire
+from ns.packet.dist_generator import DistPacketGenerator
+from ns.scheduler.wfq import WFQServer
 
 
 
 env = simpy.Environment()
 
 
-TCP_Cubic_2 = TCPCubic()
-Flow_2 = Flow(fid=0, finish_time=10, arrival_dist=lambda: 0.1, size_dist=lambda: 512, src="flow_2", dst="flow_2")
-TCPPacketGenerator_2 = TCPPacketGenerator(env, element_id="2", flow=Flow_2, cc=TCP_Cubic_2)
-SimplePacketSwitch_3 = SimplePacketSwitch(env, nports=1, port_rate=1, buffer_size=1, element_id="3", debug=True)
+WFQServer_3 = WFQServer(env, rate=0, zero_buffer=True, zero_downstream_buffer=True, debug=True)
+DistPacketGenerator_4 = DistPacketGenerator(env, flow_id=4, element_id="4", arrival_dist=lambda: 0.1, size_dist=lambda: 0.1, initial_delay=0, finish=10000000, rec_flow=True)
+Wire_5 = Wire(env, wire_id=5, delay_dist=lambda: 0.1, debug=True)
 
 
 
-TCPPacketGenerator_2.out = SimplePacketSwitch_3
 
 
 

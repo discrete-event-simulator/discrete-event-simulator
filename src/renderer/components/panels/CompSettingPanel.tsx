@@ -1,20 +1,28 @@
 import { Button, Grid, MenuItem, Typography } from '@mui/material';
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { removeElements } from 'react-flow-renderer';
 import { FormProvider, useForm } from 'react-hook-form';
 
 import { settings } from '../settings/componentSettings';
-import CustomSelectField from './CustomSelectField';
-import CustomTextField from './CustomTextField';
+import CustomCheckBox from './settingsComponents/CustomCheckBox';
+import CustomTextField from './settingsComponents/CustomTextField';
+import CustomListField from './settingsComponents/CustomListField';
 
 const CompSettingPanel = ({
   currentComponent,
+  elements,
   setElements,
   setCurrentComponent,
   dash,
 }) => {
   console.log(currentComponent);
   const methods = useForm();
+  const sampleData = [0, 1];
+  const [weights, setWeights] = useState(sampleData ?? []);
+
+  useEffect(() => {
+    const newWeights = 0;
+  }, [weights, elements]);
 
   const handleDelete = () => {
     setElements((els) => {
@@ -56,8 +64,8 @@ const CompSettingPanel = ({
             onSubmit={methods.handleSubmit((data) => {
               const finalData = {};
               console.log(data);
+              console.log('Weights', weights);
               Object.keys(data).forEach((element) => {
-                console.log(element, settings[currentComponent.data.type][element].type );
                 // element = element.split("-label")[0];
                 if (element.endsWith('_id')) {
                   finalData[element] =
@@ -66,6 +74,10 @@ const CompSettingPanel = ({
                       : currentComponent.data.configs[element];
                 } else if (data[element] !== undefined) {
                   if (
+                    settings[currentComponent.data.type][element].type ===
+                    'dict'
+                  ) {
+                  } else if (
                     settings[currentComponent.data.type][element].type ===
                     'float'
                   ) {
@@ -89,7 +101,10 @@ const CompSettingPanel = ({
                 }
               });
 
-              console.log('finalData', finalData);
+              if (weights && weights.length > 0) {
+                finalData['weights'] = weights;
+              }
+
               setElements((els) =>
                 els.map((el) => {
                   if (el.id === currentComponent.id) {
@@ -112,18 +127,23 @@ const CompSettingPanel = ({
                 Object.keys(currentComponent.data.configs ?? {})?.map((key) => {
                   return settings[currentComponent.data.type][key].type ===
                     'boolean' ? (
-                    <CustomSelectField
+                    <CustomCheckBox
                       key={key}
                       comp={key}
                       currentComponent={currentComponent}
-                      defaultValue={
-                        currentComponent.data.configs[key]
-                      }
+                      defaultValue={currentComponent.data.configs[key]}
                       dash={dash}
                     >
                       {/* <MenuItem value="true">True</MenuItem>
                       <MenuItem value="false">False</MenuItem> */}
-                    </CustomSelectField>
+                    </CustomCheckBox>
+                  ) : settings[currentComponent.data.type][key].type ===
+                    'list' ? (
+                    <CustomListField
+                      key={key}
+                      weightData={weights}
+                      setWeights={setWeights}
+                    />
                   ) : (
                     <CustomTextField
                       key={key}

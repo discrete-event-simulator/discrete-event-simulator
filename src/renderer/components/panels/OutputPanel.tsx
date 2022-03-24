@@ -36,7 +36,6 @@ const OutputPanel = () => {
 
   const mousemoveEvent = useCallback(
     (e) => {
-      console.log('move');
       if (!isDragging.current) return;
       const minHeight = 200;
       const maxHeight = 500;
@@ -58,7 +57,6 @@ const OutputPanel = () => {
   const classes = useStyles();
 
   const mouseupEvent = useCallback(() => {
-    console.log('Up');
     isDragging.current = false;
   }, [isDragging]);
 

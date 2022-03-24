@@ -6,9 +6,9 @@ import {
   useFormContext,
 } from 'react-hook-form';
 
-import { settings } from '../settings/componentSettings';
+import { settings } from '../../settings/componentSettings';
 
-const CustomSelectField = ({
+const CustomCheckBox = ({
   defaultValue,
   comp,
   currentComponent,
@@ -62,4 +62,4 @@ const CustomSelectField = ({
     </Grid>
   );
 };
-export default CustomSelectField;
+export default CustomCheckBox;

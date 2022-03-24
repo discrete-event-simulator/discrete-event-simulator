@@ -218,6 +218,7 @@ export const settings = {
       default: 0,
       type: 'int',
       required: true,
+      immutable: true,
       helperText: 'flow id',
     },
     flow_finish_time: {
@@ -646,6 +647,13 @@ export const settings = {
       required: true,
       helperText: 'the bit rate of the port',
     },
+    weights: {
+      default: [],
+      type: 'list',
+      key: 'flowId',
+      require: true,
+      helperText: 'Weights of flows',
+    },
     zero_buffer: {
       default: true,
       type: 'boolean',
@@ -697,6 +705,13 @@ export const settings = {
       type: 'float',
       required: true,
       helperText: 'the bit rate of the port',
+    },
+    weights: {
+      default: [],
+      type: 'list',
+      key: 'flowId',
+      require: true,
+      helperText: 'Weights of flows',
     },
     zero_buffer: {
       default: true,
@@ -757,6 +772,13 @@ export const settings = {
       type: 'float',
       required: true,
       helperText: 'the bit rate of the port',
+    },
+    weights: {
+      default: [],
+      type: 'list',
+      key: 'flowId',
+      require: true,
+      helperText: 'Weights of flows',
     },
     zero_buffer: {
       default: true,

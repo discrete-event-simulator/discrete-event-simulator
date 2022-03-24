@@ -1,6 +1,6 @@
 import React from 'react';
 import { Grid, Button, TextField, Typography, Tooltip } from '@mui/material';
-import { settings } from '../settings/componentSettings';
+import { settings } from '../../settings/componentSettings';
 import {
   FormProvider,
   useForm,

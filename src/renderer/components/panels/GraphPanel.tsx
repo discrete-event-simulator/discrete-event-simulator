@@ -18,7 +18,7 @@ import usePythonPath from '../envTest/pythonPath';
 import { settings } from '../settings/componentSettings';
 import buildJson from './utils/buildJson';
 import SplitterNode from './SplitterNode';
-let id = 2;
+let id = 1;
 const getId = () => `${id++}`;
 const parameters = {
   'PacketSink:test_newScript': true,
@@ -57,7 +57,6 @@ const GraphPanel = ({
   };
   const onPaneClick = (event) => {
     setCurrentComponent(null);
-    console.log('click pane');
   };
 
   const onElementsRemove = (elementsToRemove) =>
@@ -189,7 +188,7 @@ const GraphPanel = ({
   const editWithVscode = () => {
     // console.log("Opening network_graph.py with vscode");
     (window as any).electron.ipcRenderer.send('openVscode', {
-        fileName: "network_graph.py",
+      fileName: 'network_graph.py',
     });
   };
 

@@ -299,6 +299,7 @@ const HomePage = (props: any) => {
                     }}
                   >
                     <CompSettingPanel
+                      elements={elements}
                       currentComponent={currentComponent}
                       setElements={setElements}
                       setCurrentComponent={setCurrentComponent}
