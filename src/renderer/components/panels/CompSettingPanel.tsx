@@ -8,6 +8,7 @@ import CustomSelectField from './settingsComponents/CustomSelectField';
 import CustomCheckBox from './settingsComponents/CustomCheckBox';
 import CustomTextField from './settingsComponents/CustomTextField';
 import CustomListField from './settingsComponents/CustomListField';
+import CustomTextFieldDist from './settingsComponents/CustomTextFieldDist';
 
 const CompSettingPanel = ({
   currentComponent,
@@ -17,9 +18,10 @@ const CompSettingPanel = ({
   dash,
 }) => {
   const methods = useForm();
-  console.log(currentComponent);
   const sampleData = [0, 1];
-  const [weights, setWeights] = useState([]);
+  const [weights, setWeights] = useState(
+    currentComponent.data.configs?.weights ?? {}
+  );
   const [servers, setServers] = useState([]);
 
   useEffect(() => {
@@ -37,7 +39,22 @@ const CompSettingPanel = ({
     if (servers.toString() !== serv.toString()) {
       setServers(serv);
     }
-  }, [servers]);
+  }, [elements]);
+
+  useEffect(() => {
+    if (Object.keys(weights).length === 0) {
+      const els = {};
+      elements.forEach((el) => {
+        Object.keys(el.data.configs).forEach((key) => {
+          if (key.startsWith('flow_fid') || key.startsWith('flow_id')) {
+            els[el.data.configs[key]] = 1;
+          }
+        });
+      });
+      console.log('Weights', els);
+      setWeights(els);
+    }
+  }, [elements]);
 
   const handleDelete = () => {
     setElements((els) => {
@@ -93,6 +110,7 @@ const CompSettingPanel = ({
                     settings[currentComponent.data.type][element].type ===
                     'dict'
                   ) {
+                    finalData[element] = JSON.parse(data[element]);
                   } else if (
                     settings[currentComponent.data.type][element].type ===
                     'float'
@@ -116,7 +134,11 @@ const CompSettingPanel = ({
                 }
               });
 
-              if (weights && weights.length > 0) {
+              if (
+                weights &&
+                Object.keys(weights).length > 0 &&
+                settings[currentComponent.data.type]?.weights
+              ) {
                 finalData['weights'] = weights;
               }
               console.log(finalData);
@@ -137,7 +159,7 @@ const CompSettingPanel = ({
                   {currentComponent.data.label}
                 </Typography>
               </Grid>
-              {console.log(currentComponent.data.configs)}
+
               {currentComponent &&
                 Object.keys(currentComponent.data.configs ?? {})?.map((key) => {
                   return settings[currentComponent.data.type][key].type ===
@@ -166,11 +188,12 @@ const CompSettingPanel = ({
                       <MenuItem value="false">False</MenuItem> */}
                     </CustomCheckBox>
                   ) : settings[currentComponent.data.type][key].type ===
-                    'list' ? (
-                    <CustomListField
+                    'dist' ? (
+                    <CustomTextFieldDist
                       key={key}
-                      weightData={weights}
-                      setWeights={setWeights}
+                      comp={key}
+                      value={JSON.stringify(weights)}
+                      currentComponent={currentComponent}
                     />
                   ) : (
                     <CustomTextField

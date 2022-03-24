@@ -8,9 +8,17 @@ import {
   useFormContext,
 } from 'react-hook-form';
 
-const CustomTextField = ({ comp, currentComponent }) => {
+function isJson(str) {
+  try {
+    JSON.parse(str);
+  } catch (e) {
+    return false;
+  }
+  return true;
+}
+const CustomTextFieldDist = ({ comp, currentComponent, value }) => {
   const { control } = useFormContext();
-
+  console.log('Dist', value);
   return (
     <Grid item xs={12}>
       <Controller
@@ -21,22 +29,14 @@ const CustomTextField = ({ comp, currentComponent }) => {
             title={settings[currentComponent.data.type][comp]['helperText']}
           >
             <TextField
-              type={
-                settings[currentComponent.data.type][comp]['type']
-                  ? settings[currentComponent.data.type][comp]['type'] ===
-                      'int' ||
-                    settings[currentComponent.data.type][comp]['type'] ===
-                      'float'
-                    ? 'number'
-                    : 'text'
-                  : 'text'
-              }
+              type={'text'}
               id="outlined-basic"
               label={comp}
-              defaultValue={currentComponent.data.configs[comp]}
+              defaultValue={value}
               variant="outlined"
               fullWidth
               required
+              error={!isJson(field.value)}
               {...field}
               disabled={settings[currentComponent.data.type][comp]['immutable']}
             />
@@ -47,4 +47,4 @@ const CustomTextField = ({ comp, currentComponent }) => {
   );
 };
 
-export default CustomTextField;
+export default CustomTextFieldDist;
