@@ -1,4 +1,5 @@
 export const displays = ['PacketSink', 'ProxySink', 'TCPSink'];
+export const servers = ['DRRServer', 'SPServer', 'WFQServer'];
 export const allComponents = [
   'Wire',
   'DistPacketGenerator',

@@ -1,3 +1,5 @@
+import { servers } from 'renderer/components/settings/componentSettings';
+
 const buildJson = (elements) => {
   console.log(elements);
   const json = {

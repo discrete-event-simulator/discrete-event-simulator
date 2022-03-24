@@ -2,7 +2,7 @@ import { Button, Grid, MenuItem, Typography } from '@mui/material';
 import React, { useEffect, useState } from 'react';
 import { removeElements } from 'react-flow-renderer';
 import { FormProvider, useForm } from 'react-hook-form';
-
+import { servers as allServers } from '../settings/componentSettings';
 import { settings } from '../settings/componentSettings';
 import CustomSelectField from './settingsComponents/CustomSelectField';
 import CustomCheckBox from './settingsComponents/CustomCheckBox';
@@ -23,18 +23,16 @@ const CompSettingPanel = ({
     currentComponent.data.configs?.weights ?? {}
   );
   const [servers, setServers] = useState([]);
+  useEffect(() => {
+    methods.reset();
+  }, [currentComponent]);
 
   useEffect(() => {
     const serv = [];
     console.log(elements);
     elements
       .filter((el) => !el?.source)
-      .filter(
-        (el) =>
-          el?.data?.type === 'DRRServer' ||
-          el?.data?.type === 'SPServer' ||
-          el?.data?.type === 'WFQServer'
-      )
+      .filter((el) => allServers.includes(el?.data?.type))
       .forEach((el) => {
         serv.push(el?.data?.label.split(' ').join('_'));
       });
@@ -197,7 +195,13 @@ const CompSettingPanel = ({
                     <CustomTextFieldDist
                       key={key}
                       comp={key}
-                      value={JSON.stringify(weights)}
+                      value={
+                        JSON.stringify(currentComponent.data.configs[key])
+                          .length > 2
+                          ? JSON.stringify(currentComponent.data.configs[key])
+                          : ''
+                      }
+                      placeholder={JSON.stringify(weights)}
                       currentComponent={currentComponent}
                     />
                   ) : (

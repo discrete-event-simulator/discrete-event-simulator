@@ -132,7 +132,8 @@ class CodeGenerator:
             if "dist" in attribute_name:
                 init_string += "lambda: " + str(attribute_value)
             elif "weight" in attribute_name:
-                init_string += str(attribute_value)
+                init_string += str(attribute_value).replace('\'',
+                                                            '').replace('\"', '')
 
             else:
                 # If we want to reference another component

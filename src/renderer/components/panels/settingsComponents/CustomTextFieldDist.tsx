@@ -16,7 +16,12 @@ function isJson(str) {
   }
   return true;
 }
-const CustomTextFieldDist = ({ comp, currentComponent, value }) => {
+const CustomTextFieldDist = ({
+  comp,
+  currentComponent,
+  placeholder,
+  value,
+}) => {
   const { control } = useFormContext();
   console.log('Dist', value);
   return (
@@ -33,6 +38,7 @@ const CustomTextFieldDist = ({ comp, currentComponent, value }) => {
               id="outlined-basic"
               label={comp}
               defaultValue={value}
+              placeholder={placeholder}
               variant="outlined"
               fullWidth
               required
