@@ -61,12 +61,14 @@ const NetworkCompPanel = () => {
                   overflow: 'hidden',
                 }}
                 onDragStart={(event) => {
-                  if(comp === "Splitter"){
-                    onDragStart(event, 'splitterNode', comp)
-                  }else{
-                    onDragStart(event, 'default', comp)}
+                  if (comp === 'Splitter') {
+                    onDragStart(event, 'splitterNode', comp);
+                  } else if (comp === 'ServerMonitor') {
+                    onDragStart(event, 'bareNode', comp);
+                  } else {
+                    onDragStart(event, 'default', comp);
                   }
-                }
+                }}
                 draggable
               >
                 <AltRouteIcon />

@@ -4,6 +4,7 @@ import { removeElements } from 'react-flow-renderer';
 import { FormProvider, useForm } from 'react-hook-form';
 
 import { settings } from '../settings/componentSettings';
+import CustomSelectField from './settingsComponents/CustomSelectField';
 import CustomCheckBox from './settingsComponents/CustomCheckBox';
 import CustomTextField from './settingsComponents/CustomTextField';
 import CustomListField from './settingsComponents/CustomListField';
@@ -15,14 +16,28 @@ const CompSettingPanel = ({
   setCurrentComponent,
   dash,
 }) => {
-  console.log(currentComponent);
   const methods = useForm();
+  console.log(currentComponent);
   const sampleData = [0, 1];
-  const [weights, setWeights] = useState(sampleData ?? []);
+  const [weights, setWeights] = useState([]);
+  const [servers, setServers] = useState([]);
 
   useEffect(() => {
-    const newWeights = 0;
-  }, [weights, elements]);
+    const serv = [];
+    elements
+      .filter(
+        (el) =>
+          el.data.type === 'DRRServer' ||
+          el.data.type === 'SPServer' ||
+          el.data.type === 'WFQServer'
+      )
+      .forEach((el) => {
+        serv.push(el.data.label.split(' ').join('_'));
+      });
+    if (servers.toString() !== serv.toString()) {
+      setServers(serv);
+    }
+  }, [servers]);
 
   const handleDelete = () => {
     setElements((els) => {
@@ -67,6 +82,7 @@ const CompSettingPanel = ({
               console.log('Weights', weights);
               Object.keys(data).forEach((element) => {
                 // element = element.split("-label")[0];
+
                 if (element.endsWith('_id')) {
                   finalData[element] =
                     settings[currentComponent.data.type][element].type === 'int'
@@ -92,8 +108,7 @@ const CompSettingPanel = ({
                   ) {
                     finalData[element] = data[element];
                   } else {
-                    finalData[element] =
-                      settings[currentComponent.data.type][element]?.default;
+                    finalData[element] = data[element];
                   }
                 } else {
                   finalData[element] =
@@ -104,7 +119,7 @@ const CompSettingPanel = ({
               if (weights && weights.length > 0) {
                 finalData['weights'] = weights;
               }
-
+              console.log(finalData);
               setElements((els) =>
                 els.map((el) => {
                   if (el.id === currentComponent.id) {
@@ -122,10 +137,23 @@ const CompSettingPanel = ({
                   {currentComponent.data.label}
                 </Typography>
               </Grid>
-
+              {console.log(currentComponent.data.configs)}
               {currentComponent &&
                 Object.keys(currentComponent.data.configs ?? {})?.map((key) => {
                   return settings[currentComponent.data.type][key].type ===
+                    'dropdown' ? (
+                    <CustomSelectField
+                      key={key}
+                      comp={key}
+                      currentComponent={currentComponent}
+                      defaultValue={currentComponent.data.configs[key] ?? null}
+                    >
+                      {servers &&
+                        servers.map((serv) => (
+                          <MenuItem value={serv}>{serv}</MenuItem>
+                        ))}
+                    </CustomSelectField>
+                  ) : settings[currentComponent.data.type][key].type ===
                     'boolean' ? (
                     <CustomCheckBox
                       key={key}

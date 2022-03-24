@@ -52,14 +52,14 @@ export const settings = {
   Wire: {
     wire_id: {
       default: 0,
-      type: 'int',
+      type: 'number',
       required: true,
       immutable: true,
       helperText: 'the ID of this element.',
     },
     delay_dist: {
       default: 0.1,
-      type: 'float',
+      type: 'number',
       required: true,
       helperText:
         'a no-parameter function that returns the successive propagation delays on this wire.',
@@ -73,7 +73,7 @@ export const settings = {
     /*
     loss_dist: {
       default: 0.1,
-      type: 'float',
+      type: 'number',
       required: true,
       helperText:
         'a function that takes one optional parameter, which is the packet ID, and returns the loss rate',
@@ -84,7 +84,7 @@ export const settings = {
   DistPacketGenerator: {
     flow_id: {
       default: 0,
-      type: 'int',
+      type: 'number',
       required: true,
       immutable: true,
       helperText: 'The ID of flow that serves as the source.',
@@ -97,27 +97,27 @@ export const settings = {
     },
     arrival_dist: {
       default: 0.1,
-      type: 'float',
+      type: 'number',
       required: true,
       helperText:
         'A no-parameter function that returns the successive inter-arrival times of the packets.',
     },
     size_dist: {
       default: 0.1,
-      type: 'float',
+      type: 'number',
       required: true,
       helperText:
         'A no-parameter function that returns the successive sizes of the packets.',
     },
     initial_delay: {
       default: 0,
-      type: 'float',
+      type: 'number',
       required: true,
       helperText: 'Starts generation after an initial delay. Defaults to 0.',
     },
     finish: {
       default: 10000000,
-      type: 'float',
+      type: 'number',
       required: true,
       helperText: 'Stops generation at the finish time. Defaults to infinite.',
     },
@@ -132,7 +132,7 @@ export const settings = {
   TracePacketGenerator: {
     flow_id: {
       default: 0,
-      type: 'int',
+      type: 'number',
       required: true,
       immutable: true,
       helperText: 'The ID of flow that serves as the source.',
@@ -145,13 +145,13 @@ export const settings = {
     },
     initial_delay: {
       default: 0,
-      type: 'float',
+      type: 'number',
       required: true,
       helperText: 'Starts generation after an initial delay. Defaults to 0.',
     },
     finish: {
       default: 10000000,
-      type: 'float',
+      type: 'number',
       required: true,
       helperText: 'Stops generation at the finish time. Defaults to infinite.',
     },
@@ -216,26 +216,26 @@ export const settings = {
     },
     flow_fid: {
       default: 0,
-      type: 'int',
+      type: 'number',
       required: true,
       immutable: true,
       helperText: 'flow id',
     },
     flow_finish_time: {
       default: 10,
-      type: 'float',
+      type: 'number',
       required: true,
       helperText: 'flow finish time',
     },
     flow_arrival_dist: {
       default: 0.1,
-      type: 'float',
+      type: 'number',
       required: true,
       helperText: 'flow packet arrival distribution',
     },
     flow_size_dist: {
       default: 512,
-      type: 'float',
+      type: 'number',
       required: true,
       helperText: 'flow packet size distribution',
     },
@@ -283,7 +283,7 @@ export const settings = {
     // pkt_gen, pkt_sink, path
     fid: {
       default: 0,
-      type: 'int',
+      type: 'number',
       required: true,
       helperText: 'flow id',
     },
@@ -301,19 +301,19 @@ export const settings = {
     },
     finish_time: {
       default: 10,
-      type: 'float',
+      type: 'number',
       required: true,
       helperText: '',
     },
     arrival_dist: {
       default: 0.1,
-      type: 'float',
+      type: 'number',
       required: true,
       helperText: 'packet arrival distribution',
     },
     size_dist: {
       default: 512,
-      type: 'float',
+      type: 'number',
       required: true,
       helperText: 'packet size distribution',
     },
@@ -322,19 +322,19 @@ export const settings = {
   CongestionControl: {
     mss: {
       default: 512,
-      type: 'int',
+      type: 'number',
       required: true,
       helperText: 'the maximum segment size',
     },
     cwnd: {
       default: 512,
-      type: 'int',
+      type: 'number',
       required: true,
       helperText: 'the size of the congestion window',
     },
     ssthresh: {
       default: 65535,
-      type: 'int',
+      type: 'number',
       required: true,
       helperText: 'the slow start threshold',
     },
@@ -349,19 +349,19 @@ export const settings = {
   TCPCubic: {
     mss: {
       default: 512,
-      type: 'int',
+      type: 'number',
       required: true,
       helperText: 'the maximum segment size',
     },
     cwnd: {
       default: 512,
-      type: 'int',
+      type: 'number',
       required: true,
       helperText: 'the size of the congestion window',
     },
     ssthresh: {
       default: 65535,
-      type: 'int',
+      type: 'number',
       required: true,
       helperText: 'the slow start threshold',
     },
@@ -376,37 +376,37 @@ export const settings = {
   Packet: {
     time: {
       default: 1,
-      type: 'float',
+      type: 'number',
       required: true,
       helperText: 'the time when the packet is generated',
     },
     size: {
       default: 1,
-      type: 'float',
+      type: 'number',
       required: true,
       helperText: 'the size of the packet in bytes',
     },
     packet_id: {
       default: 0,
-      type: 'int',
+      type: 'number',
       required: true,
       helperText: 'an identifier for the packet',
     },
     src: {
       default: 0,
-      type: 'int',
+      type: 'number',
       required: true,
       helperText: 'identifiers for the source',
     },
     dst: {
       default: 0,
-      type: 'int',
+      type: 'number',
       required: true,
       helperText: 'identifiers for the destination',
     },
     flow_id: {
       default: 0,
-      type: 'int',
+      type: 'number',
       required: true,
       helperText: 'an integer that can be used to identify a flow',
     },
@@ -422,13 +422,13 @@ export const settings = {
     },
     listen_port: {
       default: 3000,
-      type: 'int',
+      type: 'number',
       required: true,
       helperText: 'the listening point for new connections',
     },
     packet_size: {
       default: 40960,
-      type: 'int',
+      type: 'number',
       required: true,
       helperText: 'the size of each packet when receiving real-world traffic',
     },
@@ -458,14 +458,14 @@ export const settings = {
     },
     destination_port: {
       default: 0,
-      type: 'int',
+      type: 'number',
       required: true,
       helperText:
         'the port number of the real-world destination server where packets should be relayed to',
     },
     packet_size: {
       default: 40960,
-      type: 'int',
+      type: 'number',
       required: true,
       helperText: 'the size of each packet when receiving real-world traffic',
     },
@@ -507,20 +507,20 @@ export const settings = {
   Port: {
     rate: {
       default: 0,
-      type: 'float',
+      type: 'number',
       required: true,
       helperText: 'the bit rate of the port (0 for unlimited)',
     },
     element_id: {
       default: 0,
-      type: 'int',
+      type: 'number',
       required: true,
       helperText: 'the element id of this port',
     },
     qlimit: {
       // can be None (no limit)
       default: 10000000,
-      type: 'int',
+      type: 'number',
       required: true,
       helperText:
         'a queue limit in bytes or packets (including the packet in service), beyond which all packets will be dropped.',
@@ -557,34 +557,34 @@ export const settings = {
   REDPort: {
     rate: {
       default: 0,
-      type: 'float',
+      type: 'number',
       required: true,
       helperText: 'the bit rate of the port (0 for unlimited)',
     },
     element_id: {
       default: 0,
-      type: 'int',
+      type: 'number',
       required: true,
       helperText: 'the element id of this port',
     },
     qlimit: {
       // can be None (no limit)
       default: 10000000,
-      type: 'int',
+      type: 'number',
       required: true,
       helperText:
         'a queue limit in bytes or packets (including the packet in service), beyond which all packets will be dropped.',
     },
     max_threshold: {
       default: 10000000,
-      type: 'int',
+      type: 'number',
       required: true,
       helperText:
         'The maximum (average) queue length threshold, beyond which packets will be dropped at the maximum probability.',
     },
     min_threshold: {
       default: 1,
-      type: 'int',
+      type: 'number',
       required: true,
       helperText:
         'The minimum (average) queue length threshold to start dropping packets. This threshold should be set high enough to maximize the link utilization. ' +
@@ -592,7 +592,7 @@ export const settings = {
     },
     max_probability: {
       default: 1,
-      type: 'float',
+      type: 'number',
       required: true,
       helperText:
         'The maximum probability (which is equivalent to 1 / mark probability denominator) ' +
@@ -604,7 +604,7 @@ export const settings = {
     },
     weight_factor: {
       default: 9,
-      type: 'float',
+      type: 'number',
       required: true,
       helperText:
         "The exponential weight factor 'n' for computing the average queue size. " +
@@ -643,7 +643,7 @@ export const settings = {
     // weights, flow_classes
     rate: {
       default: 0,
-      type: 'float',
+      type: 'number',
       required: true,
       helperText: 'the bit rate of the port',
     },
@@ -689,6 +689,17 @@ export const settings = {
       flow with a particular flow ID
       all_flows -> list: returns a list containing all the flow IDs
     */
+    server: {
+      type: 'dropdown',
+      required: true,
+    },
+    dist: {
+      default: 0.1,
+      type: 'number',
+      required: true,
+      helperText:
+        'A no-parameter function that returns the successive inter-arrival times of the packets.',
+    },
     pkt_in_service_included: {
       default: true,
       type: 'boolean',
@@ -702,7 +713,7 @@ export const settings = {
     // priorities, flow_classes
     rate: {
       default: 0,
-      type: 'float',
+      type: 'number',
       required: true,
       helperText: 'the bit rate of the port',
     },
@@ -739,7 +750,7 @@ export const settings = {
     // vticks, flow_classes
     rate: {
       default: 0,
-      type: 'float',
+      type: 'number',
       required: true,
       helperText: 'the bit rate of the port',
     },
@@ -769,7 +780,7 @@ export const settings = {
     // weights, flow_classes
     rate: {
       default: 0,
-      type: 'float',
+      type: 'number',
       required: true,
       helperText: 'the bit rate of the port',
     },
@@ -805,20 +816,20 @@ export const settings = {
   TokenBucketShaper: {
     rate: {
       default: 0,
-      type: 'float',
+      type: 'number',
       required: true,
       helperText: 'the bit rate of the port',
     },
     bucket_size: {
       default: 1,
-      type: 'int',
+      type: 'number',
       required: true,
       helperText: 'the token bucket size in bytes',
     },
     peak: {
       // can be None (infinite peak sending rate)
       default: 10000000,
-      type: 'int',
+      type: 'number',
       required: true,
       helperText:
         'the peak sending rate in bits of the buffer (quickest time two packets could be sent)',
@@ -848,25 +859,25 @@ export const settings = {
   TwoRateTokenBucketShaper: {
     cir: {
       default: 1,
-      type: 'int',
+      type: 'number',
       required: true,
       helperText: 'the Committed Information Rate (CIR) in bits',
     },
     cbs: {
       default: 1,
-      type: 'int',
+      type: 'number',
       required: true,
       helperText: 'the Committed Burst Size (CBS) in bytes',
     },
     pir: {
       default: 1,
-      type: 'int',
+      type: 'number',
       required: true,
       helperText: 'the Peak Information Rate (CIR) in bits',
     },
     pbs: {
       default: 1,
-      type: 'int',
+      type: 'number',
       required: true,
       helperText: 'the Peak Burst Size (PBS) in bytes',
     },
@@ -895,19 +906,19 @@ export const settings = {
   SimplePacketSwitch: {
     nports: {
       default: 1,
-      type: 'int',
+      type: 'number',
       required: true,
       helperText: 'the total number of ports on this switch',
     },
     port_rate: {
       default: 1,
-      type: 'float',
+      type: 'number',
       required: true,
       helperText: 'the bit rate of the port',
     },
     buffer_size: {
       default: 1,
-      type: 'int',
+      type: 'number',
       required: true,
       helperText: "the size of an outgoing port' bounded buffer, in packets",
     },
@@ -928,26 +939,26 @@ export const settings = {
   TrTCM: {
     pir: {
       default: 1,
-      type: 'int',
+      type: 'number',
       required: true,
       helperText:
         'the Peak Information Rate in units of bits (slighly different from RFC)',
     },
     pbs: {
       default: 1,
-      type: 'int',
+      type: 'number',
       required: true,
       helperText: 'the Peak Burst Size in units of bytes',
     },
     cir: {
       default: 1,
-      type: 'int',
+      type: 'number',
       required: true,
       helperText: 'the Committed Information Rate in units of bits',
     },
     cbs: {
       default: 1,
-      type: 'int',
+      type: 'number',
       helperText: 'the Committed Burst Size in bytes',
     },
   },
@@ -956,14 +967,14 @@ export const settings = {
     // timeout_callback
     timer_id: {
       default: 1,
-      type: 'int',
+      type: 'number',
       required: true,
       helperText:
         'The id of this timer, used as a parameter when the timeout callback function is called',
     },
     timeout: {
       default: 1,
-      type: 'float',
+      type: 'number',
       helperText: 'the timeout value',
     },
   },

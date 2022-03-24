@@ -17,7 +17,8 @@ import { AppContext } from 'renderer/pages/HomePage';
 import usePythonPath from '../envTest/pythonPath';
 import { settings } from '../settings/componentSettings';
 import buildJson from './utils/buildJson';
-import SplitterNode from './SplitterNode';
+import SplitterNode from './graphNodes/SplitterNode';
+import BareNode from './graphNodes/BareNode';
 let id = 1;
 const getId = () => `${id++}`;
 const parameters = {
@@ -26,6 +27,7 @@ const parameters = {
 };
 const nodeTypes = {
   splitterNode: SplitterNode,
+  bareNode: BareNode,
 };
 const useStyles = makeStyles((theme: Theme) => ({
   graphCanvas: {
@@ -251,7 +253,11 @@ const GraphPanel = ({
             if (n.style?.background) return `${n.style.background}`;
             if (n.type === 'input') return '#0041d0';
             if (n.type === 'output') return '#ff0072';
-            if (n.type === 'default' || n.type === 'splitterNode')
+            if (
+              n.type === 'default' ||
+              n.type === 'splitterNode' ||
+              n.type === 'bareNode'
+            )
               return '#1a192b';
 
             return '#eee';

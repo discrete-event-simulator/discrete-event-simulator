@@ -132,10 +132,7 @@ class CodeGenerator:
             if "dist" in attribute_name:
                 init_string += "lambda: " + str(attribute_value)
             elif "weight" in attribute_name:
-                if "type" in attribute_value and attribute_value["type"] == "list":
-                    init_string += str(attribute_value['data'])
-                else:
-                    init_string += str(attribute_value['data'])
+                continue
 
             else:
                 # If we want to reference another component
