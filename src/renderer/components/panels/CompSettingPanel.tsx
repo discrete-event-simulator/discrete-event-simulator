@@ -26,16 +26,19 @@ const CompSettingPanel = ({
 
   useEffect(() => {
     const serv = [];
+    console.log(elements);
     elements
+      .filter((el) => !el?.source)
       .filter(
         (el) =>
-          el.data.type === 'DRRServer' ||
-          el.data.type === 'SPServer' ||
-          el.data.type === 'WFQServer'
+          el?.data?.type === 'DRRServer' ||
+          el?.data?.type === 'SPServer' ||
+          el?.data?.type === 'WFQServer'
       )
       .forEach((el) => {
-        serv.push(el.data.label.split(' ').join('_'));
+        serv.push(el?.data?.label.split(' ').join('_'));
       });
+    console.log('Server', serv);
     if (servers.toString() !== serv.toString()) {
       setServers(serv);
     }
@@ -44,17 +47,19 @@ const CompSettingPanel = ({
   useEffect(() => {
     if (Object.keys(weights).length === 0) {
       const els = {};
-      elements.forEach((el) => {
-        Object.keys(el.data.configs).forEach((key) => {
-          if (key.startsWith('flow_fid') || key.startsWith('flow_id')) {
-            els[el.data.configs[key]] = 1;
-          }
+      elements
+        .filter((el) => !el?.source && el?.data && el?.data?.configs)
+        .forEach((el) => {
+          Object.keys(el.data.configs).forEach((key) => {
+            if (key.startsWith('flow_fid') || key.startsWith('flow_id')) {
+              els[el.data.configs[key]] = 1;
+            }
+          });
         });
-      });
       console.log('Weights', els);
       setWeights(els);
     }
-  }, [elements]);
+  }, [currentComponent, elements]);
 
   const handleDelete = () => {
     setElements((els) => {
