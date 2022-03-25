@@ -925,6 +925,7 @@ export const settings = {
     },
     multiple_ports: {
       default: true,
+      immutable: true,
       type: 'boolean',
       helperText: 'If True, this component can have multiple connections',
     }
