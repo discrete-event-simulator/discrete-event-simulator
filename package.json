@@ -41,9 +41,6 @@
       "node_modules",
       "package.json"
     ],
-    "extraFiles": [
-      "generator.py"
-    ],
     "afterSign": ".erb/scripts/notarize.js",
     "mac": {
       "target": {
@@ -90,7 +87,8 @@
       "output": "release/build"
     },
     "extraResources": [
-      "./assets/**"
+      "./assets/**",
+      "generator.py"
     ],
     "publish": {
       "provider": "github",
