@@ -118,12 +118,22 @@ class CodeGenerator:
         if var_type not in ["Flow", "TCPCubic", "TCPReno"]:
             init_string += "env, "
 
+        assigned_var_string = ""
         items = var_attributes.items()
         for attribute_name, attribute_value in items:
             # this is just a flag to indicate if a component has multiple port
             # not part of the component constructor
             if attribute_name == "multiple_ports":
                 continue
+            # hardcoded this edge case for now, this is for switch.demux.fib = (fib dict)
+            # this is assigned later after we construct the component
+            if attribute_name == "fib":
+                if var_type in ["SimplePacketSwitch", "FairPacketSwitch"]:
+                    assigned_var_string += (var_name + ".demux.fib =")
+                    assigned_var_string += str(attribute_value).replace('\'',
+                                                                        '').replace('\"', '')
+                    continue
+
             if list(items)[0][0] == attribute_name:  # if first element
                 init_string += (attribute_name + "=")
             else:
@@ -152,6 +162,11 @@ class CodeGenerator:
                         init_string += str(attribute_value)
 
         init_string += ")"
+
+        if len(assigned_var_string) > 0:
+            init_string += "\n"
+            init_string += assigned_var_string
+
         return init_string
 
     # generate network component initializations

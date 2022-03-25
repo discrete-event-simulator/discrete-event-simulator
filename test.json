@@ -72,7 +72,11 @@
         "port_rate": 16384,
         "buffer_size": 5,
         "debug": true,
-        "multiple_ports": true
+        "multiple_ports": true,
+        "fib": {
+          "0": 0,
+          "10000": 1
+        }
       }
     },
     {
