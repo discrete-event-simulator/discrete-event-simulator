@@ -86,15 +86,7 @@ const useStyles = makeStyles((theme: Theme) => ({
 
 const HomePage = (props: any) => {
   const { dash, setDash } = props;
-  useEffect(() => {
-    (window as any).electron.ipcRenderer.on(
-      'reply:create-packet',
-      (data: any) => {
-        console.log('received', data);
-      }
-    );
-  }, []);
-
+  
   // app contexts
   const [simulationData, setSimulationData] = useState(null);
   const [outputPanelOpen, setOutputPanelOpen] = useState(false);
@@ -104,6 +96,23 @@ const HomePage = (props: any) => {
       setOutputPanelOpen(true);
     }
   }, [simulationData]);
+
+  useEffect(() => {
+    (window as any).electron.ipcRenderer.on(
+      'reply:create-packet',
+      (data: any) => {
+        console.log('received', data);
+      }
+    );
+    (window as any).electron.ipcRenderer.on('reply:test', (data: any) => {
+      const message = data.success ? '✅ ns.py found' : `${data.err}`
+      setSBState({
+        open: true,
+        message,
+      });
+    });
+    (window as any).electron.ipcRenderer.send('test', {});
+  }, []);
 
   const classes = useStyles();
   const resizing = useRef(false);
