@@ -1,7 +1,6 @@
 import { servers } from 'renderer/components/settings/componentSettings';
 
 const configIgnoreList = [
-  'multiple_ports',
   // add more client-only attributes here
 ]
 
