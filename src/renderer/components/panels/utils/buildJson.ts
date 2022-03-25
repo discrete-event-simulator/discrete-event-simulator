@@ -5,7 +5,6 @@ const configIgnoreList = [
 ]
 
 const buildJson = (elements) => {
-  console.log(elements);
   const json = {
     components: [],
     connections: [],
@@ -109,25 +108,26 @@ const buildJson = (elements) => {
   elements
     .filter((element) => element?.source)
     .forEach((element) => {
+      const sourceElem = elements.find(e => e.id === element?.source);
+      const targetElem = elements.find(e => e.id === element?.target);
+      const sourceName = sourceElem.data.label.split(' ').join('_');
+      const targetName = targetElem.data.label.split(' ').join('_');
+
       const pObj = {
-        from: {
-          name: elements
-            .find((ele) => ele.id === element.source)
-            .data.label.split(' ')
-            .join('_'),
-        },
-        to: {
-          name: elements
-            .find((ele) => ele.id === element.target)
-            .data.label.split(' ')
-            .join('_'),
-        },
+        from: { name: sourceName },
+        to: { name: targetName },
       };
       if (element?.sourceHandle) {
         pObj.from['port'] = element.sourceHandle === 'a' ? 'out1' : 'out2';
       }
       if (element?.targetHandle) {
         pObj.to['port'] = element.targetHandle === 'a' ? 'out1' : 'out2';
+      }
+
+      if (sourceElem?.data?.type === 'SimplePacketSwitch') {
+        const nextIndex = json.connections.filter(c => c.from.name === sourceName).length
+        pObj.from['port'] = nextIndex;
+        pObj.to['port'] = targetName;
       }
       json.connections.push(pObj);
     });

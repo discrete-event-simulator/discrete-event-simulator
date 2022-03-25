@@ -928,6 +928,10 @@ export const settings = {
       immutable: true,
       type: 'boolean',
       helperText: 'If True, this component can have multiple connections',
+    },
+    fib: {
+      default: {},
+      type: 'dist',
     }
   },
 
