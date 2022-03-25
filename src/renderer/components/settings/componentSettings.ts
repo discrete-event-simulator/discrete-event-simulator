@@ -923,6 +923,11 @@ export const settings = {
       required: true,
       helperText: 'If True, prints more verbose debug information.',
     },
+    multiple_ports: {
+      default: true,
+      type: 'boolean',
+      helperText: 'If True, this component can have multiple connections',
+    }
   },
 
   TrTCM: {

@@ -1,5 +1,10 @@
 import { servers } from 'renderer/components/settings/componentSettings';
 
+const configIgnoreList = [
+  'multiple_ports',
+  // add more client-only attributes here
+]
+
 const buildJson = (elements) => {
   console.log(elements);
   const json = {
@@ -16,6 +21,13 @@ const buildJson = (elements) => {
         element?.data.type !== 'Start'
     )
     .forEach((element) => {
+      const validConfigs = Object.keys(element.data.configs).reduce((acc, cur) => {
+        if (configIgnoreList.includes(cur)) {
+          return acc
+        }
+        return { ...acc, [cur]: element.data.configs[cur] }
+      }, {});
+
       if (element.data.type === 'TCPPacketGenerator') {
         const tcpPacketGeneratorId = element.data.label.split(' ')[1];
         const flowComponentName = `Flow_${tcpPacketGeneratorId}`;
@@ -25,12 +37,12 @@ const buildJson = (elements) => {
           name: flowComponentName,
           type: 'Flow',
           attributes: {
-            ...Object.keys(element.data.configs)
+            ...Object.keys(validConfigs)
               .filter((key) => key.startsWith('flow_'))
               .reduce(
                 (acc, cur) => ({
                   ...acc,
-                  [cur.replace('flow_', '')]: element.data.configs[cur],
+                  [cur.replace('flow_', '')]: validConfigs[cur],
                 }),
                 {}
               ),
@@ -47,10 +59,10 @@ const buildJson = (elements) => {
           name: element.data.label.split(' ').join('_'),
           type: element.data.type,
           attributes: {
-            ...Object.keys(element.data.configs)
+            ...Object.keys(validConfigs)
               .filter((key) => !key.startsWith('flow_'))
               .reduce(
-                (acc, cur) => ({ ...acc, [cur]: element.data.configs[cur] }),
+                (acc, cur) => ({ ...acc, [cur]: validConfigs[cur] }),
                 {}
               ),
             flow: { reference: flowComponentName },
@@ -65,7 +77,7 @@ const buildJson = (elements) => {
           name: element.data.label.split(' ').join('_'),
           type: element.data.type,
           attributes: {
-            ...element.data.configs,
+            ...validConfigs,
           },
         };
 

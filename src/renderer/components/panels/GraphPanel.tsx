@@ -73,8 +73,10 @@ const GraphPanel = ({
     });
 
   const onConnect = (params) => {
+    const sourceElem = elements.find(e => e.id === params.source);
+
     const limit = 1;
-    if (
+    if (!sourceElem?.data?.configs?.multiple_ports && 
       elements.filter(
         (els) =>
           (els?.source === params.source && !els.sourceHandle) ||
