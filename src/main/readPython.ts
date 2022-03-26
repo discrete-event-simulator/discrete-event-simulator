@@ -1,10 +1,19 @@
+import { app } from "electron";
+import { platform } from "os";
+import path from "path";
+
 const { ipcMain } = require('electron');
 const { writeFile } = require('fs/promises');
-const { Options, PythonShell } = require('python-shell');
+const { PythonShell } = require('python-shell');
 
 const scriptBuilder = require('./scriptBuilder.ts');
 const jsonBuilder = require('./jsonBuilder.ts');
 let userPythonPath = '';
+
+const appBasePath = platform() === 'darwin' ? path.join(app.getAppPath(), '/../../') : '';
+const getAppPath = (fileName: string) => `${appBasePath}${fileName}`;
+// https://www.electronjs.org/docs/latest/api/app#appgetpathname
+const getUserDocumentPath = (fileName: string) => `${app.getPath('documents')}/${fileName}`;
 
 ipcMain.on('test', (event, args) => {
   console.log('received from renderer: ', args);
@@ -15,7 +24,7 @@ ipcMain.on('test', (event, args) => {
     options.pythonPath = args.pythonPath;
   }
 
-  const shell = new PythonShell('test.py', args);
+  const shell = new PythonShell(getAppPath('test.py'), args);
 
   shell.on('error', (err) => {
     console.log('error', err);
@@ -59,16 +68,16 @@ ipcMain.on('run', async (event, args) => {
     //   console.log('currently using python path:', options.pythonPath);
     // }
 
-    PythonShell.run('generator.py', options, (err, results) => {
+    PythonShell.run(getAppPath('generator.py'), options, (err, results) => {
       if (err) throw err;
       event.reply('reply', results);
     });
   } else {
     const pyScript = scriptBuilder(args);
     console.log(pyScript);
-    await writeFile('custom.py', pyScript);
+    await writeFile(getUserDocumentPath('custom.py'), pyScript);
 
-    PythonShell.run('custom.py', {}, (err, results) => {
+    PythonShell.run(getUserDocumentPath('custom.py'), {}, (err, results) => {
       if (err) throw err;
       event.reply('reply', results);
     });

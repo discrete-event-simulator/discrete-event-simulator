@@ -42,7 +42,8 @@
       "package.json"
     ],
     "extraFiles": [
-      "generator.py"
+      "generator.py",
+      "test.py"
     ],
     "afterSign": ".erb/scripts/notarize.js",
     "mac": {
