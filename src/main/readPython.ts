@@ -1,7 +1,11 @@
 const { ipcMain } = require('electron');
 const { writeFile } = require('fs/promises');
 const { Options, PythonShell } = require('python-shell');
-
+const fs = require('fs');
+const tmp = require('tmp');
+const os = require('os');
+//@ts-ignore
+const path = require('path');
 const scriptBuilder = require('./scriptBuilder.ts');
 const jsonBuilder = require('./jsonBuilder.ts');
 let userPythonPath = '';
@@ -65,6 +69,7 @@ import string
 import json
 import copy
 jsonString = sys.argv[1]
+dir = sys.argv[2]
 
 # x = json.loads(jsonString)
 # print(x["components"][0]["name"])
@@ -168,6 +173,39 @@ class CodeGenerator:
 
         self.code.append("\\n\\n")
 
+    def concatAttributes(self,index, attribute_name, attribute_value):
+        attribute_string = ''
+        if index == 0:
+            attribute_string += str(attribute_name)
+            attribute_string += "="
+        else:
+            attribute_string += ", "
+            attribute_string += str(attribute_name)
+            attribute_string += "="
+
+        # if its a distribution, pass a lambda function as param
+        if "dist" in attribute_name:
+            attribute_string += "lambda: " + str(attribute_value)
+        elif "weight" in attribute_name:
+            temp = str(attribute_value).replace("\'", '')
+            attribute_string += temp.replace('\"', '')
+        else:
+            # If we want to reference another component
+            # If we want to reference a Flow object that has variable name flow_1
+            # can't do flow="flow_1", has to be flow=flow_1
+            if type(attribute_value) is dict and "reference" in attribute_value:
+                attribute_string += str(attribute_value['reference'])
+            else:
+                # if value is a string then we want a string inside a string
+                # ex: element_id="element_1" not element_id=element_1
+                # if value is not a string, we don't want it to be a string
+                # ex: flow_id=1 not flow_id="1"
+                if type(attribute_value) is str:
+                    attribute_string += "\'{}\'".format(attribute_value)
+                else:
+                    attribute_string += str(attribute_value)
+        return attribute_string
+
     def create_single_component(self, var_name, var_type, var_attributes):
         init_string = ''
 
@@ -179,7 +217,7 @@ class CodeGenerator:
         if var_type not in ["Flow", "TCPCubic", "TCPReno"]:
             init_string += "env, "
 
-        assigned_var_string = ""
+        assigned_var_string = ''
         items = var_attributes.items()
         index = 0
         for attribute_name, attribute_value in items:
@@ -192,40 +230,16 @@ class CodeGenerator:
             if attribute_name == "fib":
                 if var_type in ["SimplePacketSwitch", "FairPacketSwitch"]:
                     assigned_var_string += (var_name + ".demux.fib =")
-                    assigned_var_string += str(attribute_value).replace('\'',
-                                                                        '').replace('\"', '')
+                    temp = str(attribute_value).replace("\'", '')
+                    assigned_var_string += temp.replace('\"', '')
                     continue
-
-            if index is 0:
-              init_string += str(attribute_name)
-              init_string += "="
-            else:
-              init_string += ", "
-              init_string += str(attribute_name)
-              init_string += "="
-            index = index + 1
-            # if its a distribution, pass a lambda function as param
-            if "dist" in attribute_name:
-                init_string += "lambda: " + str(attribute_value)
-            elif "weight" in attribute_name:
-                init_string += str(attribute_value).replace('\'',
-                                                            '').replace('\"', '')
-
-            else:
-                # If we want to reference another component
-                # If we want to reference a Flow object that has variable name flow_1
-                # can't do flow="flow_1", has to be flow=flow_1
-                if type(attribute_value) is dict and "reference" in attribute_value:
-                    init_string += str(attribute_value['reference'])
                 else:
-                    # if value is a string then we want a string inside a string
-                    # ex: element_id="element_1" not element_id=element_1
-                    # if value is not a string, we don't want it to be a string
-                    # ex: flow_id=1 not flow_id="1"
-                    if type(attribute_value) is str:
-                        init_string += "\'{}\'".format(attribute_value)
-                    else:
-                        init_string += str(attribute_value)
+                    pass
+            else:
+                pass
+            init_string += self.concatAttributes(index,
+                                                 attribute_name, attribute_value)
+            index = index + 1
 
         init_string += ")"
 
@@ -309,8 +323,9 @@ class CodeGenerator:
         self.generate_data_display()
 
         generated_code = "\\n".join(self.code)
-
-        file = open("network_graph.py", 'w')
+        dirt = dir+"/network_graph.py"
+        file = open(dir+"/network_graph.py", 'w')
+        print(dirt)
         file.write(generated_code)
         file.close()
 
@@ -322,12 +337,16 @@ class CodeGenerator:
 # cg = CodeGenerator(json_str)
 cg = CodeGenerator(jsonString)
 cg.generate_file()
-exec(open("network_graph.py").read())
-
+exec(open(dir+"/network_graph.py").read())
 
       `;
-
-    PythonShell.runString(pyString, options, (err, results) => {
+    const tmpobj = os.tmpdir();
+    console.log(tmpobj);
+    const tmpfile = path.join(tmpobj, 'generator.py');
+    console.log(tmpfile);
+    fs.writeFileSync(tmpfile, pyString);
+    options.args = options.args.concat([tmpobj]);
+    PythonShell.run(tmpfile, options, (err, results) => {
       if (err) throw err;
       event.reply('reply', results);
     });
