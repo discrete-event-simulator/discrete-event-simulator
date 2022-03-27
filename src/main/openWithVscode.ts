@@ -1,10 +1,13 @@
 import { ipcMain } from 'electron';
 
 const { exec } = require('child_process');
+const os = require('os');
+//@ts-ignore
+const path = require('path');
 
 ipcMain.on('openVscode', (event, args) => {
   let fileName = args.fileName ?? 'network_graph.py';
-  let filePath = './' + fileName;
+  let filePath = path.join(os.tmpdir(), fileName);
 
   console.log('opening script at:', filePath);
   let command = 'code' + ' ' + filePath;

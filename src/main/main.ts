@@ -9,6 +9,7 @@
  * `./src/main.js` using webpack. This gives us some performance wins.
  */
 const { app, BrowserWindow, shell } = require('electron');
+//@ts-ignore
 const path = require('path');
 const log = require('electron-log');
 const { autoUpdater } = require('electron-updater');
