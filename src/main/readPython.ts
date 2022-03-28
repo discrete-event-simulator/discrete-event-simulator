@@ -64,6 +64,11 @@ ipcMain.on('run', async (event, args) => {
       args: [jsonData],
     };
 
+    if (args.pythonPath) {
+      // @ts-ignore
+      options.pythonPath = args.pythonPath;
+    }
+
     const pyString = `from mimetypes import common_types
 import sys
 import string
@@ -310,9 +315,7 @@ cg.generate_file()
 exec(open(dir+"/network_graph.py").read())
       `;
     const tmpobj = os.tmpdir();
-    console.log(tmpobj);
     const tmpfile = path.join(tmpobj, 'generator.py');
-    console.log(tmpfile);
     fs.writeFileSync(tmpfile, pyString);
     options.args = options.args.concat([tmpobj]);
     PythonShell.run(tmpfile, options, (err, results) => {
