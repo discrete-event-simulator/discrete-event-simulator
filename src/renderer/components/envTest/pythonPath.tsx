@@ -1,13 +1,15 @@
 import { useEffect, useState } from 'react';
 
+const getPathFromStorage = () => localStorage.getItem('pythonPath');
+
 /**
  * load user's custom python path from localStorage if exists
  */
 const usePythonPath = () => {
-  const [pythonPath, setPythonPath] = useState('');
+  const [pythonPath, setPythonPath] = useState(getPathFromStorage());
 
   useEffect(() => {
-    const path = localStorage.getItem('pythonPath');
+    const path = getPathFromStorage();
     if (path) {
       setPythonPath(path);
     }

@@ -7,10 +7,9 @@ import {
   Container,
   TextField,
 } from '@mui/material';
-import { useEffect, useState } from 'react';
-
 import { makeStyles } from '@mui/styles';
-import { height, Theme } from '@mui/system';
+import { Theme } from '@mui/system';
+import { useEffect, useState } from 'react';
 
 import usePythonPath from './pythonPath';
 
@@ -27,7 +26,7 @@ const EnvTestPage = () => {
   const [result, setResult] = useState(null);
   const [version, setVersion] = useState(null);
   const [loading, setLoading] = useState(false);
-  const [pyPath, setPyPath] = useState(null);
+  const [pyPath, setPyPath] = useState(pythonPath);
 
   const classes = useStyles();
 
@@ -53,7 +52,8 @@ const EnvTestPage = () => {
 
   useEffect(() => {
     handleTest();
-  }, [])
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   const handleChangePath = ({
     target: { value },
@@ -62,7 +62,8 @@ const EnvTestPage = () => {
   };
 
   return (
-    <Container className={classes.envCanvas}
+    <Container
+      className={classes.envCanvas}
       style={{
         height: '100%',
         width: '100%',
@@ -78,6 +79,7 @@ const EnvTestPage = () => {
         }}
       >
         <TextField
+          defaultValue={pythonPath}
           onChange={handleChangePath}
           label="python path (optional)"
           type="text"

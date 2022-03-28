@@ -1,30 +1,31 @@
 const { ipcMain } = require('electron');
 const { writeFile } = require('fs/promises');
-const { Options, PythonShell } = require('python-shell');
+const { PythonShell } = require('python-shell');
 const fs = require('fs');
-const tmp = require('tmp');
 const os = require('os');
-//@ts-ignore
+// @ts-ignore
 const path = require('path');
 const scriptBuilder = require('./scriptBuilder.ts');
 const jsonBuilder = require('./jsonBuilder.ts');
-let userPythonPath = '';
 
 ipcMain.on('test', (event, args) => {
   console.log('received from renderer: ', args);
 
   const options = {};
   if (args.pythonPath) {
-    //@ts-ignore
+    // @ts-ignore
     options.pythonPath = args.pythonPath;
   }
 
   const tmpobj = os.tmpdir();
   const tmpfile = path.join(tmpobj, 'test.py');
-  fs.writeFileSync(tmpfile, `from ns.packet.packet import Packet
+  fs.writeFileSync(
+    tmpfile,
+    `from ns.packet.packet import Packet
 packet = Packet(123,123,123)
 print(packet)
-`);
+`
+  );
 
   const shell = new PythonShell(tmpfile, args);
 
@@ -39,8 +40,6 @@ print(packet)
     }
 
     const pythonVersion = await PythonShell.getVersion();
-
-    userPythonPath = args.pythonPath; // stores user's python path in memory
 
     event.reply('reply:test', { err: errMsg, success: !err, pythonVersion });
   });
@@ -64,11 +63,6 @@ ipcMain.on('run', async (event, args) => {
       pythonOptions: ['-u'],
       args: [jsonData],
     };
-
-    // if (args.pythonPath || userPythonPath) {
-    //   options.pythonPath = args.pythonPath || userPythonPath;
-    //   console.log('currently using python path:', options.pythonPath);
-    // }
 
     const pyString = `from mimetypes import common_types
 import sys
