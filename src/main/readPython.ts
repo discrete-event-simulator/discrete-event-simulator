@@ -69,6 +69,14 @@ import sys
 import string
 import json
 import copy
+import platform
+
+# temporarily solution to mac users, packaged app couldn't find python modules
+if platform.system() == 'Darwin':
+    try:
+        import simpy
+    except:
+        sys.path.append('/Library/Frameworks/Python.framework/Versions/3.9/lib/python3.9/site-packages')
 jsonString = sys.argv[1]
 dir = sys.argv[2]
 # x = json.loads(jsonString)
@@ -144,6 +152,7 @@ class CodeGenerator:
         return self.connection_graph
     # generate import statements at the beginning
     def generate_imports(self):
+        self.code.append("import sys")
         self.code.append("import simpy")
         self.code.append("from random import expovariate")
         component_types = set()
@@ -284,6 +293,7 @@ class CodeGenerator:
         self.generate_connections()
         self.code.append("env.run(until=100)\\n\\n")
         self.generate_data_display()
+        self.code.append("print(sys.path)")
         generated_code = "\\n".join(self.code)
         dirt = dir+"/network_graph.py"
         file = open(dir+"/network_graph.py", 'w')

@@ -76,7 +76,7 @@ const GraphPanel = ({
     const sourceElem = elements.find(e => e.id === params.source);
     console.log(elements)
     const limit = 1;
-    if (!sourceElem?.data?.configs?.multiple_ports && 
+    if (!sourceElem?.data?.configs?.multiple_ports &&
       elements.filter(
         (els) =>
           (els?.source === params.source && !els.sourceHandle) ||
@@ -188,9 +188,27 @@ const GraphPanel = ({
       pythonPath,
     });
   };
+  // use for debugging edit vscode problem
+  useEffect(() => {
+    (window as any).electron.ipcRenderer.on('edit_success', (data: any) => {
+      console.log('received', data);
 
+    });
+
+    (window as any).electron.ipcRenderer.on('edit_error', (data: any) => {
+      console.log('received', data);
+
+    });
+
+    (window as any).electron.ipcRenderer.on('edit_stderr', (data: any) => {
+      console.log('received', data);
+
+    });
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
   const editWithVscode = () => {
-    // console.log("Opening network_graph.py with vscode");
+    console.log("Opening network_graph.py with vscode");
     (window as any).electron.ipcRenderer.send('openVscode', {
       fileName: 'network_graph.py',
     });
