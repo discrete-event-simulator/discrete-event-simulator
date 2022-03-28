@@ -318,6 +318,7 @@ exec(open(dir+"/network_graph.py").read())
     const tmpfile = path.join(tmpobj, 'generator.py');
     fs.writeFileSync(tmpfile, pyString);
     options.args = options.args.concat([tmpobj]);
+
     PythonShell.run(tmpfile, options, (err, results) => {
       if (err) throw err;
       event.reply('reply', results);

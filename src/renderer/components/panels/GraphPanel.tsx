@@ -180,6 +180,8 @@ const GraphPanel = ({
   const submitData = () => {
     const jsonData = buildJson(elements);
 
+    console.log('running with', pythonPath);
+
     (window as any).electron.ipcRenderer.send('run', {
       dpgOut: '',
       wireOut: '',
