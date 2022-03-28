@@ -51,6 +51,10 @@ const EnvTestPage = () => {
     });
   };
 
+  useEffect(() => {
+    handleTest();
+  }, [])
+
   const handleChangePath = ({
     target: { value },
   }: React.ChangeEvent<HTMLInputElement>) => {
