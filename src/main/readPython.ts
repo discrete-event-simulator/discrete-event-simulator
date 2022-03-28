@@ -59,6 +59,11 @@ ipcMain.on('run', async (event, args) => {
     console.log('Print string json data of the network:');
     console.log(JSON.stringify(jsonData));
 
+    if (args.pythonPath) {
+      // @ts-ignore
+      options.pythonPath = args.pythonPath;
+    }
+
     const options = {
       pythonOptions: ['-u'],
       args: [jsonData],
@@ -315,9 +320,19 @@ exec(open(dir+"/network_graph.py").read())
     console.log(tmpfile);
     fs.writeFileSync(tmpfile, pyString);
     options.args = options.args.concat([tmpobj]);
-    PythonShell.run(tmpfile, options, (err, results) => {
-      if (err) throw err;
-      event.reply('reply', results);
+
+    const shell = new PythonShell(tmpfile, options);
+
+    shell.on('error', (err) => {
+      console.error(err);
+      event.reply('reply', [String(err)]);
+    });
+    shell.end((err, results) => {
+      if (err) {
+        event.reply('reply', [String(err)]);
+      } else {
+        event.reply('reply', results);
+      }
     });
   } else {
     const pyScript = scriptBuilder(args);

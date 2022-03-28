@@ -1,8 +1,6 @@
-import { grey, lightBlue, orange } from '@material-ui/core/colors';
 import { DragHandle } from '@mui/icons-material';
 import TerminalIcon from '@mui/icons-material/Terminal';
 import {
-  Collapse,
   Container,
   Drawer,
   Grid,
@@ -12,12 +10,12 @@ import {
   SvgIcon,
 } from '@mui/material';
 import { makeStyles } from '@mui/styles';
-import { flexbox, Theme } from '@mui/system';
+import { Theme } from '@mui/system';
 import clsx from 'clsx';
 import React, { useEffect, useRef, useState } from 'react';
-import ReactFlow, { Controls, ReactFlowProvider } from 'react-flow-renderer';
+import { ReactFlowProvider } from 'react-flow-renderer';
 import EnvTest from 'renderer/components/envTest';
-import PythonPathLoader from 'renderer/components/envTest/pythonPath';
+import usePythonPath from 'renderer/components/envTest/pythonPath';
 import CompSettingPanel from 'renderer/components/panels/CompSettingPanel';
 import GraphPanel from 'renderer/components/panels/GraphPanel';
 import NetworkCompPanel from 'renderer/components/panels/NetworkCompPanel';
@@ -86,7 +84,8 @@ const useStyles = makeStyles((theme: Theme) => ({
 
 const HomePage = (props: any) => {
   const { dash, setDash } = props;
-  
+  const [pythonPath] = usePythonPath();
+
   // app contexts
   const [simulationData, setSimulationData] = useState(null);
   const [outputPanelOpen, setOutputPanelOpen] = useState(false);
@@ -105,14 +104,19 @@ const HomePage = (props: any) => {
       }
     );
     (window as any).electron.ipcRenderer.on('reply:test', (data: any) => {
-      const message = data.success ? '✅ ns.py found' : `${data.err}`
+      const message = data.success ? '✅ ns.py found' : `${data.err}`;
       setSBState({
         open: true,
         message,
       });
     });
-    (window as any).electron.ipcRenderer.send('test', {});
   }, []);
+
+  useEffect(() => {
+    (window as any).electron.ipcRenderer.send('test', {
+      pythonPath,
+    });
+  }, [pythonPath]);
 
   const classes = useStyles();
   const resizing = useRef(false);
