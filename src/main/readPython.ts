@@ -19,7 +19,14 @@ ipcMain.on('test', (event, args) => {
     options.pythonPath = args.pythonPath;
   }
 
-  const shell = new PythonShell('test.py', args);
+  const tmpobj = os.tmpdir();
+  const tmpfile = path.join(tmpobj, 'test.py');
+  fs.writeFileSync(tmpfile, `from ns.packet.packet import Packet
+packet = Packet(123,123,123)
+print(packet)
+`);
+
+  const shell = new PythonShell(tmpfile, args);
 
   shell.on('error', (err) => {
     console.log('error', err);
