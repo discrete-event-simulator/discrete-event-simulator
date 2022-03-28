@@ -59,15 +59,15 @@ ipcMain.on('run', async (event, args) => {
     console.log('Print string json data of the network:');
     console.log(JSON.stringify(jsonData));
 
-    if (args.pythonPath) {
-      // @ts-ignore
-      options.pythonPath = args.pythonPath;
-    }
-
     const options = {
       pythonOptions: ['-u'],
       args: [jsonData],
     };
+
+    if (args.pythonPath) {
+      // @ts-ignore
+      options.pythonPath = args.pythonPath;
+    }
 
     const pyString = `from mimetypes import common_types
 import sys
@@ -305,9 +305,7 @@ cg.generate_file()
 exec(open(dir+"/network_graph.py").read())
       `;
     const tmpobj = os.tmpdir();
-    console.log(tmpobj);
     const tmpfile = path.join(tmpobj, 'generator.py');
-    console.log(tmpfile);
     fs.writeFileSync(tmpfile, pyString);
     options.args = options.args.concat([tmpobj]);
 
