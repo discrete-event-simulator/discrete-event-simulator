@@ -307,6 +307,7 @@ const HomePage = (props: any) => {
                     }}
                   >
                     <CompSettingPanel
+                      key={currentComponent ? currentComponent.data.label : ''}
                       elements={elements}
                       currentComponent={currentComponent}
                       setElements={setElements}
@@ -377,9 +378,6 @@ const HomePage = (props: any) => {
           </Snackbar>
         </TabPanel>
         <TabPanel value={panel} index={1}>
-          <DemoPage />
-        </TabPanel>
-        <TabPanel value={panel} index={2}>
           <EnvTest />
         </TabPanel>
       </Container>

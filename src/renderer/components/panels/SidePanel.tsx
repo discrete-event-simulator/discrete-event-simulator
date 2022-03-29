@@ -20,11 +20,7 @@ const useStyles = makeStyles((theme: Theme) => ({
 const SidePanel = (props: any) => {
   const { panel, setPanel, dash, setDash } = props;
   const classes = useStyles();
-  const sideComps = [
-    { icon: SettingsInputComponentIcon },
-    { icon: HistoryIcon },
-    { icon: CheckIcon },
-  ];
+  const sideComps = [{ icon: SettingsInputComponentIcon }, { icon: CheckIcon }];
 
   const handleClick = (index: number) => {
     setPanel(index);
@@ -68,7 +64,7 @@ const SidePanel = (props: any) => {
           );
         })}
       </List>
-      <div style={{ flexGrow: 1 }} />{' '}
+      <div style={{ flexGrow: 1 }} />
       <Tooltip title="Toggle DarkMode" placement="right">
         <Switch
           color="default"

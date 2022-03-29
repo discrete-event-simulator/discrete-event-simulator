@@ -1,5 +1,5 @@
 import { Button, Grid, MenuItem, Typography } from '@mui/material';
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useReducer, useState } from 'react';
 import { removeElements } from 'react-flow-renderer';
 import { FormProvider, useForm } from 'react-hook-form';
 import useDeepCompareEffect from 'use-deep-compare-effect';
@@ -22,12 +22,12 @@ const CompSettingPanel = ({
   const [weights, setWeights] = useState(
     currentComponent.data.configs?.weights ?? {}
   );
+  const forceUpdate = React.useReducer(() => ({}), {})[1] as () => void;
   const [servers, setServers] = useState([]);
 
   useDeepCompareEffect(() => {
     methods.reset();
-    console.log(currentComponent.data.label);
-  }, [methods, currentComponent]);
+  }, [currentComponent]);
 
   useEffect(() => {
     const serv = [];
@@ -175,7 +175,7 @@ const CompSettingPanel = ({
                   return settings[currentComponent.data.type][key].type ===
                     'dropdown' ? (
                     <CustomSelectField
-                      key={key}
+                      key={key + currentComponent.data.label}
                       comp={key}
                       currentComponent={currentComponent}
                       defaultValue={currentComponent.data.configs[key] ?? null}
@@ -188,7 +188,7 @@ const CompSettingPanel = ({
                   ) : settings[currentComponent.data.type][key].type ===
                     'boolean' ? (
                     <CustomCheckBox
-                      key={key}
+                      key={key + currentComponent.data.label}
                       comp={key}
                       currentComponent={currentComponent}
                       defaultValue={currentComponent.data.configs[key]}
@@ -200,7 +200,7 @@ const CompSettingPanel = ({
                   ) : settings[currentComponent.data.type][key].type ===
                     'dist' ? (
                     <CustomTextFieldDist
-                      key={key}
+                      key={key + currentComponent.data.label}
                       comp={key}
                       value={
                         JSON.stringify(currentComponent.data.configs[key])
@@ -213,7 +213,7 @@ const CompSettingPanel = ({
                     />
                   ) : (
                     <CustomTextField
-                      key={key}
+                      key={key + currentComponent.data.label}
                       comp={key}
                       currentComponent={currentComponent}
                     />

@@ -93,6 +93,7 @@ export const settings = {
       default: '',
       type: 'text',
       required: true,
+      immutable: true,
       helperText: 'The ID of this element.',
     },
     arrival_dist: {
@@ -147,6 +148,7 @@ export const settings = {
       default: '',
       type: 'text',
       required: true,
+      immutable: true,
       helperText: 'the ID of this element.',
     },
     initial_delay: {
@@ -218,6 +220,7 @@ export const settings = {
       default: '',
       type: 'text',
       required: true,
+      immutable: true,
       helperText: 'The ID for this element.',
     },
     flow_fid: {
@@ -423,6 +426,7 @@ export const settings = {
       default: '',
       type: 'text',
       required: true,
+      immutable: true,
       helperText:
         'a string that serves as the ID of this element for debugging purposes',
     },
@@ -451,6 +455,7 @@ export const settings = {
       default: '',
       type: 'text',
       required: true,
+      immutable: true,
       helperText:
         'a string that serves as the ID of this element for debugging purposes',
     },
@@ -521,6 +526,7 @@ export const settings = {
       default: 0,
       type: 'int',
       required: true,
+      immutable: true,
       helperText: 'the element id of this port',
     },
     qlimit: {
@@ -564,6 +570,7 @@ export const settings = {
       default: 0,
       type: 'int',
       required: true,
+      immutable: true,
       helperText: 'the element id of this port',
     },
     qlimit: {
@@ -913,7 +920,8 @@ export const settings = {
     element_id: {
       default: '',
       type: 'text',
-      required: false,
+      required: true,
+      immutable: true,
       helperText: 'the element ID of this component',
     },
     debug: {
