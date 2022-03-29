@@ -1,4 +1,13 @@
-import { Checkbox, FormControl, FormControlLabel, FormGroup, Grid, InputLabel, Select, Tooltip } from '@mui/material';
+import {
+  Checkbox,
+  FormControl,
+  FormControlLabel,
+  FormGroup,
+  Grid,
+  InputLabel,
+  Select,
+  Tooltip,
+} from '@mui/material';
 import {
   Controller,
   FormProvider,
@@ -47,7 +56,10 @@ const CustomCheckBox = ({
             <FormControlLabel
               control={
                 <Checkbox
-                 {...field}
+                  {...field}
+                  disabled={
+                    settings[currentComponent.data.type][comp].immutable
+                  }
                   checked={field.value}
                   onChange={field.onChange}
                 />
@@ -58,7 +70,6 @@ const CustomCheckBox = ({
           )}
         />
       </FormControl>
-
     </Grid>
   );
 };

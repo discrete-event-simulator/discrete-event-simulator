@@ -1,12 +1,13 @@
+import { Button, Grid, TextField, Tooltip, Typography } from '@mui/material';
 import React from 'react';
-import { Grid, Button, TextField, Typography, Tooltip } from '@mui/material';
-import { settings } from '../../settings/componentSettings';
 import {
+  Controller,
   FormProvider,
   useForm,
-  Controller,
   useFormContext,
 } from 'react-hook-form';
+
+import { settings } from '../../settings/componentSettings';
 
 const CustomTextField = ({ comp, currentComponent }) => {
   const { control } = useFormContext();
@@ -18,15 +19,13 @@ const CustomTextField = ({ comp, currentComponent }) => {
         control={control}
         render={({ field }) => (
           <Tooltip
-            title={settings[currentComponent.data.type][comp]['helperText']}
+            title={settings[currentComponent.data.type][comp].helperText}
           >
             <TextField
               type={
-                settings[currentComponent.data.type][comp]['type']
-                  ? settings[currentComponent.data.type][comp]['type'] ===
-                      'int' ||
-                    settings[currentComponent.data.type][comp]['type'] ===
-                      'float'
+                settings[currentComponent.data.type][comp].type
+                  ? settings[currentComponent.data.type][comp].type === 'int' ||
+                    settings[currentComponent.data.type][comp].type === 'float'
                     ? 'number'
                     : 'text'
                   : 'text'
@@ -38,7 +37,7 @@ const CustomTextField = ({ comp, currentComponent }) => {
               fullWidth
               required
               {...field}
-              disabled={settings[currentComponent.data.type][comp]['immutable']}
+              disabled={settings[currentComponent.data.type][comp].immutable}
             />
           </Tooltip>
         )}

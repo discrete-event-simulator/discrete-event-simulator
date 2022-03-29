@@ -1,4 +1,5 @@
-import { Typography, Box } from '@mui/material';
+import { Box, Typography } from '@mui/material';
+
 const TabPanel = (props: any) => {
   const { children, value, index, ...other } = props;
 

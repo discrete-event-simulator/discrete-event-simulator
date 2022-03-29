@@ -1,7 +1,8 @@
-import React, { useState } from 'react';
-import { Collapse, Grid, Typography } from '@mui/material';
 import ExpandLess from '@mui/icons-material/ExpandLess';
 import ExpandMore from '@mui/icons-material/ExpandMore';
+import { Collapse, Grid, Typography } from '@mui/material';
+import React, { useState } from 'react';
+
 import CustomWeightField from './CustomWeightField';
 
 const CustomListField = ({ weightData, setWeights }) => {

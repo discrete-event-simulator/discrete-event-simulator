@@ -1,7 +1,6 @@
 import CheckIcon from '@mui/icons-material/Check';
 import HistoryIcon from '@mui/icons-material/History';
 import SettingsInputComponentIcon from '@mui/icons-material/SettingsInputComponent';
-
 import {
   List,
   ListItem,
@@ -10,12 +9,12 @@ import {
   Switch,
   Tooltip,
 } from '@mui/material';
-import React from 'react';
 import { makeStyles } from '@mui/styles';
 import { Theme } from '@mui/system';
+import React from 'react';
 
 const useStyles = makeStyles((theme: Theme) => ({
-  marginCenter: { marginLeft: '-3px', marginRight: 'auto', width:'100%' },
+  marginCenter: { marginLeft: '-3px', marginRight: 'auto', width: '100%' },
 }));
 
 const SidePanel = (props: any) => {
@@ -28,7 +27,7 @@ const SidePanel = (props: any) => {
   ];
 
   const handleClick = (index: number) => {
-      setPanel(index);
+    setPanel(index);
   };
 
   return (
@@ -69,13 +68,13 @@ const SidePanel = (props: any) => {
           );
         })}
       </List>
-      <div style={{ flexGrow: 1 }}></div>{' '}
-      <Tooltip title={'Toggle DarkMode'} placement={'right'}>
+      <div style={{ flexGrow: 1 }} />{' '}
+      <Tooltip title="Toggle DarkMode" placement="right">
         <Switch
           color="default"
           classes={{ root: classes.marginCenter }}
           checked={dash.darkMode}
-          onClick={()=> setDash({darkMode: !dash.darkMode})}
+          onClick={() => setDash({ darkMode: !dash.darkMode })}
         />
       </Tooltip>
     </div>

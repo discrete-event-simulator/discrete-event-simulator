@@ -1,4 +1,3 @@
-import { grey, lightBlue, orange } from '@material-ui/core/colors';
 import { DragHandle } from '@mui/icons-material';
 import TerminalIcon from '@mui/icons-material/Terminal';
 import {
@@ -86,7 +85,7 @@ const useStyles = makeStyles((theme: Theme) => ({
 
 const HomePage = (props: any) => {
   const { dash, setDash } = props;
-  
+
   // app contexts
   const [simulationData, setSimulationData] = useState(null);
   const [outputPanelOpen, setOutputPanelOpen] = useState(false);
@@ -105,7 +104,7 @@ const HomePage = (props: any) => {
       }
     );
     (window as any).electron.ipcRenderer.on('reply:test', (data: any) => {
-      const message = data.success ? '✅ ns.py found' : `${data.err}`
+      const message = data.success ? '✅ ns.py found' : `${data.err}`;
       setSBState({
         open: true,
         message,

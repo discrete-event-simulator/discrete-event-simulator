@@ -2,12 +2,13 @@ import { Button, Grid, MenuItem, Typography } from '@mui/material';
 import React, { useEffect, useState } from 'react';
 import { removeElements } from 'react-flow-renderer';
 import { FormProvider, useForm } from 'react-hook-form';
-import { servers as allServers } from '../settings/componentSettings';
-import { settings } from '../settings/componentSettings';
-import CustomSelectField from './settingsComponents/CustomSelectField';
+import useDeepCompareEffect from 'use-deep-compare-effect';
+
+import { servers as allServers, settings } from '../settings/componentSettings';
 import CustomCheckBox from './settingsComponents/CustomCheckBox';
-import CustomTextField from './settingsComponents/CustomTextField';
 import CustomListField from './settingsComponents/CustomListField';
+import CustomSelectField from './settingsComponents/CustomSelectField';
+import CustomTextField from './settingsComponents/CustomTextField';
 import CustomTextFieldDist from './settingsComponents/CustomTextFieldDist';
 
 const CompSettingPanel = ({
@@ -18,14 +19,15 @@ const CompSettingPanel = ({
   dash,
 }) => {
   const methods = useForm();
-  const sampleData = [0, 1];
   const [weights, setWeights] = useState(
     currentComponent.data.configs?.weights ?? {}
   );
   const [servers, setServers] = useState([]);
-  useEffect(() => {
+
+  useDeepCompareEffect(() => {
     methods.reset();
-  }, [currentComponent]);
+    console.log(currentComponent.data.label);
+  }, [methods, currentComponent]);
 
   useEffect(() => {
     const serv = [];
@@ -40,6 +42,7 @@ const CompSettingPanel = ({
     if (servers.toString() !== serv.toString()) {
       setServers(serv);
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [elements]);
 
   useEffect(() => {
@@ -57,6 +60,8 @@ const CompSettingPanel = ({
       console.log('Weights', els);
       setWeights(els);
     }
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [currentComponent, elements]);
 
   const handleDelete = () => {
@@ -71,6 +76,7 @@ const CompSettingPanel = ({
       return els;
     });
   };
+
   return currentComponent === null ? (
     <div />
   ) : (
@@ -97,7 +103,7 @@ const CompSettingPanel = ({
         <FormProvider {...methods}>
           <form
             onSubmit={methods.handleSubmit((data) => {
-              const finalData = {};
+              const finalData: any = {};
               console.log(data);
               console.log('Weights', weights);
               Object.keys(data).forEach((element) => {
@@ -142,7 +148,8 @@ const CompSettingPanel = ({
                 Object.keys(weights).length > 0 &&
                 settings[currentComponent.data.type]?.weights
               ) {
-                finalData['weights'] = weights;
+                // @ts-ignore
+                finalData.weights = weights;
               }
               console.log(finalData);
               setElements((els) =>

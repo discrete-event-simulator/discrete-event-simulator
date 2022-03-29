@@ -28,6 +28,7 @@ module.exports = {
     'react/no-array-index-key': 0,
     'react/destructuring-assignment': 'off',
     'prefer-template': 0,
+    'no-nested-ternary': 0,
   },
   parserOptions: {
     ecmaVersion: 2020,

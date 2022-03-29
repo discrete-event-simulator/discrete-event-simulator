@@ -87,7 +87,6 @@ export const settings = {
       default: 0,
       type: 'int',
       required: true,
-      immutable: true,
       helperText: 'The ID of flow that serves as the source.',
     },
     element_id: {

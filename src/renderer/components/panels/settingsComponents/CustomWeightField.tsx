@@ -1,17 +1,19 @@
+import { Button, Grid, TextField, Tooltip, Typography } from '@mui/material';
 import React from 'react';
-import { Grid, Button, TextField, Typography, Tooltip } from '@mui/material';
-import { settings } from '../../settings/componentSettings';
 import {
+  Controller,
   FormProvider,
   useForm,
-  Controller,
   useFormContext,
 } from 'react-hook-form';
+
+import { settings } from '../../settings/componentSettings';
+
 const CustomWeightField = ({ index, setWeights, comp, weight }) => {
   return (
     <Grid item xs={12}>
       <TextField
-        type={'number'}
+        type="number"
         id="outlined-basic"
         label={comp}
         defaultValue={weight}

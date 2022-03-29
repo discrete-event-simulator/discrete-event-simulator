@@ -1,12 +1,13 @@
+import { Button, Grid, TextField, Tooltip, Typography } from '@mui/material';
 import React from 'react';
-import { Grid, Button, TextField, Typography, Tooltip } from '@mui/material';
-import { settings } from '../../settings/componentSettings';
 import {
+  Controller,
   FormProvider,
   useForm,
-  Controller,
   useFormContext,
 } from 'react-hook-form';
+
+import { settings } from '../../settings/componentSettings';
 
 function isJson(str) {
   try {
@@ -31,10 +32,10 @@ const CustomTextFieldDist = ({
         control={control}
         render={({ field }) => (
           <Tooltip
-            title={settings[currentComponent.data.type][comp]['helperText']}
+            title={settings[currentComponent.data.type][comp].helperText}
           >
             <TextField
-              type={'text'}
+              type="text"
               id="outlined-basic"
               label={comp}
               defaultValue={value}
@@ -44,7 +45,7 @@ const CustomTextFieldDist = ({
               required
               error={!isJson(field.value)}
               {...field}
-              disabled={settings[currentComponent.data.type][comp]['immutable']}
+              disabled={settings[currentComponent.data.type][comp].immutable}
             />
           </Tooltip>
         )}
