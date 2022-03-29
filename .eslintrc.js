@@ -29,6 +29,7 @@ module.exports = {
     'react/destructuring-assignment': 'off',
     'prefer-template': 0,
     'no-nested-ternary': 0,
+    'import/prefer-default-export': 'off',
   },
   parserOptions: {
     ecmaVersion: 2020,

@@ -1,7 +1,8 @@
 {
   "name": "discrete-event-simulator",
+  "appId": "org.erb.DiscreteEventSimulator",
   "productName": "discrete-event-simulator",
-  "version": "4.3.1",
+  "version": "1.0.0",
   "description": "Discrete Event Simulator",
   "main": "./dist/main/main.js",
   "author": {
