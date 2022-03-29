@@ -334,11 +334,9 @@ const HomePage = (props: any) => {
                       dash={dash}
                     />
                     <div
-                      className={
-                        outputPanelOpen
-                          ? classes.outpanelOpen
-                          : classes.outpanelClose
-                      }
+                      style={{
+                        display: outputPanelOpen ? 'flex' : 'none',
+                      }}
                     >
                       <OutputPanel />
                     </div>
