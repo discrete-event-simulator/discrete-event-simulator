@@ -152,7 +152,6 @@ class CodeGenerator:
         return self.connection_graph
     # generate import statements at the beginning
     def generate_imports(self):
-        self.code.append("import sys")
         self.code.append("import simpy")
         self.code.append("from random import expovariate")
         component_types = set()
@@ -293,7 +292,6 @@ class CodeGenerator:
         self.generate_connections()
         self.code.append("env.run(until=100)\\n\\n")
         self.generate_data_display()
-        self.code.append("print(sys.path)")
         generated_code = "\\n".join(self.code)
         dirt = dir+"/network_graph.py"
         file = open(dir+"/network_graph.py", 'w')
