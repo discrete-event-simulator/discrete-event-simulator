@@ -932,7 +932,7 @@ export const settings = {
     fib: {
       default: {},
       type: 'dist',
-    }
+    },
   },
 
   TrTCM: {

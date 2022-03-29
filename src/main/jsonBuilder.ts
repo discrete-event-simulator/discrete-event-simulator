@@ -2,7 +2,7 @@ module.exports = function jsonBuilder(args) {
   const { dpgOut, wireOut, parameters, jsonData } = args;
   // can delete this function after, this is just for testing
   // before connecting to the actual frontend
-  let data = {
+  const data = {
     components: [
       {
         name: 'DPG_1',
@@ -95,6 +95,6 @@ module.exports = function jsonBuilder(args) {
       },
     ],
   };
-  let networkJSON = JSON.stringify(jsonData ? jsonData : data);
+  const networkJSON = JSON.stringify(jsonData || data);
   return networkJSON;
 };

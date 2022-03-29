@@ -9,7 +9,7 @@
  * `./src/main.js` using webpack. This gives us some performance wins.
  */
 const { app, BrowserWindow, shell } = require('electron');
-//@ts-ignore
+// @ts-ignore
 const path = require('path');
 const log = require('electron-log');
 const { autoUpdater } = require('electron-updater');
@@ -26,9 +26,8 @@ function resolveHtmlPath(htmlFileName) {
     const url = new URL(`http://localhost:${port}`);
     url.pathname = htmlFileName;
     return url.href;
-  } else {
-    return `file://${path.resolve(__dirname, '../renderer/', htmlFileName)}`;
   }
+  return `file://${path.resolve(__dirname, '../renderer/', htmlFileName)}`;
 }
 
 class AppUpdater {
