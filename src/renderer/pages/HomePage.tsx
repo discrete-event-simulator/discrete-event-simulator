@@ -15,7 +15,7 @@ import { flexbox, Theme } from '@mui/system';
 import clsx from 'clsx';
 import React, { useEffect, useRef, useState } from 'react';
 import ReactFlow, { Controls, ReactFlowProvider } from 'react-flow-renderer';
-import EnvTest from 'renderer/components/envTest';
+import EnvTest from 'renderer/components/envTest/Index';
 import PythonPathLoader from 'renderer/components/envTest/pythonPath';
 import CompSettingPanel from 'renderer/components/panels/CompSettingPanel';
 import GraphPanel from 'renderer/components/panels/GraphPanel';
